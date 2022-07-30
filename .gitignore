@@ -1,0 +1,17 @@
+.cache
+!public/index.html
+node_modules
+dist
+.parcel-cache
+.envrc
+
+# yarn 3
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+ignore

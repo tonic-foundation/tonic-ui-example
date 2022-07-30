@@ -1,0 +1,8 @@
+{
+  "presets": [
+    // ["@babel/preset-react", { "runtime": "automatic" }], // parcel includes these, though whether it works or not seems to change between versions
+    "@emotion/babel-preset-css-prop"
+    // "@babel/preset-typescript"
+  ],
+  "plugins": ["babel-plugin-twin", "babel-plugin-macros"]
+}

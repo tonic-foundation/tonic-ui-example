@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400&display=swap');
+
+:root:not(.theme-dark) {
+  --black: #000;
+  --primary: rgba(16, 185, 129, 1);
+  --bkg-dark: transparent;
+  --bkg-darker: transparent;
+  --text: black;
+
+  --tv-color-platform-background: transparent;
+  --tv-color-pane-background: transparent;
+  --tv-color-pane-background-secondary: var(--bkg-dark);
+  --tv-color-toolbar-button-background-hover: transparent;
+  --tv-color-toolbar-button-background-secondary-hover: var(--bkg-darker);
+  --tv-color-toolbar-button-background-expanded: var(--bkg-dark);
+  --tv-color-pane-background-secondary: var(--bkg-dark);
+  --tv-color-toolbar-button-text: var(--text);
+  --tv-color-toolbar-button-text-hover: var(--primary);
+  --tv-color-toolbar-button-text-active: var(--primary);
+  --tv-color-toolbar-button-text-active-hover: var(--primary);
+  --tv-color-item-active-text: var(--primary);
+  --tv-color-toolbar-toggle-button-background-active: var(--primary);
+  --tv-color-toolbar-toggle-button-background-active-hover: var(--primary);
+}
+
+.theme-dark:root {
+  --black: #000;
+  --primary: white;
+  --bkg-dark: transparent;
+  --bkg-darker: transparent;
+  --text: white;
+
+  --tv-color-platform-background: transparent;
+  --tv-color-pane-background: transparent;
+  --tv-color-pane-background-secondary: var(--bkg-dark);
+  --tv-color-toolbar-button-background-hover: transparent;
+  --tv-color-toolbar-button-background-secondary-hover: var(--bkg-darker);
+  --tv-color-toolbar-button-background-expanded: var(--bkg-dark);
+  --tv-color-pane-background-secondary: var(--bkg-dark);
+  --tv-color-toolbar-button-text: var(--text);
+  --tv-color-toolbar-button-text-hover: var(--primary);
+  --tv-color-toolbar-button-text-active: var(--primary);
+  --tv-color-toolbar-button-text-active-hover: var(--primary);
+  --tv-color-item-active-text: var(--primary);
+  --tv-color-toolbar-toggle-button-background-active: var(--primary);
+  --tv-color-toolbar-toggle-button-background-active-hover: var(--primary);
+}
+
+html .chart-page {
+  font-family: 'Lexend', sans-serif;
+}
+
+html .loading-indicator {
+  background: transparent;
+}
+
+html .tv-spinner {
+  color: var(--primary);
+}

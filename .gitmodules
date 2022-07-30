@@ -1,0 +1,6 @@
+[submodule "charting_library"]
+	path = charting_library
+	url = git@github.com:tonic-foundation/charting-library.git
+[submodule "public/static/charting-library"]
+	path = public/static/charting-library
+	url = git@github.com:tonic-foundation/charting-library.git
