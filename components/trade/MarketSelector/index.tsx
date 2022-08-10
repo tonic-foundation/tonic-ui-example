@@ -50,8 +50,9 @@ const UnknownResult: React.FC<{ marketId: string }> = ({
 };
 
 const Wrapper = tw.div`
-  w-full p-6
-  h-[60vh] md:(min-w-[400px] max-w-md)
+  p-6 overflow-hidden flex flex-col items-stretch
+  w-screen h-[60vh]
+  md:max-w-sm
 `;
 
 const MarketSelector: React.FC<{
