@@ -1,7 +1,7 @@
 .cache
 !public/index.html
 node_modules
-dist
+/dist
 .parcel-cache
 .envrc
 
