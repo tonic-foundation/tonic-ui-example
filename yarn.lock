@@ -1840,7 +1840,7 @@ __metadata:
     "@tonic-foundation/token": ^0.0.2
     "@tonic-foundation/token-list": ^0.0.6
     "@tonic-foundation/tonic": ^0.0.12
-    "@tonic-foundation/utils": ^0.0.2
+    "@tonic-foundation/utils": ^0.0.6
     "@types/bn.js": ^5.1.0
     "@types/node": ^17.0.17
     "@types/react": ^17.0.21
@@ -1906,6 +1906,16 @@ __metadata:
     bn.js: ^5.2.0
     near-api-js: ^0.44.2
   checksum: bed4c01f8c9f763d1d694b7148f81752753815e0b459aa1bde1ad61450b10cc99e0f552a2b2db64f2d2965992e789db5f5db11f1d60d7cf23cbf6898a9c76ce3
+  languageName: node
+  linkType: hard
+
+"@tonic-foundation/utils@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@tonic-foundation/utils@npm:0.0.6"
+  dependencies:
+    bn.js: ^5.2.0
+    near-api-js: ^0.44.2
+  checksum: b2db0b8a7ef929aff29559318068b2e1b91a3ec50be538c1939840abbf38250a1ccabb897f52964dce373d877238fea26dd62efe895d224f2c77de78b93017e6
   languageName: node
   linkType: hard
 

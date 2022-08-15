@@ -4,7 +4,6 @@ import tw from 'twin.macro';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { MdClose } from 'react-icons/md';
 import { OpenLimitOrder } from '@tonic-foundation/tonic';
-import { bnToFixed } from '@tonic-foundation/utils';
 import { colors } from '~/styles';
 import { getExplorerUrl } from '~/config';
 import { tonic } from '~/services/near';
@@ -19,6 +18,7 @@ import { wrappedToast } from '~/components/common/ToastWrapper';
 import Fallback from '../../common/Fallback';
 import IconButton from '../../common/IconButton';
 import Button from '../../common/Button';
+import { bnToFixed } from '@tonic-foundation/utils';
 
 const styles = {
   row: tw`flex items-center gap-x-0.5 font-mono overflow-hidden`,
@@ -89,7 +89,8 @@ const OpenOrder: React.FC<{
       </p>
       <p tw="w-[25%]">
         {bnToFixed(
-          order.originalQuantity.sub(order.remainingQuantity),
+          // This is definitely available if the order owner is the one viewing
+          order.originalQuantity!.sub(order.remainingQuantity),
           quantityDecimals,
           quantityPrecision
         )}

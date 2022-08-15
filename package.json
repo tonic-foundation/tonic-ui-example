@@ -23,7 +23,7 @@
     "@tonic-foundation/token": "^0.0.2",
     "@tonic-foundation/token-list": "^0.0.6",
     "@tonic-foundation/tonic": "^0.0.12",
-    "@tonic-foundation/utils": "^0.0.2",
+    "@tonic-foundation/utils": "^0.0.6",
     "@types/bn.js": "^5.1.0",
     "axios": "^0.25.0",
     "bn.js": "^5.2.0",

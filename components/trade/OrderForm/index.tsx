@@ -14,6 +14,7 @@ import {
   useMidmarketPrice,
   usePair,
   usePairExchangeBalances,
+  usePairPrecision,
 } from '~/state/trade';
 import Input from '../../common/Input';
 import Tooltip from '../../common/Tooltip';
@@ -112,6 +113,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
     ? bnToApproximateDecimal(midmarketPrice, quoteTokenMetadata.decimals)
     : undefined;
 
+  const { pricePrecision, quantityPrecision } = usePairPrecision();
+
   const [orderType, setOrderType] = useState<OrderType>('Limit');
   const [side, setSide] = useState<OrderSide>(initialSide);
 
@@ -141,20 +144,17 @@ const OrderForm: React.FC<OrderFormProps> = ({
 
   // price tick is a number, eg, 0.001. precision is the number of decimals in
   // the tick, ie, length of the price tick with the whole part and dot removed
-  const priceStrDecimals = priceTick > 1 ? 0 : priceTick.toString().length - 2;
   function setPrice(p?: number | string) {
     if (typeof p === 'number') {
-      setPriceStr(p.toFixed(priceStrDecimals));
+      setPriceStr(p.toFixed(pricePrecision));
     } else {
       setPriceStr(p);
     }
   }
 
-  const quoteStrDecimals =
-    quantityTick > 1 ? 0 : quantityTick.toString().length - 2;
   function setQuantity(q?: number | string) {
     if (typeof q === 'number') {
-      setQuantityStr(q.toFixed(quoteStrDecimals));
+      setQuantityStr(q.toFixed(quantityPrecision));
     } else {
       setQuantityStr(q);
     }
@@ -379,7 +379,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
         <LineItem>
           <span>Volume</span>
           <span>
-            {subtotal?.toFixed(priceStrDecimals) || '0'}{' '}
+            {subtotal?.toFixed(pricePrecision) || '0'}{' '}
             {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
@@ -393,7 +393,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             </Tooltip>
           </div>
           <span>
-            {takerFee?.toFixed(priceStrDecimals) || '0'}{' '}
+            {takerFee?.toFixed(pricePrecision) || '0'}{' '}
             {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
@@ -401,8 +401,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
         <LineItem>
           <span>Total</span>
           <span>
-            {total?.toFixed(priceStrDecimals) || '0'}{' '}
-            {quoteTokenMetadata.symbol}
+            {total?.toFixed(pricePrecision) || '0'} {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
       </section>

@@ -3,8 +3,7 @@ import Fallback from '../../common/Fallback';
 import React from 'react';
 import useRecentTrades, { RecentTrade } from '~/hooks/useRecentTrades';
 import { bnToFixed } from '@tonic-foundation/utils';
-import { pairState, usePair, usePairPrecision } from '~/state/trade';
-import { useRecoilValue } from 'recoil';
+import { usePair, usePairPrecision } from '~/state/trade';
 import { useEntering } from '~/hooks/useEntering';
 import CollapseButton from '../../common/CollapseButton';
 import Card, { CardBody, CardHeader } from '../../common/Card';
@@ -26,12 +25,13 @@ const Trade: React.FC<{
 }> = ({ trade, quantityPrecision, pricePrecision }) => {
   const entering = useEntering();
 
-  const { baseTokenDecimals, quoteTokenDecimals } = useRecoilValue(pairState);
+  const { baseTokenDecimals, quoteTokenDecimals } = usePair();
   const quantity = bnToFixed(
     trade.quantity,
     baseTokenDecimals,
     quantityPrecision
   );
+
   const price = bnToFixed(trade.price, quoteTokenDecimals, pricePrecision);
   const timestamp = format(trade.timestamp, 'HH:mm:ss');
   const color =
