@@ -1,16 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MdLogout } from 'react-icons/md';
 
 import Button from './Button';
-import { TONIC_CONTRACT_ID } from '~/config';
-import { wallet } from '~/services/near';
 import { abbreviateAccountId } from '~/util';
+import { useWalletSelector } from '~/contexts/WalletSelectorContext';
 
-const LoggedInContent = () => {
-  const account = wallet.account();
+const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
     <React.Fragment>
-      <span>{abbreviateAccountId(account.accountId, 13, 5)}</span>
+      <span>{abbreviateAccountId(accountId, 13, 5)}</span>
       <MdLogout />
     </React.Fragment>
   );
@@ -21,17 +19,24 @@ const LoggedOutContent = () => {
 };
 
 const AuthButton: React.FC = (props) => {
-  const [loggedIn, setLoggedIn] = useState(wallet.isSignedIn());
+  const { selector, modal, accountId } = useWalletSelector();
+  const [loggedIn, setLoggedIn] = useState(selector.isSignedIn());
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     if (loggedIn) {
+      const wallet = await selector.wallet();
       wallet.signOut();
       setLoggedIn(false);
       window.location.reload();
     } else {
-      wallet.requestSignIn(TONIC_CONTRACT_ID);
+      console.log('showing modal', modal, modal.show);
+      modal.show();
     }
-  }, [loggedIn, setLoggedIn]);
+  }, [loggedIn, setLoggedIn, modal, selector]);
+
+  useEffect(() => {
+    console.info('login handler refreshed');
+  }, [handleClick]);
 
   return (
     <Button
@@ -43,7 +48,11 @@ const AuthButton: React.FC = (props) => {
       variant="down"
       {...props}
     >
-      {loggedIn ? <LoggedInContent /> : <LoggedOutContent />}
+      {loggedIn && accountId ? (
+        <LoggedInContent accountId={accountId} />
+      ) : (
+        <LoggedOutContent />
+      )}
     </Button>
   );
 };

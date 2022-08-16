@@ -8,6 +8,9 @@ import { MarketSelectorModalProvider } from '~/hooks/useMarketSelector';
 import { useIsMobile } from './hooks/useIsMobile';
 import { ThemeProvider } from '~/hooks/useTheme';
 import { TxToastProvider } from './hooks/useWalletRedirectHash';
+import { WalletSelectorContextProvider } from './contexts/WalletSelectorContext';
+
+import '@near-wallet-selector/modal-ui/styles.css';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -26,19 +29,21 @@ const App = () => {
     <RecoilRoot>
       <ThemeProvider>
         <HashRouter>
-          <TxToastProvider>
-            <MarketSelectorModalProvider>
-              <DepositWithdrawProvider>
-                <ExchangeBalancesModalProvider>
-                  <Routes />
-                  <Toaster
-                    position={toasterPosition}
-                    containerStyle={toasterContainerStyle}
-                  />
-                </ExchangeBalancesModalProvider>
-              </DepositWithdrawProvider>
-            </MarketSelectorModalProvider>
-          </TxToastProvider>
+          <WalletSelectorContextProvider>
+            <TxToastProvider>
+              <MarketSelectorModalProvider>
+                <DepositWithdrawProvider>
+                  <ExchangeBalancesModalProvider>
+                    <Routes />
+                    <Toaster
+                      position={toasterPosition}
+                      containerStyle={toasterContainerStyle}
+                    />
+                  </ExchangeBalancesModalProvider>
+                </DepositWithdrawProvider>
+              </MarketSelectorModalProvider>
+            </TxToastProvider>
+          </WalletSelectorContextProvider>
         </HashRouter>
       </ThemeProvider>
     </RecoilRoot>
