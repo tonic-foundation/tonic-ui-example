@@ -4,6 +4,8 @@ import { MdLogout } from 'react-icons/md';
 import Button from './Button';
 import { abbreviateAccountId } from '~/util';
 import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import toast from 'react-hot-toast';
+import { wrappedToast } from './ToastWrapper';
 
 const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
@@ -25,18 +27,25 @@ const AuthButton: React.FC = (props) => {
   const handleClick = useCallback(async () => {
     if (loggedIn) {
       const wallet = await selector.wallet();
-      wallet.signOut();
+      await wallet.signOut();
       setLoggedIn(false);
-      window.location.reload();
+      toast.custom(
+        wrappedToast(<p>Wallet disconnected.</p>, { variant: 'error' })
+      );
     } else {
-      console.log('showing modal', modal, modal.show);
       modal.show();
     }
   }, [loggedIn, setLoggedIn, modal, selector]);
 
   useEffect(() => {
-    console.info('login handler refreshed');
-  }, [handleClick]);
+    const sub = selector.store.observable.subscribe((s) => {
+      if (s.selectedWalletId?.length) {
+        setLoggedIn(true);
+      }
+    });
+
+    return sub.unsubscribe;
+  }, []);
 
   return (
     <Button
