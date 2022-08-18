@@ -726,6 +726,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@near-wallet-selector/core@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@near-wallet-selector/core@npm:6.0.0"
+  dependencies:
+    rxjs: ^7.5.5
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: dd247a87b0ac2cfe626afc97e66ddae3a4257b8da6df03d321c9a5c0273abb42a7e214476a3d2cf9a8d2ff1b4f200e7572d1e07a6970b24343d1d96fc30275ce
+  languageName: node
+  linkType: hard
+
 "@near-wallet-selector/modal-ui@npm:^5.0.3":
   version: 5.0.3
   resolution: "@near-wallet-selector/modal-ui@npm:5.0.3"
@@ -787,6 +798,18 @@ __metadata:
     near-api-js: 0.44.2
     rxjs: ~7.4.0
   checksum: f9dce5c221ce3c540e2b6443e61c933ed7180769d142484a5bed2484efa672a1097502867388d31ccb65d1ba5d2bdc5c2cfee6896a4173c8cc43dd09a7743168
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/wallet-utils@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@near-wallet-selector/wallet-utils@npm:6.0.0"
+  dependencies:
+    "@near-wallet-selector/core": 6.0.0
+    bn.js: ^5.2.0
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 44dcbb3ca7caf22f50cdfdd2d7f211cf8fcfffa6aa140db779532f06dc1e3a53010c08ba53c8cb9898095bfc57897f21cd3b1fa847de85cd5c74eb9e1e686a5e
   languageName: node
   linkType: hard
 
@@ -1911,6 +1934,7 @@ __metadata:
     "@near-wallet-selector/modal-ui": ^5.0.3
     "@near-wallet-selector/near-wallet": ^5.0.3
     "@near-wallet-selector/sender": ^5.0.3
+    "@near-wallet-selector/wallet-utils": ^6.0.0
     "@parcel/transformer-svg-react": ^2.5.0
     "@tonic-foundation/config": ^0.0.2
     "@tonic-foundation/data-client": ^0.0.4
@@ -1954,6 +1978,7 @@ __metadata:
     tailwindcss: ^3.1.3
     twin.macro: ^2.7.0
     typescript: ^4.6.3
+    unstated-next: ^1.1.0
   languageName: unknown
   linkType: soft
 
@@ -6476,6 +6501,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^7.5.5":
+  version: 7.5.6
+  resolution: "rxjs@npm:7.5.6"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: fc05f01364a74dac57490fb3e07ea63b422af04017fae1db641a009073f902ef69f285c5daac31359620dc8d9aee7d81e42b370ca2a8573d1feae0b04329383b
+  languageName: node
+  linkType: hard
+
 "rxjs@npm:~7.4.0":
   version: 7.4.0
   resolution: "rxjs@npm:7.4.0"
@@ -7389,6 +7423,13 @@ __metadata:
   version: 2.0.0
   resolution: "universalify@npm:2.0.0"
   checksum: 2406a4edf4a8830aa6813278bab1f953a8e40f2f63a37873ffa9a3bc8f9745d06cc8e88f3572cb899b7e509013f7f6fcc3e37e8a6d914167a5381d8440518c44
+  languageName: node
+  linkType: hard
+
+"unstated-next@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "unstated-next@npm:1.1.0"
+  checksum: 8e1c75ea3fe524268a52d12298d3f2f097db2c6292d638a59011ad52eef467e8416e1f523d1deaceefccb3b877f2bd3bf43f5014967a9caa6ae537d0441f09d2
   languageName: node
   linkType: hard
 

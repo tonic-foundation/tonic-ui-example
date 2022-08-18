@@ -1,3 +1,6 @@
+// Adapted from the react example https://github.com/near/wallet-selector
+//
+// Mostly the same, but automatically connects the active account.
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { map, distinctUntilChanged } from 'rxjs';
 import { setupWalletSelector } from '@near-wallet-selector/core';
@@ -7,6 +10,8 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
 import { IS_DEV, TONIC_CONTRACT_ID } from '~/config';
+import { Account } from 'near-api-js';
+import { near } from '~/services/near';
 
 declare global {
   interface Window {
@@ -20,6 +25,7 @@ interface WalletSelectorContextValue {
   modal: WalletSelectorModal;
   accounts: Array<AccountState>;
   accountId: string | null;
+  activeAccount: Account | null;
 }
 
 const WalletSelectorContext =
@@ -29,6 +35,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
   const [selector, setSelector] = useState<WalletSelector | null>(null);
   const [modal, setModal] = useState<WalletSelectorModal | null>(null);
   const [accounts, setAccounts] = useState<Array<AccountState>>([]);
+  const [activeAccount, setActiveAccount] = useState<Account | null>(null);
 
   const init = useCallback(async () => {
     const _selector = await setupWalletSelector({
@@ -36,6 +43,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
       debug: IS_DEV,
       modules: [setupNearWallet(), setupSender()],
     });
+    // TODO(renthog): custom modal
     const _modal = setupModal(_selector, { contractId: TONIC_CONTRACT_ID });
     const state = _selector.store.getState();
 
@@ -64,14 +72,27 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
         map((state) => state.accounts),
         distinctUntilChanged()
       )
-      .subscribe((nextAccounts) => {
-        console.log('Accounts Update', nextAccounts);
-
-        setAccounts(nextAccounts);
-      });
+      .subscribe(setAccounts);
 
     return () => subscription.unsubscribe();
   }, [selector]);
+
+  useEffect(() => {
+    console.log(
+      `updating active account (accounts changed, ${accounts.map(
+        (a) => a.accountId
+      )})`
+    );
+
+    const activeAccountId = accounts.find(
+      (account) => account.active
+    )?.accountId;
+    if (activeAccountId?.length) {
+      setActiveAccount(new Account(near.connection, activeAccountId));
+    } else {
+      setActiveAccount(null);
+    }
+  }, [accounts]);
 
   if (!selector || !modal) {
     return null;
@@ -87,6 +108,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
         modal,
         accounts,
         accountId,
+        activeAccount,
       }}
     >
       {children}

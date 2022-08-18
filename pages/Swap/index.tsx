@@ -24,7 +24,7 @@ import { bnToApproximateDecimal, decimalToBn } from '@tonic-foundation/utils';
 import { swapSettingsState } from '~/state/swap';
 import { truncate } from '~/util/math';
 import { useTitle } from 'react-use';
-import { wallet } from '~/services/near';
+import { ImplicitSignerTransaction, wallet } from '~/services/near';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
 import usePersistentState from '~/hooks/usePersistentState';
 import Logo from '~/components/common/Logo';
@@ -39,6 +39,7 @@ import {
 import { Transaction } from 'near-api-js/lib/transaction';
 import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
+import { useWalletSelector } from '~/contexts/WalletSelectorContext';
 
 const tokenSelectorModalCbState = atom<((t: TokenInfo) => unknown) | undefined>(
   {
@@ -124,7 +125,8 @@ const SwapForm: React.FC<{
   onClickReverse,
   ...props
 }) => {
-  const isSignedIn = wallet.isSignedIn();
+  const { selector, accountId } = useWalletSelector();
+  const isSignedIn = selector.isSignedIn();
   const swapSettings = useRecoilValue(swapSettingsState);
   const [markets] = useMarkets();
 
@@ -197,26 +199,27 @@ const SwapForm: React.FC<{
 
   const [submitting, setSubmitting] = useState(false);
   const handleSubmit = async () => {
-    if (formValid && amountNumber && route && !submitting) {
+    if (accountId && formValid && amountNumber && route && !submitting) {
+      const wallet = await selector.wallet();
+
       setSubmitting(true); // TODO dont use useState for this
-      const txns: Transaction[] = [];
+      const transactions: ImplicitSignerTransaction[] = [];
       if (needsStorageDeposit) {
-        txns.push(
-          await createTokenDepositTransaction(
-            tokenOut.address,
-            wallet.account().accountId
-          )
+        transactions.push(
+          await createTokenDepositTransaction(tokenOut.address, accountId)
         );
       }
-      txns.push(
-        await createSwapTransaction(
+      transactions.push(
+        createSwapTransaction(
           tokenIn,
           decimalToBn(amountNumber, tokenIn.decimals),
           decimalToBn(minNetOut, tokenOut.decimals),
           route
         )
       );
-      wallet.requestSignTransactions(txns);
+      wallet.signAndSendTransactions({
+        transactions,
+      });
     }
   };
 
