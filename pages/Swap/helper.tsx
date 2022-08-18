@@ -1,7 +1,7 @@
 import { FunctionCallAction } from '@near-wallet-selector/core';
 import { NEAR_DECIMALS } from '@tonic-foundation/storage';
 import { TokenInfo } from '@tonic-foundation/token-list';
-import { getMidmarketPrice } from '@tonic-foundation/tonic';
+import { getMidmarketPrice, Tonic } from '@tonic-foundation/tonic';
 import { SwapParamsV1 } from '@tonic-foundation/tonic/lib/types/v1';
 import {
   bnToApproximateDecimal,
@@ -14,7 +14,7 @@ import { FunctionCall as NearApiJsFunctionCall } from 'near-api-js/lib/transacti
 import { SwapSettings } from '~/components/swap/SwapSettingsForm';
 import { TONIC_CONTRACT_ID } from '~/config';
 import { HydratedMarketInfo } from '~/hooks/useMarkets';
-import { ImplicitSignerTransaction, tonic } from '~/services/near';
+import { ImplicitSignerTransaction } from '~/services/near';
 import { createGraph, findRoute } from '~/services/swap';
 
 export interface SwapRoute {
@@ -30,6 +30,7 @@ export interface SwapRoute {
  * tolerance is applied after the fact, eg, in `createSwapTransaction`.
  */
 export async function getSwapRoute(
+  tonic: Tonic,
   markets: HydratedMarketInfo[],
   tokenInId: string,
   tokenOutId: string,
@@ -177,7 +178,7 @@ function getSwapFromNearCall(
     actions: [
       createFunctionCall({
         methodName: 'swap_near',
-        args: swaps,
+        args: { swaps },
         gas: MAX_GAS,
         deposit: amount,
       }),

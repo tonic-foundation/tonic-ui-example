@@ -27,8 +27,7 @@ export const NEAR_RESERVE_BN = decimalToBn(NEAR_RESERVE, NEAR_DECIMALS);
  * List of token that don't require storage balance. Used in swap and
  * withdrawls.
  */
-export const STORAGE_EXEMPT_TOKENS =
-  process.env.TONIC_STORAGE_EXEMPTY_TOKENS?.split(',') || ['usn', 'near'];
+export const STORAGE_EXEMPT_TOKENS = ['usn', 'near'];
 
 /**
  * Account ID to collect referral fees. Fees are deposited directly into this

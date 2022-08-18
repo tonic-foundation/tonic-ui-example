@@ -24,7 +24,7 @@ import { bnToApproximateDecimal, decimalToBn } from '@tonic-foundation/utils';
 import { swapSettingsState } from '~/state/swap';
 import { truncate } from '~/util/math';
 import { useTitle } from 'react-use';
-import { ImplicitSignerTransaction, wallet } from '~/services/near';
+import { ImplicitSignerTransaction } from '~/services/near';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
 import usePersistentState from '~/hooks/usePersistentState';
 import Logo from '~/components/common/Logo';
@@ -36,10 +36,11 @@ import {
   getSwapRoute,
   SwapRoute,
 } from './helper';
-import { Transaction } from 'near-api-js/lib/transaction';
 import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import { useTonic } from '~/contexts/TonicClientContext';
+import { sleep } from '~/util';
 
 const tokenSelectorModalCbState = atom<((t: TokenInfo) => unknown) | undefined>(
   {
@@ -89,7 +90,7 @@ const TokenButton: React.FC<{
 };
 
 function useTokenBalanceDisplay(token: TokenInfo) {
-  const [balance, loading] = useWalletBalance(token.address);
+  const [balance, loading, reload] = useWalletBalance(token.address);
   const _number = useMemo(() => {
     return balance
       ? bnToApproximateDecimal(balance, token.decimals, 5)
@@ -108,6 +109,7 @@ function useTokenBalanceDisplay(token: TokenInfo) {
       formatted,
     },
     loading,
+    reload,
   ] as const;
 }
 
@@ -126,14 +128,18 @@ const SwapForm: React.FC<{
   ...props
 }) => {
   const { selector, accountId } = useWalletSelector();
+  const { tonic } = useTonic();
   const isSignedIn = selector.isSignedIn();
   const swapSettings = useRecoilValue(swapSettingsState);
   const [markets] = useMarkets();
 
   const isInputNear = tokenIn.address.toLowerCase() === 'near';
 
-  const [inputWalletBalance, inputWalletBalanceLoading] =
-    useTokenBalanceDisplay(tokenIn);
+  const [
+    inputWalletBalance,
+    inputWalletBalanceLoading,
+    reloadInputWalletBalance,
+  ] = useTokenBalanceDisplay(tokenIn);
   const availableToSpend = useMemo(() => {
     // prevent user from spending all of their NEAR
     if (isInputNear) {
@@ -145,8 +151,11 @@ const SwapForm: React.FC<{
     return inputWalletBalance.number || 0;
   }, [isInputNear, inputWalletBalance]);
 
-  const [outputWalletBalance, outputWalletBalanceLoading] =
-    useTokenBalanceDisplay(tokenOut);
+  const [
+    outputWalletBalance,
+    outputWalletBalanceLoading,
+    reloadOutputWalletBalance,
+  ] = useTokenBalanceDisplay(tokenOut);
   const [hasTokenOutDeposit] = useHasStorageBalance(tokenOut.address);
   const needsStorageDeposit =
     typeof hasTokenOutDeposit !== 'undefined' && !hasTokenOutDeposit;
@@ -164,11 +173,17 @@ const SwapForm: React.FC<{
   // Get swap route when user chooses tokens
   useEffect(() => {
     setLoading(true);
-    getSwapRoute(markets, tokenIn.address, tokenOut.address, swapSettings)
+    getSwapRoute(
+      tonic,
+      markets,
+      tokenIn.address,
+      tokenOut.address,
+      swapSettings
+    )
       .then(setRoute)
       .finally(() => setLoading(false));
     return () => setRoute(undefined);
-  }, [tokenIn, tokenOut, setRoute, swapSettings, markets]);
+  }, [tonic, tokenIn, tokenOut, setRoute, swapSettings, markets]);
 
   // Reset input when input token changes
   useEffect(() => {
@@ -217,9 +232,24 @@ const SwapForm: React.FC<{
           route
         )
       );
-      wallet.signAndSendTransactions({
-        transactions,
-      });
+      try {
+        const outcome = await wallet.signAndSendTransactions({
+          transactions,
+        });
+        if (outcome?.length) {
+          const swapOutcome = outcome.slice(-1)[0];
+          if (
+            typeof swapOutcome.status === 'object' &&
+            swapOutcome.status.SuccessValue
+          ) {
+            console.log(swapOutcome.transaction_outcome.id);
+          }
+        }
+      } finally {
+        setSubmitting(false);
+        reloadInputWalletBalance();
+        reloadOutputWalletBalance();
+      }
     }
   };
 

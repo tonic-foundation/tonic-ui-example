@@ -10,7 +10,7 @@ import { near, wallet } from '~/services/near';
 // https://github.com/ref-finance/ref-ui/blob/main/src/components/layout/transactionTipPopUp.tsx#L10
 export enum TRANSACTION_WALLET_TYPE {
   NEAR_WALLET = 'transactionHashes',
-  SENDER_WALLET = 'transactionHashesSender',
+  // SENDER_WALLET = 'transactionHashesSender',
 }
 
 /**
@@ -54,6 +54,9 @@ async function checkAndToastTx(id: string) {
 }
 
 // TODO(name, refactor)
+// TODO: this is only relevant for the NEAR web wallet when a redirect is
+// required. The other wallets return the transaction outcome without a
+// page nav.
 export const TxToastProvider: React.FC = ({ children }) => {
   const { txId } = useWalletRedirectHash();
 

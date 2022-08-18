@@ -11,6 +11,7 @@ import { TxToastProvider } from './hooks/useWalletRedirectHash';
 import { WalletSelectorContextProvider } from './contexts/WalletSelectorContext';
 
 import '@near-wallet-selector/modal-ui/styles.css';
+import { TonicClient } from './contexts/TonicClientContext';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -30,19 +31,21 @@ const App = () => {
       <ThemeProvider>
         <HashRouter>
           <WalletSelectorContextProvider>
-            <TxToastProvider>
-              <MarketSelectorModalProvider>
-                <DepositWithdrawProvider>
-                  <ExchangeBalancesModalProvider>
-                    <Routes />
-                    <Toaster
-                      position={toasterPosition}
-                      containerStyle={toasterContainerStyle}
-                    />
-                  </ExchangeBalancesModalProvider>
-                </DepositWithdrawProvider>
-              </MarketSelectorModalProvider>
-            </TxToastProvider>
+            <TonicClient.Provider>
+              <TxToastProvider>
+                <MarketSelectorModalProvider>
+                  <DepositWithdrawProvider>
+                    <ExchangeBalancesModalProvider>
+                      <Routes />
+                      <Toaster
+                        position={toasterPosition}
+                        containerStyle={toasterContainerStyle}
+                      />
+                    </ExchangeBalancesModalProvider>
+                  </DepositWithdrawProvider>
+                </MarketSelectorModalProvider>
+              </TxToastProvider>
+            </TonicClient.Provider>
           </WalletSelectorContextProvider>
         </HashRouter>
       </ThemeProvider>

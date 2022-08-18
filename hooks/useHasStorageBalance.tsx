@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 import { STORAGE_EXEMPT_TOKENS } from '~/config';
-import { wallet } from '~/services/near';
+import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import { nobody } from '~/services/near';
 
 /**
  * Check if has storage balance with a contract.
  */
 export default function useHasStorageBalance(address: string) {
+  const { accountId } = useWalletSelector();
   const [hasBalance, setHasBalance] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function check() {
-      // lol
       if (STORAGE_EXEMPT_TOKENS.includes(address.toLowerCase())) {
         setHasBalance(true);
         return;
       }
 
-      const dontcare = await wallet._near.account('nobody');
-      const storageBalance = await dontcare.viewFunction(
+      const storageBalance = await nobody.viewFunction(
         address,
         'storage_balance_of',
-        { account_id: wallet.account().accountId }
+        { account_id: accountId }
       );
 
       if (storageBalance) {
@@ -31,11 +31,11 @@ export default function useHasStorageBalance(address: string) {
       }
     }
 
-    if (wallet.isSignedIn()) {
+    if (accountId?.length) {
       setLoading(true);
       check().finally(() => setLoading(false));
     }
-  }, [address, setHasBalance, setLoading]);
+  }, [accountId, address, setHasBalance, setLoading]);
 
   return [hasBalance, loading] as const;
 }
