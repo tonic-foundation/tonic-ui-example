@@ -13,13 +13,9 @@ export async function getTokenMetadata(
 }
 
 // TODO: remove
-export async function getTokenBalance(tokenId: string) {
-  const accountId = wallet.account().accountId;
-  return wallet
-    .account()
-    .viewFunction(tokenId, 'ft_balance_of', { account_id: accountId })
-    .then((n) => new BN(n))
-    .catch(() => ZERO);
+export async function getTokenBalance(tokenId: string): Promise<BN> {
+  const account = wallet.account();
+  return ftBalanceOf(account, tokenId, account.accountId).catch(() => ZERO);
 }
 
 export const MAX_GAS = new BN(10).pow(new BN(14)).muln(3);

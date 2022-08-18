@@ -80,9 +80,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
           }
         });
     } else {
-      getTokenBalance(tokenId).then((balance) => {
-        setWalletBalance(balance);
-      });
+      getTokenBalance(tokenId).then(setWalletBalance);
     }
 
     // get exchange balance; not usually necessary to load both balances but
