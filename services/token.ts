@@ -1,9 +1,8 @@
 import BN from 'bn.js';
 import { FungibleTokenMetadata } from '@tonic-foundation/token/lib/types';
 import { ftBalanceOf, ftOrNativeNearMetadata } from '@tonic-foundation/token';
-import { nobody, tonic, wallet } from './near';
+import { nobody } from './near';
 import { ZERO } from '~/util/math';
-import { NEAR_ENV } from '~/config';
 import { Account } from 'near-api-js';
 
 export async function getTokenMetadata(
@@ -12,38 +11,11 @@ export async function getTokenMetadata(
   return await ftOrNativeNearMetadata(nobody, tokenId);
 }
 
-// TODO: AAAAAAAAAAAAAAAA
 export async function getTokenBalance(
   account: Account,
   tokenId: string
 ): Promise<BN> {
   return ftBalanceOf(account, tokenId, account.accountId).catch(() => ZERO);
-}
-
-export const MAX_GAS = new BN(10).pow(new BN(14)).muln(3);
-export async function mintTestTokens(tokenId: string, amount: BN) {
-  await wallet.account().functionCall({
-    contractId: tokenId,
-    methodName: 'ft_mint',
-    args: {
-      receiver_id: tonic.account.accountId,
-      amount: amount.toString(),
-    },
-    gas: MAX_GAS,
-  });
-}
-
-/**
- * Return a list of IDs of tokens in the authenticated NEAR wallet.
- */
-export async function getOwnedTokens(): Promise<string[]> {
-  const accountId = wallet.account().accountId;
-  const url =
-    NEAR_ENV === 'testnet'
-      ? `https://helper.testnet.near.org/account/${accountId}/likelyTokens`
-      : `https://api.kitwallet.app/account/${accountId}/likelyTokens`;
-  const res = await fetch(url);
-  return await res.json();
 }
 
 export async function getTokenOrNearBalance(account: Account, tokenId: string) {

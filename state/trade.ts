@@ -9,20 +9,14 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from 'recoil';
-import {
-  ExchangeBalances,
-  Market,
-  OpenLimitOrder,
-  Orderbook,
-} from '@tonic-foundation/tonic';
+import { ExchangeBalances, Market, Orderbook } from '@tonic-foundation/tonic';
 
 import { TONIC_DEFAULT_MARKET_ID } from '~/config';
 import { ZERO } from '~/util/math';
 import { getMidmarketPrice } from '~/util/market';
 import { getTokenMetadata } from '~/services/token';
-import { getDecimalPrecision, sleep } from '~/util';
-import { tonic } from '~/services/near';
-import { UNAUTHENTICATED_TONIC } from './TonicClientContainer';
+import { getDecimalPrecision } from '~/util';
+import { UNAUTHENTICATED_TONIC, useTonic } from './TonicClientContainer';
 
 export const marketIdState = atom<string>({
   key: 'market-id-state',
@@ -140,6 +134,8 @@ export function usePairExchangeBalances(refreshIntervalMs?: number) {
   const balances = useRecoilValue(pairBalancesState);
   const setBalances = useSetRecoilState(exchangeBalancesState);
   const { baseTokenId, quoteTokenId } = useRecoilValue(pairState);
+
+  const { tonic } = useTonic();
 
   // manual refresh to avoid suspense
   const refreshBalances = useCallback(async () => {

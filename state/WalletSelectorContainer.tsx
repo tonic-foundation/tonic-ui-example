@@ -26,6 +26,7 @@ interface WalletSelectorContextValue {
   accounts: Array<AccountState>;
   accountId: string | null;
   activeAccount: Account | null;
+  isSignedIn: boolean;
 }
 
 const WalletSelectorContext =
@@ -110,6 +111,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
         accounts,
         accountId,
         activeAccount,
+        isSignedIn: !!activeAccount,
       }}
     >
       {children}

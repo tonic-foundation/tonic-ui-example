@@ -2,15 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { OpenLimitOrder } from '@tonic-foundation/tonic';
 
 import { sleep } from '~/util';
-import { tonic } from '~/services/near';
 import { createContainer } from 'unstated-next';
 
 // TODO XXX REMOVE
 import { marketIdState } from '../trade';
 import { useRecoilValue } from 'recoil';
+import { useTonic } from '../TonicClientContainer';
 
 // TODO: initial load?
 function useOpenOrdersInternal() {
+  const { tonic } = useTonic();
   const marketId = useRecoilValue(marketIdState);
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<OpenLimitOrder[]>();
@@ -24,7 +25,7 @@ function useOpenOrdersInternal() {
     } finally {
       setLoading(false);
     }
-  }, [marketId, setOrders]);
+  }, [marketId, setOrders, tonic]);
 
   useEffect(() => {
     refreshOpenOrders();
