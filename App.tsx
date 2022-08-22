@@ -8,10 +8,10 @@ import { MarketSelectorModalProvider } from '~/hooks/useMarketSelector';
 import { useIsMobile } from './hooks/useIsMobile';
 import { ThemeProvider } from '~/hooks/useTheme';
 import { TxToastProvider } from './hooks/useWalletRedirectHash';
-import { WalletSelectorContextProvider } from './contexts/WalletSelectorContext';
+import { TonicClientContainer } from './state/TonicClientContainer';
+import { WalletSelectorContextProvider } from './state/WalletSelectorContainer';
 
 import '@near-wallet-selector/modal-ui/styles.css';
-import { TonicClient } from './contexts/TonicClientContext';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -31,7 +31,7 @@ const App = () => {
       <ThemeProvider>
         <HashRouter>
           <WalletSelectorContextProvider>
-            <TonicClient.Provider>
+            <TonicClientContainer.Provider>
               <TxToastProvider>
                 <MarketSelectorModalProvider>
                   <DepositWithdrawProvider>
@@ -45,7 +45,7 @@ const App = () => {
                   </DepositWithdrawProvider>
                 </MarketSelectorModalProvider>
               </TxToastProvider>
-            </TonicClient.Provider>
+            </TonicClientContainer.Provider>
           </WalletSelectorContextProvider>
         </HashRouter>
       </ThemeProvider>

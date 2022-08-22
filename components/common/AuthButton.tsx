@@ -3,7 +3,7 @@ import { MdLogout } from 'react-icons/md';
 
 import Button from './Button';
 import { abbreviateAccountId } from '~/util';
-import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import toast from 'react-hot-toast';
 import { wrappedToast } from './ToastWrapper';
 

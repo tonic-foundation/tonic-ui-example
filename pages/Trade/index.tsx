@@ -8,7 +8,6 @@ import { getExplorerUrl } from '~/config';
 import {
   marketIdState,
   useMarket,
-  useOpenOrders,
   useOrderbook,
   usePair,
   usePairExchangeBalances,
@@ -21,6 +20,11 @@ import MobileContent, { Header as MobileHeader } from './mobile';
 import OrderConfirmingToast from '~/components/common/OrderConfirming';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
 import { sleep } from '../../util';
+
+import {
+  AdvancedTradingContainer,
+  useOpenOrders,
+} from '~/state/advanced-trading';
 
 const Content = () => {
   const isMobile = useIsMobile();
@@ -115,24 +119,26 @@ function TradePage() {
 
   return (
     <ErrorBoundary fallbackLabel="There was an error loading the market.">
-      <AppLayout
-        headerLeftContent={
-          isMobile ? undefined : (
+      <AdvancedTradingContainer>
+        <AppLayout
+          headerLeftContent={
+            isMobile ? undefined : (
+              <React.Suspense fallback={<React.Fragment />}>
+                <DesktopHeader />
+              </React.Suspense>
+            )
+          }
+        >
+          {isMobile && (
             <React.Suspense fallback={<React.Fragment />}>
-              <DesktopHeader />
+              <MobileHeader />
             </React.Suspense>
-          )
-        }
-      >
-        {isMobile && (
-          <React.Suspense fallback={<React.Fragment />}>
-            <MobileHeader />
+          )}
+          <React.Suspense fallback={<WaitingForNearNetwork />}>
+            <Content />
           </React.Suspense>
-        )}
-        <React.Suspense fallback={<WaitingForNearNetwork />}>
-          <Content />
-        </React.Suspense>
-      </AppLayout>
+        </AppLayout>
+      </AdvancedTradingContainer>
     </ErrorBoundary>
   );
 }

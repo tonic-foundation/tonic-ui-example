@@ -1,13 +1,14 @@
 import 'twin.macro';
 import Button from '../Button';
 import Logo from '../Logo';
-import { tonic } from '~/services/near';
 import { useNavigate } from 'react-router';
+import { useTonic } from '~/state/TonicClientContainer';
 
 const Welcome: React.FC<{ onClose: () => unknown }> = ({
   onClose,
   ...props
 }) => {
+  const { tonic } = useTonic();
   const navigate = useNavigate();
   const noThanks = () => {
     navigate('/simple');

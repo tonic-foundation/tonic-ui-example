@@ -53,10 +53,10 @@ async function checkAndToastTx(id: string) {
   }
 }
 
-// TODO(name, refactor)
-// TODO: this is only relevant for the NEAR web wallet when a redirect is
-// required. The other wallets return the transaction outcome without a
-// page nav.
+/**
+ * This is only necessary for the NEAR web wallet. The other wallets return the
+ * transaction outcome without requiring a page nav.
+ */
 export const TxToastProvider: React.FC = ({ children }) => {
   const { txId } = useWalletRedirectHash();
 

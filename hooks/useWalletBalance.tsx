@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { useCallback, useEffect, useState } from 'react';
-import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { getTokenOrNearBalance } from '~/services/token';
 
 export default function useWalletBalance(tokenId: string) {

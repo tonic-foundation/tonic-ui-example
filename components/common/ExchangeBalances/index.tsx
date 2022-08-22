@@ -9,12 +9,13 @@ import Fallback from '~/components/common/Fallback';
 import { getExplorerUrl } from '~/config';
 import useDepositWithdrawModal from '~/hooks/useDepositWithdrawModal';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
-import { tonic, wallet } from '~/services/near';
 import { getTokenMetadata } from '~/services/token';
 import CloseButton from '../CloseButton';
 import TokenIcon from '../TokenIcon';
 import Button from '../Button';
 import { ModalBody, ModalHeader } from '../Modal';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { useTonic } from '~/state/TonicClientContainer';
 
 const Row = tw.div`flex items-start justify-between gap-x-3`;
 const DepositWithdrawButton = styled(Button)(tw`p-1 px-2 text-sm`);
@@ -74,6 +75,7 @@ const Balance: React.FC<{ tokenId: string; amount: BN }> = ({
 };
 
 const Balances: React.FC = (props) => {
+  const { tonic } = useTonic();
   const [loading, setLoading] = useState(false);
   const [tokens] = useSupportedTokens();
   // TODO: atom for this?
@@ -103,7 +105,7 @@ const Balances: React.FC = (props) => {
     }
 
     load();
-  }, [tokens]);
+  }, [tokens, tonic]);
 
   return (
     <div tw="font-primary text-sm space-y-3" {...props}>
@@ -139,7 +141,7 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
   onClickClose,
   ...props
 }) => {
-  const isSignedIn = wallet.isSignedIn();
+  const { activeAccount } = useWalletSelector();
 
   return (
     <Wrapper {...props}>
@@ -147,7 +149,7 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
         <h1 tw="text-base">Exchange balances</h1>
         <CloseButton hideOnMobile onClick={onClickClose} />
       </ModalHeader>
-      <ModalBody>{!isSignedIn ? <AuthButton /> : <Balances />}</ModalBody>
+      <ModalBody>{!activeAccount ? <AuthButton /> : <Balances />}</ModalBody>
     </Wrapper>
   );
 };

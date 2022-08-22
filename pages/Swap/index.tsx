@@ -38,9 +38,11 @@ import {
 } from './helper';
 import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
-import { useWalletSelector } from '~/contexts/WalletSelectorContext';
-import { useTonic } from '~/contexts/TonicClientContext';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { useTonic } from '~/state/TonicClientContainer';
 import { sleep } from '~/util';
+import toast from 'react-hot-toast';
+import CannedToast from '~/components/common/CannedToast';
 
 const tokenSelectorModalCbState = atom<((t: TokenInfo) => unknown) | undefined>(
   {
@@ -238,11 +240,16 @@ const SwapForm: React.FC<{
         });
         if (outcome?.length) {
           const swapOutcome = outcome.slice(-1)[0];
-          if (
-            typeof swapOutcome.status === 'object' &&
-            swapOutcome.status.SuccessValue
-          ) {
-            console.log(swapOutcome.transaction_outcome.id);
+          if (typeof swapOutcome.status === 'object') {
+            if (swapOutcome.status.SuccessValue) {
+              toast.custom(
+                <CannedToast.TxGeneric
+                  id={swapOutcome.transaction_outcome.id}
+                />
+              );
+            } else if (swapOutcome.status.Failure) {
+              toast.error('transaction failed');
+            }
           }
         }
       } finally {

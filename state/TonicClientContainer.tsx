@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { TONIC_CONTRACT_ID } from '~/config';
 import { nobody } from '~/services/near';
-import { useWalletSelector } from './WalletSelectorContext';
+import { useWalletSelector } from './WalletSelectorContainer';
 
-const DEFAULT_TONIC = new Tonic(nobody, TONIC_CONTRACT_ID);
+export const UNAUTHENTICATED_TONIC = new Tonic(nobody, TONIC_CONTRACT_ID);
 
 function useTonicInternal() {
-  const [tonic, setTonic] = useState(DEFAULT_TONIC);
+  const [tonic, setTonic] = useState(UNAUTHENTICATED_TONIC);
   const { activeAccount } = useWalletSelector();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function useTonicInternal() {
     if (activeAccount) {
       setTonic(new Tonic(activeAccount, TONIC_CONTRACT_ID));
     } else {
-      setTonic(DEFAULT_TONIC);
+      setTonic(UNAUTHENTICATED_TONIC);
     }
   }, [activeAccount]);
 
@@ -27,8 +27,8 @@ function useTonicInternal() {
   };
 }
 
-export const TonicClient = createContainer(useTonicInternal);
+export const TonicClientContainer = createContainer(useTonicInternal);
 
 export function useTonic() {
-  return TonicClient.useContainer();
+  return TonicClientContainer.useContainer();
 }

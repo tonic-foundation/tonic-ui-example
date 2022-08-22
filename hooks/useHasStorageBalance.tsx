@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { STORAGE_EXEMPT_TOKENS } from '~/config';
-import { useWalletSelector } from '~/contexts/WalletSelectorContext';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { nobody } from '~/services/near';
 
 /**

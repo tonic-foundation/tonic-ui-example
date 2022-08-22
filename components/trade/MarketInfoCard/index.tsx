@@ -1,9 +1,9 @@
 import React from 'react';
 import tw from 'twin.macro';
 import usePairWalletBalances from '~/hooks/usePairWalletBalances';
+import { useOpenOrders } from '~/state/advanced-trading';
 import {
   useMarket,
-  useOpenOrders,
   usePair,
   usePairExchangeBalances,
   usePairPrecision,
@@ -19,7 +19,7 @@ const LineItem = tw.p`flex items-center justify-between text-sm`;
  */
 const Content: React.FC = () => {
   const [market] = useMarket();
-  const [orders] = useOpenOrders(false);
+  const [orders] = useOpenOrders();
 
   const { quoteTokenMetadata, baseTokenMetadata } = usePair();
 

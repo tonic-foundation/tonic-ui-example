@@ -57,7 +57,8 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    init().catch((err) => {
+    init().catch((e) => {
+      console.error(e);
       alert('Failed to initialise wallet selector');
     });
   }, [init]);

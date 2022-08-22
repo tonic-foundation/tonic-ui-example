@@ -8,18 +8,19 @@ import {
   decimalToBn,
 } from '@tonic-foundation/utils';
 import { getTokenBalance, getTokenMetadata } from '~/services/token';
-import { tonic, wallet } from '~/services/near';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ZERO } from '~/util/math';
 import Button from '../Button';
 import { storageBalanceOf, storageDeposit } from '@tonic-foundation/storage';
 import { getExplorerUrl, NEAR_RESERVE, NEAR_RESERVE_BN } from '~/config';
-import Tooltip from '../Tooltip';
 import Input from '../Input';
 import { abbreviateAccountId } from '~/util';
 import TabButton from '../TabButton';
 import { CardBody, CardHeader } from '../Card';
 import CannedTooltip from '../CannedTooltip';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { useTonic } from '~/state/TonicClientContainer';
+import { Tonic } from '@tonic-foundation/tonic';
 
 const MAX_DECIMALS = 5;
 
@@ -29,7 +30,7 @@ export interface DepositWithdrawProps {
   onClose?: () => unknown;
 }
 
-const getExchangeBalance = async (tokenId: string) => {
+const getExchangeBalance = async (tonic: Tonic, tokenId: string) => {
   const all = await tonic.getBalances();
   return all[tokenId] || ZERO;
 };
@@ -40,6 +41,8 @@ const Content: React.FC<DepositWithdrawProps> = ({
   onClose,
   ...props
 }) => {
+  const { activeAccount } = useWalletSelector();
+  const { tonic } = useTonic();
   const inputRef = useRef<HTMLInputElement>(null);
   const [direction, setDirection] =
     useState<DepositWithdrawProps['direction']>(initialDirection);
@@ -59,35 +62,45 @@ const Content: React.FC<DepositWithdrawProps> = ({
           bnToFixed(exchangeBalance, decimals, Math.min(MAX_DECIMALS, decimals))
       : '---';
 
-  // Load balance and decimals
-  useEffect(() => {
-    getTokenMetadata(tokenId).then((m) => {
-      setDecimals(m.decimals);
-      setSymbol(m.symbol);
-    });
+  // Loader for balances. Loading both at once avoids a race condition when
+  // rapidly switching between deposit/withdraw.
+  const loadWalletAndExchangeBalances = useCallback(async () => {
+    if (!activeAccount) {
+      return;
+    }
 
     // load wallet balance
     if (tokenId.toUpperCase() === 'NEAR') {
-      wallet
-        .account()
-        .getAccountBalance()
-        .then(({ available }) => {
-          const availableFunds = new BN(available).sub(NEAR_RESERVE_BN);
-          if (availableFunds.gt(ZERO)) {
-            setWalletBalance(availableFunds);
-          } else {
-            setWalletBalance(ZERO);
-          }
-        });
+      activeAccount.getAccountBalance().then(({ available }) => {
+        const availableFunds = new BN(available).sub(NEAR_RESERVE_BN);
+        if (availableFunds.gt(ZERO)) {
+          setWalletBalance(availableFunds);
+        } else {
+          setWalletBalance(ZERO);
+        }
+      });
     } else {
-      getTokenBalance(tokenId).then(setWalletBalance);
+      getTokenBalance(activeAccount, tokenId).then(setWalletBalance);
     }
 
     // get exchange balance; not usually necessary to load both balances but
     // this avoids network race condition eg when switching between
     // deposit/withdraw
-    getExchangeBalance(tokenId).then(setExchangeBalance);
-  }, [tokenId, direction]);
+    getExchangeBalance(tonic, tokenId).then(setExchangeBalance);
+  }, [activeAccount, tokenId]);
+
+  // Load token balance
+  useEffect(() => {
+    loadWalletAndExchangeBalances();
+  }, [loadWalletAndExchangeBalances]);
+
+  // Load token metadata
+  useEffect(() => {
+    getTokenMetadata(tokenId).then((m) => {
+      setDecimals(m.decimals);
+      setSymbol(m.symbol);
+    });
+  }, [tokenId]);
 
   const handleChangeAmount: InputChangeHandler = (e) => {
     const v = parseFloat(e.target.value);
@@ -111,7 +124,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     if (!amount || decimals === undefined) {
       return;
     }
@@ -121,28 +134,33 @@ const Content: React.FC<DepositWithdrawProps> = ({
     } else {
       tonic.withdraw(tokenId, amountBN);
     }
-  };
+  }, [amount, decimals, direction, tokenId]);
 
   const [canWithdraw, setCanWithdraw] = useState<boolean>();
 
   useEffect(() => {
     async function checkCanWithdraw() {
+      if (!activeAccount) {
+        return;
+      }
+
       if (tokenId.toLowerCase() === 'near') {
         setCanWithdraw(true);
       } else {
-        const hasQuoteDeposit = await storageBalanceOf(
-          wallet.account(),
-          tokenId
-        );
+        const hasQuoteDeposit = await storageBalanceOf(activeAccount, tokenId);
         setCanWithdraw(!!hasQuoteDeposit);
       }
     }
     if (direction === 'withdraw') {
       checkCanWithdraw();
     }
-  }, [tokenId, direction]);
+  }, [tokenId, direction, activeAccount]);
 
-  function handleDeposit() {
+  const handleDeposit = useCallback(() => {
+    if (!activeAccount) {
+      return;
+    }
+
     if (direction === 'deposit' || canWithdraw) {
       handleConfirm();
       return;
@@ -150,12 +168,12 @@ const Content: React.FC<DepositWithdrawProps> = ({
     if (canWithdraw === undefined) {
       return;
     } else {
-      storageDeposit(wallet.account(), tokenId, {
+      storageDeposit(activeAccount, tokenId, {
         amount: 0.1,
         registrationOnly: true,
       });
     }
-  }
+  }, [direction, canWithdraw, handleConfirm, activeAccount, tokenId]);
 
   return (
     <div tw="overflow-hidden w-full md:w-[300px]" {...props}>

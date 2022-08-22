@@ -6,10 +6,8 @@ import { MdClose } from 'react-icons/md';
 import { OpenLimitOrder } from '@tonic-foundation/tonic';
 import { colors } from '~/styles';
 import { getExplorerUrl } from '~/config';
-import { tonic } from '~/services/near';
 import {
   useMarket,
-  useOpenOrders,
   useOrderbook,
   usePairExchangeBalances,
   usePairPrecision,
@@ -19,6 +17,8 @@ import Fallback from '../../common/Fallback';
 import IconButton from '../../common/IconButton';
 import Button from '../../common/Button';
 import { bnToFixed } from '@tonic-foundation/utils';
+import { useTonic } from '~/state/TonicClientContainer';
+import { useOpenOrders } from '~/state/advanced-trading';
 
 const styles = {
   row: tw`flex items-center gap-x-0.5 font-mono overflow-hidden`,
@@ -186,6 +186,7 @@ const TableHeadings: React.FC<{ onCancelAll: () => Promise<unknown> }> = ({
 };
 
 const OpenOrdersTable = () => {
+  const { tonic } = useTonic();
   const [market] = useMarket();
   const [, refreshOrderbook] = useOrderbook();
   const [, refreshPairBalances] = usePairExchangeBalances();
