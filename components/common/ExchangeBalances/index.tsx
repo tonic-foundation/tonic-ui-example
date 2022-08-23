@@ -15,7 +15,7 @@ import TokenIcon from '../TokenIcon';
 import Button from '../Button';
 import { ModalBody, ModalHeader } from '../Modal';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { useTonic } from '~/state/TonicClientContainer';
+import { useExchangeBalances } from '~/state/trade';
 
 const Row = tw.div`flex items-start justify-between gap-x-3`;
 const DepositWithdrawButton = styled(Button)(tw`p-1 px-2 text-sm`);
@@ -75,29 +75,31 @@ const Balance: React.FC<{ tokenId: string; amount: BN }> = ({
 };
 
 const Balances: React.FC = (props) => {
-  const { tonic } = useTonic();
   const [loading, setLoading] = useState(false);
   const [tokens] = useSupportedTokens();
-  // TODO: atom for this?
+
+  const [balancesGlobal, refreshBalancesGlobal] = useExchangeBalances();
   const [balances, setBalances] = useState<ExchangeBalances>();
 
-  // Fetch exchange balances. Include all exchange balances, and display 0 for
-  // anything whitelisted that doesn't have an exchange balance yet.
+  // initial load
+  useEffect(() => {
+    refreshBalancesGlobal();
+  }, [refreshBalancesGlobal]);
 
+  // Display 0 for whitelisted tokens that don't have an exchange balance yet.
   useEffect(() => {
     async function load() {
       setLoading(true);
       try {
-        const allBalances = await tonic.getBalances();
         if (tokens.length) {
-          const filteredBalances: Record<string, BN> = allBalances;
+          const filteredBalances: Record<string, BN> = { ...balancesGlobal };
           tokens.forEach((info) => {
             filteredBalances[info.address] =
-              allBalances[info.address] || new BN(0);
+              balancesGlobal[info.address] || new BN(0);
           });
           setBalances(filteredBalances);
         } else {
-          setBalances(allBalances);
+          setBalances(balancesGlobal);
         }
       } finally {
         setLoading(false);
@@ -105,7 +107,7 @@ const Balances: React.FC = (props) => {
     }
 
     load();
-  }, [tokens, tonic]);
+  }, [balancesGlobal, tokens]);
 
   return (
     <div tw="font-primary text-sm space-y-3" {...props}>

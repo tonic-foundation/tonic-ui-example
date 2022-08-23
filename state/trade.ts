@@ -128,14 +128,32 @@ export const pairBalancesState = selector<{
 });
 
 /**
- * Token balances _in the exchange_
+ * Refresher for exchange balances throughout the app
+ */
+export function useExchangeBalances() {
+  const { tonic } = useTonic();
+  const [allBalances, setAllBalances] = useRecoilState(exchangeBalancesState);
+
+  const refreshBalances = useCallback(async () => {
+    try {
+      setAllBalances(await tonic.getBalances());
+    } catch (e) {
+      setAllBalances({});
+    }
+  }, [setAllBalances, tonic]);
+
+  return [allBalances, refreshBalances] as const;
+}
+
+/**
+ * Token balances _in the exchange_. NOTE: the refresher actually fetches all
+ * exchange balances. Don't rely on this behavior in the future.
  */
 export function usePairExchangeBalances(refreshIntervalMs?: number) {
+  const { tonic } = useTonic();
   const balances = useRecoilValue(pairBalancesState);
   const setBalances = useSetRecoilState(exchangeBalancesState);
   const { baseTokenId, quoteTokenId } = useRecoilValue(pairState);
-
-  const { tonic } = useTonic();
 
   // manual refresh to avoid suspense
   const refreshBalances = useCallback(async () => {
@@ -144,7 +162,7 @@ export function usePairExchangeBalances(refreshIntervalMs?: number) {
     } catch (e) {
       setBalances({});
     }
-  }, [setBalances]);
+  }, [setBalances, tonic]);
 
   useEffect(() => {
     if (refreshIntervalMs) {
@@ -158,7 +176,7 @@ export function usePairExchangeBalances(refreshIntervalMs?: number) {
 
   useEffect(() => {
     refreshBalances();
-  }, [baseTokenId, quoteTokenId]);
+  }, [baseTokenId, quoteTokenId, refreshBalances]);
 
   return [balances, refreshBalances] as const;
 }

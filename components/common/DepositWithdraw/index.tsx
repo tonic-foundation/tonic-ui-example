@@ -6,13 +6,26 @@ import {
   bnToApproximateDecimal,
   bnToFixed,
   decimalToBn,
+  tgasAmount,
 } from '@tonic-foundation/utils';
+import {
+  depositNearV1,
+  withdrawV1,
+} from '@tonic-foundation/tonic/lib/transaction';
+import { ftTransferCall as makeFtTransferCallTx } from '@tonic-foundation/token/lib/transaction';
+import { storageBalanceOf } from '@tonic-foundation/storage';
+import { storageDeposit as makeStorageDespositTx } from '@tonic-foundation/storage/lib/transaction';
+
 import { getTokenBalance, getTokenMetadata } from '~/services/token';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ZERO } from '~/util/math';
 import Button from '../Button';
-import { storageBalanceOf, storageDeposit } from '@tonic-foundation/storage';
-import { getExplorerUrl, NEAR_RESERVE, NEAR_RESERVE_BN } from '~/config';
+import {
+  getExplorerUrl,
+  NEAR_RESERVE,
+  NEAR_RESERVE_BN,
+  TONIC_CONTRACT_ID,
+} from '~/config';
 import Input from '../Input';
 import { abbreviateAccountId } from '~/util';
 import TabButton from '../TabButton';
@@ -21,6 +34,11 @@ import CannedTooltip from '../CannedTooltip';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/TonicClientContainer';
 import { Tonic } from '@tonic-foundation/tonic';
+import toast from 'react-hot-toast';
+import { wrappedToast } from '../ToastWrapper';
+import CannedToast from '../CannedToast';
+import { FinalExecutionOutcome } from '@near-wallet-selector/core';
+import { useExchangeBalances } from '~/state/trade';
 
 const MAX_DECIMALS = 5;
 
@@ -41,8 +59,13 @@ const Content: React.FC<DepositWithdrawProps> = ({
   onClose,
   ...props
 }) => {
-  const { activeAccount } = useWalletSelector();
+  const { activeAccount, selector } = useWalletSelector();
   const { tonic } = useTonic();
+
+  // HACK: refresh in other parts of the UI on deposit/withdraw
+  // TODO: use this instead of the manual loader defined below
+  const [, refreshAllExchangeBalances] = useExchangeBalances();
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [direction, setDirection] =
     useState<DepositWithdrawProps['direction']>(initialDirection);
@@ -64,7 +87,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
 
   // Loader for balances. Loading both at once avoids a race condition when
   // rapidly switching between deposit/withdraw.
-  const loadWalletAndExchangeBalances = useCallback(async () => {
+  const refreshAllBalances = useCallback(async () => {
     if (!activeAccount) {
       return;
     }
@@ -87,12 +110,12 @@ const Content: React.FC<DepositWithdrawProps> = ({
     // this avoids network race condition eg when switching between
     // deposit/withdraw
     getExchangeBalance(tonic, tokenId).then(setExchangeBalance);
-  }, [activeAccount, tokenId]);
+  }, [activeAccount, tokenId, tonic]);
 
   // Load token balance
   useEffect(() => {
-    loadWalletAndExchangeBalances();
-  }, [loadWalletAndExchangeBalances]);
+    refreshAllBalances();
+  }, [refreshAllBalances]);
 
   // Load token metadata
   useEffect(() => {
@@ -124,20 +147,86 @@ const Content: React.FC<DepositWithdrawProps> = ({
     }
   };
 
-  const handleConfirm = useCallback(() => {
-    if (!amount || decimals === undefined) {
+  const deposit = useCallback(
+    async (amount: number) => {
+      if (decimals === undefined) {
+        return;
+      }
+
+      const wallet = await selector.wallet();
+      if (tokenId.toLowerCase() === 'near') {
+        // Deposit NEAR by calling deposit_near on the Tonic contract with a
+        // deposit attached.
+        const tx = depositNearV1(
+          TONIC_CONTRACT_ID,
+          decimalToBn(amount, decimals)
+        );
+        return wallet.signAndSendTransaction({
+          actions: [tx.toWalletSelectorAction()],
+        });
+      } else {
+        // Deposit FT by calling ft_transfer_call on the token contract with
+        // Tonic as the recipient and an empty string as the message.
+        const tx = makeFtTransferCallTx(
+          tokenId,
+          {
+            receiverId: TONIC_CONTRACT_ID,
+            amount: decimalToBn(amount, decimals),
+            msg: '',
+          },
+          tgasAmount(100)
+        );
+        return wallet.signAndSendTransaction({
+          // note the receiver ID
+          receiverId: tokenId,
+          actions: [tx.toWalletSelectorAction()],
+        });
+      }
+    },
+    [tokenId, decimals, selector]
+  );
+
+  const withdraw = useCallback(
+    async (amount: number) => {
+      if (decimals === undefined) {
+        return;
+      }
+
+      const wallet = await selector.wallet();
+      const tx = withdrawV1(
+        TONIC_CONTRACT_ID,
+        tokenId,
+        decimalToBn(amount, decimals)
+      );
+      return wallet.signAndSendTransaction({
+        actions: [tx.toWalletSelectorAction()],
+      });
+    },
+    [tokenId, decimals, selector]
+  );
+
+  const storageDeposit = useCallback(async () => {
+    if (!activeAccount) {
       return;
     }
-    const amountBN = decimalToBn(amount, decimals);
-    if (direction === 'deposit') {
-      tonic.deposit(tokenId, amountBN);
-    } else {
-      tonic.withdraw(tokenId, amountBN);
-    }
-  }, [amount, decimals, direction, tokenId]);
+
+    const wallet = await selector.wallet();
+    const tx = makeStorageDespositTx(
+      tokenId,
+      {
+        accountId: activeAccount.accountId,
+        amount: 0.1,
+        registrationOnly: true,
+      },
+      tgasAmount(100)
+    );
+    return wallet.signAndSendTransaction({
+      receiverId: tokenId,
+      actions: [tx.toWalletSelectorAction()],
+    });
+  }, [activeAccount, selector, tokenId]);
 
   const [canWithdraw, setCanWithdraw] = useState<boolean>();
-
   useEffect(() => {
     async function checkCanWithdraw() {
       if (!activeAccount) {
@@ -156,24 +245,51 @@ const Content: React.FC<DepositWithdrawProps> = ({
     }
   }, [tokenId, direction, activeAccount]);
 
-  const handleDeposit = useCallback(() => {
-    if (!activeAccount) {
+  const handleClickConfirm = useCallback(async () => {
+    if (!activeAccount || !amount) {
       return;
     }
 
-    if (direction === 'deposit' || canWithdraw) {
-      handleConfirm();
-      return;
+    try {
+      let outcome: void | FinalExecutionOutcome;
+      if (direction === 'deposit') {
+        outcome = await deposit(amount);
+      } else if (canWithdraw) {
+        outcome = await withdraw(amount);
+      } else if (canWithdraw === undefined) {
+        return;
+      } else {
+        // canWithdraw is false, ie, needs storage deposit in the output token
+        outcome = await storageDeposit();
+      }
+      if (outcome) {
+        toast.custom(
+          wrappedToast(
+            <CannedToast.TxGeneric id={outcome.transaction_outcome.id} />
+          )
+        );
+      }
+      if (onClose) {
+        onClose();
+      }
+      refreshAllExchangeBalances();
+    } catch (e) {
+      console.error(e);
+      toast.custom(
+        wrappedToast(<CannedToast.ErrorSendingTx />, { variant: 'error' })
+      );
     }
-    if (canWithdraw === undefined) {
-      return;
-    } else {
-      storageDeposit(activeAccount, tokenId, {
-        amount: 0.1,
-        registrationOnly: true,
-      });
-    }
-  }, [direction, canWithdraw, handleConfirm, activeAccount, tokenId]);
+  }, [
+    activeAccount,
+    amount,
+    direction,
+    canWithdraw,
+    onClose,
+    refreshAllExchangeBalances,
+    deposit,
+    withdraw,
+    storageDeposit,
+  ]);
 
   return (
     <div tw="overflow-hidden w-full md:w-[300px]" {...props}>
@@ -233,7 +349,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
                 !!amount &&
                 tw`bg-up-dark bg-opacity-60 border-transparent hover:border-up`
               }
-              onClick={handleConfirm}
+              onClick={handleClickConfirm}
             >
               Confirm
             </Button>
@@ -254,7 +370,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
               </a>{' '}
               contract to withdraw {symbol}.
             </p>
-            <Button tw="mt-6 w-full" onClick={handleDeposit}>
+            <Button tw="mt-6 w-full" onClick={handleClickConfirm}>
               Continue
             </Button>
           </React.Fragment>
