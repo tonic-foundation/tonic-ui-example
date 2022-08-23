@@ -16,7 +16,7 @@ import { ZERO } from '~/util/math';
 import { getMidmarketPrice } from '~/util/market';
 import { getTokenMetadata } from '~/services/token';
 import { getDecimalPrecision } from '~/util';
-import { UNAUTHENTICATED_TONIC, useTonic } from './TonicClientContainer';
+import { UNAUTHENTICATED_TONIC, useTonic } from './tonic-client';
 
 export const marketIdState = atom<string>({
   key: 'market-id-state',

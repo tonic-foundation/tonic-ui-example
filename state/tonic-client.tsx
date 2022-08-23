@@ -1,14 +1,19 @@
 import { Tonic } from '@tonic-foundation/tonic';
-import { useEffect, useState } from 'react';
-import { createContainer } from 'unstated-next';
+import { useEffect } from 'react';
+import { atom, useRecoilState } from 'recoil';
 import { TONIC_CONTRACT_ID } from '~/config';
 import { nobody } from '~/services/near';
 import { useWalletSelector } from './WalletSelectorContainer';
 
 export const UNAUTHENTICATED_TONIC = new Tonic(nobody, TONIC_CONTRACT_ID);
 
-function useTonicInternal() {
-  const [tonic, setTonic] = useState(UNAUTHENTICATED_TONIC);
+const tonicClientState = atom<Tonic>({
+  key: 'tonic-client-state',
+  default: UNAUTHENTICATED_TONIC,
+});
+
+export function useTonic() {
+  const [tonic, setTonic] = useRecoilState(tonicClientState);
   const { activeAccount } = useWalletSelector();
 
   useEffect(() => {
@@ -22,13 +27,5 @@ function useTonicInternal() {
     }
   }, [activeAccount, setTonic]);
 
-  return {
-    tonic,
-  };
-}
-
-export const TonicClientContainer = createContainer(useTonicInternal);
-
-export function useTonic() {
-  return TonicClientContainer.useContainer();
+  return { tonic };
 }

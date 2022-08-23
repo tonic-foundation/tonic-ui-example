@@ -2,7 +2,7 @@ import 'twin.macro';
 import Button from '../Button';
 import Logo from '../Logo';
 import { useNavigate } from 'react-router';
-import { useTonic } from '~/state/TonicClientContainer';
+import { useTonic } from '~/state/tonic-client';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useCallback } from 'react';
 import { storageDeposit as makeDepositTxn } from '@tonic-foundation/storage/lib/transaction';

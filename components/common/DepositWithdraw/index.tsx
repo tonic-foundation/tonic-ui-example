@@ -33,7 +33,7 @@ import TabButton from '../TabButton';
 import { CardBody, CardHeader } from '../Card';
 import CannedTooltip from '../CannedTooltip';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { useTonic } from '~/state/TonicClientContainer';
+import { useTonic } from '~/state/tonic-client';
 import { Tonic } from '@tonic-foundation/tonic';
 import toast from 'react-hot-toast';
 import { wrappedToast } from '../ToastWrapper';

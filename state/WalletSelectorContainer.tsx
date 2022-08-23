@@ -1,4 +1,4 @@
-// Adapted from the react example https://github.com/near/wallet-selector
+// Copied from the react example https://github.com/near/wallet-selector
 //
 // Mostly the same, but automatically connects the active account.
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -44,7 +44,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
       debug: IS_DEV,
       modules: [setupNearWallet(), setupSender()],
     });
-    // TODO(renthog): custom modal
+
     const _modal = setupModal(_selector, { contractId: TONIC_CONTRACT_ID });
     const state = _selector.store.getState();
 

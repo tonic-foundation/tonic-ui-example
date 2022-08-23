@@ -1,4 +1,4 @@
-import { useTonic } from '~/state/TonicClientContainer';
+import { useTonic } from '~/state/tonic-client';
 import useHasStorageBalance from './useHasStorageBalance';
 
 /**

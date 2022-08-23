@@ -7,7 +7,7 @@ import { createContainer } from 'unstated-next';
 // TODO XXX REMOVE
 import { marketIdState } from '../trade';
 import { useRecoilValue } from 'recoil';
-import { useTonic } from '../TonicClientContainer';
+import { useTonic } from '../tonic-client';
 
 // TODO: initial load?
 function useOpenOrdersInternal() {

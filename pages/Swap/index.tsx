@@ -39,7 +39,7 @@ import {
 import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { useTonic } from '~/state/TonicClientContainer';
+import { useTonic } from '~/state/tonic-client';
 import { sleep } from '~/util';
 import toast from 'react-hot-toast';
 import CannedToast from '~/components/common/CannedToast';
