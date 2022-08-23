@@ -18,6 +18,8 @@ import { abbreviateAccountId } from '~/util';
 import { Race, TraderStats, useLeaderboard } from './helper';
 
 const GOBLIN_HREF = 'https://greedygoblins.enleap.app/';
+const ANNOUNCEMENT_HREF =
+  'https://tonicdex.medium.com/pembrock-and-tonic-launch-a-new-trading-competition-671d3d29f646';
 
 /**
  * override bg styles if displaying current user's ranking
@@ -197,28 +199,28 @@ const Content = () => {
     <Wrapper>
       {showRules && (
         <Section tw="px-3 sm:px-0 my-12">
-          <Card tw="p-6 space-y-3 flex-shrink-0">
+          <Card tw="p-6 space-y-3 flex-shrink-0 dark:(bg-gradient-to-tr from-fuchsia-400 to-teal-400)">
             <header tw="flex items-center justify-between">
-              <h1 tw="text-lg">Trading competition</h1>
+              <h1 tw="text-lg">PEM/USDC Trading Competition</h1>
               <CloseButton onClick={() => setShowRules(false)} />
             </header>
             <div tw="text-sm space-y-3">
-              <p>The competition is split between 2 races</p>
-              <ol tw="list-decimal list-inside">
-                <li>Regular markets, like NEAR/USDC</li>
-                <li>Stable markets, like USN/USDC</li>
-              </ol>
-              <div tw="flex">
+              <p>
+                Demonstrate your mastery of the market to earn daily cash prizes
+                and NFTs!
+              </p>
+              <p>
+                All maker and taker volume in the PEM/USDC market is eligible.{' '}
                 <a
-                  href="https://tonicdex.medium.com/mainnet-trading-competition-july-2022-c6adc530ac35"
+                  href={ANNOUNCEMENT_HREF}
                   target="_blank"
-                  tw="underline flex items-center gap-1"
+                  tw="underline inline-flex items-center gap-1"
                   rel="noreferrer"
                 >
                   <span>View the rules</span>
                   <Icon.Link tw="text-base" />
                 </a>
-              </div>
+              </p>
             </div>
           </Card>
         </Section>
@@ -236,7 +238,7 @@ const Content = () => {
       )}
       {!loading && (
         <React.Fragment>
-          <Section tw="mb-3 px-3 sm:px-0">
+          {/* <Section tw="mb-3 px-3 sm:px-0">
             <Toggle.Container tw="grid-cols-2 sm:w-1/2">
               <Toggle.Button
                 active={tab === 'usdc'}
@@ -251,7 +253,7 @@ const Content = () => {
                 Stables
               </Toggle.Button>
             </Toggle.Container>
-          </Section>
+          </Section> */}
           <Section tw="h-full overflow-hidden">
             <header tw="py-2 px-3 flex items-center justify-between gap-x-3 text-sm dark:text-up uppercase border-b border-neutral-700 sticky top-0">
               <p tw="flex items-center gap-x-3">

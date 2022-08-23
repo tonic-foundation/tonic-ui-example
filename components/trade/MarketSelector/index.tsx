@@ -6,10 +6,7 @@ import TokenIcon from '../../common/TokenIcon';
 import { HydratedMarketInfo } from '~/hooks/useMarkets';
 import { ResultLink, SearchHeader } from '~/components/common/search';
 import tw from 'twin.macro';
-
-function toTradeLink(marketId: string) {
-  return `/advanced/${marketId}`;
-}
+import { toTradeLink } from '~/util/routes';
 
 const Result: React.FC<{ market: HydratedMarketInfo }> = ({
   market,

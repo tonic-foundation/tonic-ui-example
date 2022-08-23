@@ -3,7 +3,7 @@ import { indexer } from '~/services/indexer';
 import { marketIdState } from '~/state/trade';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { subHours } from 'date-fns';
+import { subDays } from 'date-fns';
 
 type Change = 'up' | 'down';
 export type RecentTrade = {
@@ -17,7 +17,7 @@ const useRecentTrades = () => {
   const [trades, setTrades] = useState<RecentTrade[]>([]);
 
   useEffect(() => {
-    const initial = subHours(new Date(), 1);
+    const initial = subDays(new Date(), 1);
     const [stream, stop] = indexer.recentTradeStream(marketId, initial);
 
     let counter = 0; // use this to generate unique react keys
