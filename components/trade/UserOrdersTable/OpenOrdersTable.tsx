@@ -4,8 +4,12 @@ import tw from 'twin.macro';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { MdClose } from 'react-icons/md';
 import { OpenLimitOrder } from '@tonic-foundation/tonic';
+import {
+  cancelAllOrdersV1,
+  cancelOrderV1,
+} from '@tonic-foundation/tonic/lib/transaction';
 import { colors } from '~/styles';
-import { getExplorerUrl } from '~/config';
+import { TONIC_CONTRACT_ID } from '~/config';
 import {
   useMarket,
   useOrderbook,
@@ -17,8 +21,9 @@ import Fallback from '../../common/Fallback';
 import IconButton from '../../common/IconButton';
 import Button from '../../common/Button';
 import { bnToFixed } from '@tonic-foundation/utils';
-import { useTonic } from '~/state/TonicClientContainer';
 import { useOpenOrders } from '~/state/advanced-trading';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import CannedToast from '~/components/common/CannedToast';
 
 const styles = {
   row: tw`flex items-center gap-x-0.5 font-mono overflow-hidden`,
@@ -186,7 +191,7 @@ const TableHeadings: React.FC<{ onCancelAll: () => Promise<unknown> }> = ({
 };
 
 const OpenOrdersTable = () => {
-  const { tonic } = useTonic();
+  const { selector } = useWalletSelector();
   const [market] = useMarket();
   const [, refreshOrderbook] = useOrderbook();
   const [, refreshPairBalances] = usePairExchangeBalances();
@@ -207,60 +212,42 @@ const OpenOrdersTable = () => {
 
   const handleCancel = useCallback(
     async (orderId: string) => {
-      const { executionOutcome } = await tonic.cancelOrder(market.id, orderId);
+      const wallet = await selector.wallet();
+      const tx = cancelOrderV1(TONIC_CONTRACT_ID, market.id, orderId);
+      const outcome = await wallet.signAndSendTransaction({
+        actions: [tx.toWalletSelectorAction()],
+      });
 
-      const txid = executionOutcome.transaction_outcome.id;
-      const href = getExplorerUrl('transaction', txid);
-      toast.custom(
-        wrappedToast(
-          <React.Fragment>
-            <p>Order cancelled</p>
-            <p tw="text-sm mt-3">
-              <a
-                tw="text-up-dark hover:(text-up underline)"
-                target="_blank"
-                rel="noreferrer"
-                href={href}
-              >
-                View the transaction
-              </a>
-            </p>
-          </React.Fragment>,
-          { variant: 'success' }
-        )
-      );
+      if (outcome) {
+        toast.custom(
+          wrappedToast(
+            <CannedToast.TxGeneric id={outcome.transaction_outcome.id} />
+          )
+        );
+      }
 
       refresh();
     },
-    [market, refresh]
+    [market, refresh, selector]
   );
 
   const handleCancelAll = useCallback(async () => {
-    const { executionOutcome } = await tonic.cancelAllOrders(market.id);
+    const wallet = await selector.wallet();
+    const tx = cancelAllOrdersV1(TONIC_CONTRACT_ID, market.id);
+    const outcome = await wallet.signAndSendTransaction({
+      actions: [tx.toWalletSelectorAction()],
+    });
 
-    const txid = executionOutcome.transaction_outcome.id;
-    const href = getExplorerUrl('transaction', txid);
-    toast.custom(
-      wrappedToast(
-        <React.Fragment>
-          <p>All orders cancelled</p>
-          <p tw="text-sm mt-3">
-            <a
-              tw="text-up-dark hover:(text-up underline)"
-              target="_blank"
-              rel="noreferrer"
-              href={href}
-            >
-              View the transaction
-            </a>
-          </p>
-        </React.Fragment>,
-        { variant: 'success' }
-      )
-    );
+    if (outcome) {
+      toast.custom(
+        wrappedToast(
+          <CannedToast.TxGeneric id={outcome.transaction_outcome.id} />
+        )
+      );
+    }
 
     refresh();
-  }, [market, refresh]);
+  }, [market, refresh, selector]);
 
   return (
     <React.Fragment>

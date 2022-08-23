@@ -24,6 +24,7 @@ import {
   getExplorerUrl,
   NEAR_RESERVE,
   NEAR_RESERVE_BN,
+  STORAGE_EXEMPT_TOKENS,
   TONIC_CONTRACT_ID,
 } from '~/config';
 import Input from '../Input';
@@ -147,63 +148,57 @@ const Content: React.FC<DepositWithdrawProps> = ({
     }
   };
 
-  const deposit = useCallback(
-    async (amount: number) => {
-      if (decimals === undefined) {
-        return;
-      }
+  const deposit = useCallback(async () => {
+    if (!amount || decimals === undefined) {
+      return;
+    }
 
-      const wallet = await selector.wallet();
-      if (tokenId.toLowerCase() === 'near') {
-        // Deposit NEAR by calling deposit_near on the Tonic contract with a
-        // deposit attached.
-        const tx = depositNearV1(
-          TONIC_CONTRACT_ID,
-          decimalToBn(amount, decimals)
-        );
-        return wallet.signAndSendTransaction({
-          actions: [tx.toWalletSelectorAction()],
-        });
-      } else {
-        // Deposit FT by calling ft_transfer_call on the token contract with
-        // Tonic as the recipient and an empty string as the message.
-        const tx = makeFtTransferCallTx(
-          tokenId,
-          {
-            receiverId: TONIC_CONTRACT_ID,
-            amount: decimalToBn(amount, decimals),
-            msg: '',
-          },
-          tgasAmount(100)
-        );
-        return wallet.signAndSendTransaction({
-          // note the receiver ID
-          receiverId: tokenId,
-          actions: [tx.toWalletSelectorAction()],
-        });
-      }
-    },
-    [tokenId, decimals, selector]
-  );
-
-  const withdraw = useCallback(
-    async (amount: number) => {
-      if (decimals === undefined) {
-        return;
-      }
-
-      const wallet = await selector.wallet();
-      const tx = withdrawV1(
+    const wallet = await selector.wallet();
+    if (tokenId.toLowerCase() === 'near') {
+      // Deposit NEAR by calling deposit_near on the Tonic contract with a
+      // deposit attached.
+      const tx = depositNearV1(
         TONIC_CONTRACT_ID,
-        tokenId,
         decimalToBn(amount, decimals)
       );
       return wallet.signAndSendTransaction({
         actions: [tx.toWalletSelectorAction()],
       });
-    },
-    [tokenId, decimals, selector]
-  );
+    } else {
+      // Deposit FT by calling ft_transfer_call on the token contract with
+      // Tonic as the recipient and an empty string as the message.
+      const tx = makeFtTransferCallTx(
+        tokenId,
+        {
+          receiverId: TONIC_CONTRACT_ID,
+          amount: decimalToBn(amount, decimals),
+          msg: '',
+        },
+        tgasAmount(100)
+      );
+      return wallet.signAndSendTransaction({
+        // note the receiver ID
+        receiverId: tokenId,
+        actions: [tx.toWalletSelectorAction()],
+      });
+    }
+  }, [tokenId, decimals, selector, amount]);
+
+  const withdraw = useCallback(async () => {
+    if (!amount || decimals === undefined) {
+      return;
+    }
+
+    const wallet = await selector.wallet();
+    const tx = withdrawV1(
+      TONIC_CONTRACT_ID,
+      tokenId,
+      decimalToBn(amount, decimals)
+    );
+    return wallet.signAndSendTransaction({
+      actions: [tx.toWalletSelectorAction()],
+    });
+  }, [tokenId, decimals, selector, amount]);
 
   const storageDeposit = useCallback(async () => {
     if (!activeAccount) {
@@ -233,7 +228,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
         return;
       }
 
-      if (tokenId.toLowerCase() === 'near') {
+      if (STORAGE_EXEMPT_TOKENS.includes(tokenId.toLowerCase())) {
         setCanWithdraw(true);
       } else {
         const hasQuoteDeposit = await storageBalanceOf(activeAccount, tokenId);
@@ -246,22 +241,24 @@ const Content: React.FC<DepositWithdrawProps> = ({
   }, [tokenId, direction, activeAccount]);
 
   const handleClickConfirm = useCallback(async () => {
-    if (!activeAccount || !amount) {
+    if (!activeAccount) {
       return;
     }
 
     try {
       let outcome: void | FinalExecutionOutcome;
+
       if (direction === 'deposit') {
-        outcome = await deposit(amount);
+        outcome = await deposit();
       } else if (canWithdraw) {
-        outcome = await withdraw(amount);
+        outcome = await withdraw();
       } else if (canWithdraw === undefined) {
         return;
       } else {
-        // canWithdraw is false, ie, needs storage deposit in the output token
+        // canWithdraw is false, need storage deposit.
         outcome = await storageDeposit();
       }
+
       if (outcome) {
         toast.custom(
           wrappedToast(
@@ -281,7 +278,6 @@ const Content: React.FC<DepositWithdrawProps> = ({
     }
   }, [
     activeAccount,
-    amount,
     direction,
     canWithdraw,
     onClose,

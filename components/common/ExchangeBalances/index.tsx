@@ -78,13 +78,13 @@ const Balances: React.FC = (props) => {
   const [loading, setLoading] = useState(false);
   const [tokens] = useSupportedTokens();
 
-  const [balancesGlobal, refreshBalancesGlobal] = useExchangeBalances();
+  const [exchangeBalances, refreshExchangeBalances] = useExchangeBalances();
   const [balances, setBalances] = useState<ExchangeBalances>();
 
   // initial load
   useEffect(() => {
-    refreshBalancesGlobal();
-  }, [refreshBalancesGlobal]);
+    refreshExchangeBalances();
+  }, [refreshExchangeBalances]);
 
   // Display 0 for whitelisted tokens that don't have an exchange balance yet.
   useEffect(() => {
@@ -92,14 +92,14 @@ const Balances: React.FC = (props) => {
       setLoading(true);
       try {
         if (tokens.length) {
-          const filteredBalances: Record<string, BN> = { ...balancesGlobal };
+          const filteredBalances: Record<string, BN> = { ...exchangeBalances };
           tokens.forEach((info) => {
             filteredBalances[info.address] =
-              balancesGlobal[info.address] || new BN(0);
+              exchangeBalances[info.address] || new BN(0);
           });
           setBalances(filteredBalances);
         } else {
-          setBalances(balancesGlobal);
+          setBalances(exchangeBalances);
         }
       } finally {
         setLoading(false);
@@ -107,7 +107,7 @@ const Balances: React.FC = (props) => {
     }
 
     load();
-  }, [balancesGlobal, tokens]);
+  }, [exchangeBalances, tokens]);
 
   return (
     <div tw="font-primary text-sm space-y-3" {...props}>
