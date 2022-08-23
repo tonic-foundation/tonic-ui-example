@@ -3,16 +3,43 @@ import Button from '../Button';
 import Logo from '../Logo';
 import { useNavigate } from 'react-router';
 import { useTonic } from '~/state/TonicClientContainer';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { useCallback } from 'react';
+import { storageDeposit as makeDepositTxn } from '@tonic-foundation/storage/lib/transaction';
+import { TONIC_CONTRACT_ID } from '~/config';
+import { nearAmount } from '@tonic-foundation/tonic';
+import { tgasAmount } from '@tonic-foundation/utils';
 
 const Welcome: React.FC<{ onClose: () => unknown }> = ({
   onClose,
   ...props
 }) => {
-  const { tonic } = useTonic();
+  const { selector, accountId, activeAccount } = useWalletSelector();
+
   const navigate = useNavigate();
   const noThanks = () => {
     navigate('/simple');
   };
+
+  const handleDeposit = useCallback(async () => {
+    if (accountId && activeAccount) {
+      const tx = makeDepositTxn(
+        TONIC_CONTRACT_ID,
+        {
+          accountId,
+          amount: nearAmount(0.5),
+          registrationOnly: false,
+        },
+        tgasAmount(100)
+      );
+      const wallet = await selector.wallet();
+      await wallet.signAndSendTransaction({
+        receiverId: TONIC_CONTRACT_ID,
+        actions: [tx.toWalletSelectorAction()],
+      });
+      window.location.reload();
+    }
+  }, [selector, accountId, activeAccount]);
 
   return (
     <div
@@ -36,11 +63,7 @@ const Welcome: React.FC<{ onClose: () => unknown }> = ({
         tw="mt-6 w-full"
         variant="up"
         disabled={false}
-        onClick={() =>
-          tonic.storageDeposit({
-            amount: 0.5,
-          })
-        }
+        onClick={handleDeposit}
       >
         Create account
       </Button>

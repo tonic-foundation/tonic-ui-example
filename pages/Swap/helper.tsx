@@ -1,5 +1,5 @@
 import { FunctionCallAction } from '@near-wallet-selector/core';
-import { NEAR_DECIMALS } from '@tonic-foundation/storage';
+import { NEAR_DECIMALS } from '@tonic-foundation/token';
 import { TokenInfo } from '@tonic-foundation/token-list';
 import { getMidmarketPrice, Tonic } from '@tonic-foundation/tonic';
 import { SwapParamsV1 } from '@tonic-foundation/tonic/lib/types/v1';

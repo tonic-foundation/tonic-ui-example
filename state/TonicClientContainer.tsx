@@ -20,7 +20,7 @@ function useTonicInternal() {
     } else {
       setTonic(UNAUTHENTICATED_TONIC);
     }
-  }, [activeAccount]);
+  }, [activeAccount, setTonic]);
 
   return {
     tonic,
