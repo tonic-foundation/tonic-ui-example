@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { NewOrderParams } from '@tonic-foundation/tonic';
 import RequireAccount from '~/components/common/RequireAccount';
 import AppLayout from '~/layouts/AppLayout';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { getExplorerUrl } from '~/config';
 import {
   marketIdState,
@@ -14,42 +14,58 @@ import {
   usePairExchangeBalances,
 } from '~/state/trade';
 import { withToastPromise } from '~/components/common/ToastWrapper';
-import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ErrorBoundary from '~/components/ErrorBoundary';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import DesktopContent, { Header as DesktopHeader } from './desktop';
 import MobileContent, { Header as MobileHeader } from './mobile';
-import OrderConfirmingToast from '~/components/common/OrderConfirming';
+import OrderConfirmingToast from '~/components/trade/OrderConfirming';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
 import { sleep } from '../../util';
+
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 
 const Content = () => {
   const isMobile = useIsMobile();
 
   const [market] = useMarket();
+  const { selector } = useWalletSelector();
   const { baseTokenMetadata, quoteTokenMetadata } = usePair();
 
   const [, refreshOrderbook] = useOrderbook();
   const [, refreshPairBalances] = usePairExchangeBalances();
   const [, refreshOpenOrders] = useOpenOrders();
+
+  const placeOrder = useCallback(
+    async (params: NewOrderParams) => {
+      const wallet = await selector.wallet();
+      const tx = market.makePlaceOrderTransaction(params);
+      return wallet.signAndSendTransaction({
+        actions: [tx.toWalletSelectorAction()],
+      });
+    },
+    [market, selector]
+  );
+
   const handleClickConfirmTrade = async (params: NewOrderParams) => {
     try {
       await withToastPromise(
-        market.placeOrder(params),
+        placeOrder(params),
         {
           loading: <OrderConfirmingToast />,
           error: (error) => {
             return <p>Error placing order {`${error}`}</p>;
           },
-          success: ({ executionOutcome, response }) => {
+          success: (outcome) => {
+            // TODO: can the success case be void?
+            const { transaction_outcome } = outcome!;
             return (
               <React.Fragment>
                 {params.orderType === 'Market' ? (
                   <React.Fragment>
-                    <p>Order filled</p>
+                    <p>Order placed</p>
                     <p tw="mt-3 text-sm">
-                      Market {params.side}{' '}
-                      {market.quantityBnToNumber(response.base_fill_quantity)}/
-                      {params.quantity} {baseTokenMetadata.symbol}
+                      Market {params.side} {params.quantity}{' '}
+                      {baseTokenMetadata.symbol}
                     </p>
                   </React.Fragment>
                 ) : (
@@ -66,10 +82,7 @@ const Content = () => {
                     tw="text-up-dark hover:underline"
                     target="_blank"
                     rel="noreferrer"
-                    href={getExplorerUrl(
-                      'transaction',
-                      executionOutcome.transaction_outcome.id
-                    )}
+                    href={getExplorerUrl('transaction', transaction_outcome.id)}
                   >
                     View the transaction
                   </a>

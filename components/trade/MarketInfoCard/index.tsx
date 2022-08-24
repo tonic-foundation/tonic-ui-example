@@ -19,7 +19,7 @@ const LineItem = tw.p`flex items-center justify-between text-sm`;
  */
 const Content: React.FC = () => {
   const [market] = useMarket();
-  const [orders] = useOpenOrders(false);
+  const [orders] = useOpenOrders();
 
   const { quoteTokenMetadata, baseTokenMetadata } = usePair();
 

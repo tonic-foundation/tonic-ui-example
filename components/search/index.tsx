@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import tw, { styled } from 'twin.macro';
 import { InputChangeHandler } from '~/types/event-handlers';
-import CloseButton from '../CloseButton';
-import Input from '../Input';
+import CloseButton from '../common/CloseButton';
+import Input from '../common/Input';
 
 export const searchStyles = {
   result: tw`

@@ -27,8 +27,7 @@ export const NEAR_RESERVE_BN = decimalToBn(NEAR_RESERVE, NEAR_DECIMALS);
  * List of token that don't require storage balance. Used in swap and
  * withdrawls.
  */
-export const STORAGE_EXEMPT_TOKENS =
-  process.env.TONIC_STORAGE_EXEMPTY_TOKENS?.split(',') || ['usn', 'near'];
+export const STORAGE_EXEMPT_TOKENS = ['usn', 'near'];
 
 /**
  * Account ID to collect referral fees. Fees are deposited directly into this
@@ -64,6 +63,7 @@ export const GITHUB_HREF = 'https://github.com/tonic-foundation/tonic-ui';
 export const TELEGRAM_HREF = 'https://t.me/tonicdex';
 export const TWITTER_HREF = 'https://twitter.com/tonicdex';
 export const FEEDBACK_HREF = undefined;
+export const NEAR_HREF = 'https://near.org';
 
 export const getNearConfig = (): ConnectConfig => ({
   ...getBaseNearConfig(NEAR_ENV),

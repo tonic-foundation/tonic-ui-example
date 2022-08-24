@@ -4,16 +4,15 @@ import toast from 'react-hot-toast';
 import tw, { styled } from 'twin.macro';
 import Card from '~/components/common/Card';
 import CloseButton from '~/components/common/CloseButton';
-import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ErrorBoundary from '~/components/ErrorBoundary';
 import Fallback from '~/components/common/Fallback';
 import Icon from '~/components/common/Icons';
 import { wrappedToast } from '~/components/common/ToastWrapper';
-import Toggle from '~/components/common/Toggle';
 import Tooltip from '~/components/common/Tooltip';
 import { getExplorerUrl, TONIC_LEADERBOARD_API_URL } from '~/config';
 import useMarkets from '~/hooks/useMarkets';
 import AppLayout from '~/layouts/AppLayout';
-import { wallet } from '~/services/near';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateAccountId } from '~/util';
 import { Race, TraderStats, useLeaderboard } from './helper';
 
@@ -171,6 +170,7 @@ const Section = tw.section`
 `;
 
 const Content = () => {
+  const { accountId } = useWalletSelector();
   const [tab, setTab] = useState<Race>('usdc');
   const [showRules, setShowRules] = useState(true);
 
@@ -178,13 +178,11 @@ const Content = () => {
   const [ownStats, setOwnStats] = useState<TraderStats>();
 
   useEffect(() => {
-    if (wallet.isSignedIn()) {
+    if (accountId) {
       (async () => {
         try {
           const res = await fetch(
-            `${TONIC_LEADERBOARD_API_URL}/api/v1/search?account=${
-              wallet.account().accountId
-            }&race=${tab}`
+            `${TONIC_LEADERBOARD_API_URL}/api/v1/search?account=${accountId}&race=${tab}`
           );
           const me = (await res.json()) as TraderStats;
           setOwnStats(me);

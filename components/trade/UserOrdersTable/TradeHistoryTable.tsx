@@ -6,15 +6,16 @@ import { Trade } from '@tonic-foundation/data-client';
 import Fallback from '~/components/common/Fallback';
 import { usePairPrecision } from '~/state/trade';
 import { colors } from '~/styles';
-import { wallet } from '~/services/near';
 import { useMarket } from '~/state/trade';
 import { indexer } from '~/services/indexer';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 
 const styles = {
   row: tw`flex items-center gap-x-0.5 font-mono`,
 };
 
 const Content = () => {
+  const { activeAccount } = useWalletSelector();
   const [market] = useMarket();
   const [loading, setLoading] = useState(false);
   const [trades, setTrades] = useState<Trade[]>([]);
@@ -24,10 +25,10 @@ const Content = () => {
     async function hydrate() {
       setLoading(true);
       try {
-        if (wallet.isSignedIn()) {
+        if (activeAccount) {
           const history = await indexer.tradeHistory(
             market.id,
-            wallet.account().accountId
+            activeAccount.accountId
           );
           setTrades(history);
         }

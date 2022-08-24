@@ -3,7 +3,7 @@
  * doesn't have a Tonic deposit
  */
 import React, { useEffect, useState } from 'react';
-import Welcome from '~/components/common/Welcome';
+import Welcome from '~/components/trade/Welcome';
 import Modal from '~/components/common/Modal';
 import useHasTonicAccount from '~/hooks/useHasTonicAccount';
 

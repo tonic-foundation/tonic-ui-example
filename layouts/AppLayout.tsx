@@ -7,7 +7,6 @@ import {
   FaTwitter,
 } from 'react-icons/fa';
 import RpcStatus from '~/components/common/RpcStatus';
-import useExchangeBalancesModal from '~/hooks/useExchangeBalancesModal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import {
@@ -28,6 +27,7 @@ import NearLogo from '~/components/common/NearLogo';
 import Modal, { ModalBody } from '~/components/common/Modal';
 import Toggle from '~/components/common/Toggle';
 import useHasTonicAccount from '~/hooks/useHasTonicAccount';
+import useExchangeBalancesModal from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
 
 const styles = {
   link: ({ active }: { active?: boolean }) => [

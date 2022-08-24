@@ -1,6 +1,7 @@
-import { NEAR_DECIMALS } from '@tonic-foundation/storage';
+import { FunctionCallAction } from '@near-wallet-selector/core';
+import { NEAR_DECIMALS } from '@tonic-foundation/token';
 import { TokenInfo } from '@tonic-foundation/token-list';
-import { getMidmarketPrice } from '@tonic-foundation/tonic';
+import { getMidmarketPrice, Tonic } from '@tonic-foundation/tonic';
 import { SwapParamsV1 } from '@tonic-foundation/tonic/lib/types/v1';
 import {
   bnToApproximateDecimal,
@@ -9,11 +10,11 @@ import {
   tgasAmount,
 } from '@tonic-foundation/utils';
 import BN from 'bn.js';
-import { functionCall, Transaction } from 'near-api-js/lib/transaction';
+import { FunctionCall as NearApiJsFunctionCall } from 'near-api-js/lib/transaction';
 import { SwapSettings } from '~/components/swap/SwapSettingsForm';
 import { TONIC_CONTRACT_ID } from '~/config';
 import { HydratedMarketInfo } from '~/hooks/useMarkets';
-import { tonic, wallet } from '~/services/near';
+import { ImplicitSignerTransaction } from '~/services/near';
 import { createGraph, findRoute } from '~/services/swap';
 
 export interface SwapRoute {
@@ -29,6 +30,7 @@ export interface SwapRoute {
  * tolerance is applied after the fact, eg, in `createSwapTransaction`.
  */
 export async function getSwapRoute(
+  tonic: Tonic,
   markets: HydratedMarketInfo[],
   tokenInId: string,
   tokenOutId: string,
@@ -84,24 +86,42 @@ function nearAmount(n: number) {
   return decimalToBn(n, NEAR_DECIMALS);
 }
 
+// XXX TODO FIXME: the functionCall function in near-api-js isn't compatible
+// with the FunctionCallAction type (gas/deposit are BN in near-api-js, string in
+// wallet-selector/core), so here we are
+type FunctionCallParams = Omit<NearApiJsFunctionCall, 'args'> & {
+  args: object;
+};
+function createFunctionCall(_params: FunctionCallParams): FunctionCallAction {
+  const params: FunctionCallAction['params'] = {
+    ..._params,
+    gas: _params.gas.toString(),
+    deposit: _params.deposit.toString(),
+  };
+  return {
+    type: 'FunctionCall',
+    params,
+  };
+}
+
 export async function createTokenDepositTransaction(
   receiverId: string,
   accountId: string
-): Promise<Transaction> {
-  return wallet.createTransaction({
+): Promise<ImplicitSignerTransaction> {
+  return {
     receiverId,
     actions: [
-      functionCall(
-        'storage_deposit',
-        {
+      createFunctionCall({
+        methodName: 'storage_deposit',
+        args: {
           account_id: accountId,
           registration_only: true,
         },
-        tgasAmount(10),
-        nearAmount(0.1)
-      ),
+        gas: tgasAmount(10),
+        deposit: nearAmount(0.1),
+      }),
     ],
-  });
+  };
 }
 
 function getSwapFromFtCall(
@@ -109,7 +129,7 @@ function getSwapFromFtCall(
   amount: BN,
   minOutAmount: BN,
   route: SwapRoute
-) {
+): ImplicitSignerTransaction {
   const params = route.swaps.map((s) => ({
     ...s,
     min_output_token: s.min_output_token?.toString(),
@@ -122,9 +142,9 @@ function getSwapFromFtCall(
   return {
     receiverId: token.address,
     actions: [
-      functionCall(
-        'ft_transfer_call',
-        {
+      createFunctionCall({
+        methodName: 'ft_transfer_call',
+        args: {
           receiver_id: TONIC_CONTRACT_ID,
           amount: amount.toString(),
           msg: JSON.stringify({
@@ -132,14 +152,18 @@ function getSwapFromFtCall(
             params,
           }),
         },
-        new BN('180000000000000'),
-        new BN(1)
-      ),
+        gas: tgasAmount(180),
+        deposit: new BN(1),
+      }),
     ],
   };
 }
 
-function getSwapFromNearCall(amount: BN, minOutAmount: BN, route: SwapRoute) {
+function getSwapFromNearCall(
+  amount: BN,
+  minOutAmount: BN,
+  route: SwapRoute
+): ImplicitSignerTransaction {
   const swaps = route.swaps.map((s) => ({
     ...s,
     min_output_token: s.min_output_token?.toString(),
@@ -152,14 +176,12 @@ function getSwapFromNearCall(amount: BN, minOutAmount: BN, route: SwapRoute) {
   return {
     receiverId: TONIC_CONTRACT_ID,
     actions: [
-      functionCall(
-        'swap_near',
-        {
-          swaps,
-        },
-        MAX_GAS,
-        amount
-      ),
+      createFunctionCall({
+        methodName: 'swap_near',
+        args: { swaps },
+        gas: MAX_GAS,
+        deposit: amount,
+      }),
     ],
   };
 }
@@ -173,11 +195,9 @@ export function createSwapTransaction(
   tokenInAmount: BN,
   minNetOutAmount: BN,
   route: SwapRoute
-): Promise<Transaction> {
-  const params =
-    tokenIn.address.toLowerCase() === 'near'
-      ? getSwapFromNearCall(tokenInAmount, minNetOutAmount, route)
-      : getSwapFromFtCall(tokenIn, tokenInAmount, minNetOutAmount, route);
-
-  return wallet.createTransaction(params);
+): ImplicitSignerTransaction {
+  if (tokenIn.address.toLowerCase() === 'near') {
+    return getSwapFromNearCall(tokenInAmount, minNetOutAmount, route);
+  }
+  return getSwapFromFtCall(tokenIn, tokenInAmount, minNetOutAmount, route);
 }

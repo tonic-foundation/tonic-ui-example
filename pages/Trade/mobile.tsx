@@ -21,11 +21,11 @@ import Modal, { ModalBody } from '~/components/common/Modal';
 import Toggle from '~/components/common/Toggle';
 import { use24hStats } from '~/hooks/use24hStats';
 import { useTitle } from 'react-use';
-import useMarketSelector from '~/hooks/useMarketSelector';
 import MarketPickerButton from '~/components/trade/MarketPickerButton';
 import { colors } from '~/styles';
-import { wallet } from '~/services/near';
 import AuthButton from '~/components/common/AuthButton';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import useMarketSelector from '~/components/trade/MarketSelector/useWalletSelectorModal';
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();
@@ -88,7 +88,7 @@ const orderFormOpenState = atom<OrderSide | undefined>({
 });
 
 const FloatingFooter: React.FC = (props) => {
-  const isSignedIn = wallet.isSignedIn();
+  const { activeAccount } = useWalletSelector();
   const [market] = useMarket();
   const [balances] = usePairExchangeBalances();
   const { baseBalance, quoteBalance } = balances;
@@ -115,7 +115,7 @@ const FloatingFooter: React.FC = (props) => {
           </p>
         </div>
 
-        {isSignedIn ? (
+        {!!activeAccount ? (
           <div tw="flex-1 grid grid-cols-2 gap-2">
             <Button
               variant="up"

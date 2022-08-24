@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import TokenIcon from '../../common/TokenIcon';
 
 import { HydratedMarketInfo } from '~/hooks/useMarkets';
-import { ResultLink, SearchHeader } from '~/components/common/search';
+import { ResultLink, SearchHeader } from '~/components/search';
 import tw from 'twin.macro';
 import { toTradeLink } from '~/util/routes';
 

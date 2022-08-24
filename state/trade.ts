@@ -21,7 +21,7 @@ import { ZERO } from '~/util/math';
 import { getMidmarketPrice } from '~/util/market';
 import { getTokenMetadata } from '~/services/token';
 import { getDecimalPrecision, sleep } from '~/util';
-import { tonic } from '~/services/near';
+import { UNAUTHENTICATED_TONIC, useTonic } from './tonic-client';
 
 export const marketIdState = atom<string>({
   key: 'market-id-state',
@@ -32,7 +32,7 @@ export const marketState = selector<Market>({
   key: 'market-selector',
   get: async ({ get }) => {
     const marketId = get(marketIdState);
-    return await tonic.getMarket(marketId);
+    return await UNAUTHENTICATED_TONIC.getMarket(marketId);
   },
   set: ({ set }, v) => {
     if (v instanceof DefaultValue) {
@@ -52,7 +52,7 @@ export function useMarket() {
 
   const refreshMarket = useCallback(
     async (id?: string) => {
-      const newMarket = await tonic.getMarket(id || marketId);
+      const newMarket = await UNAUTHENTICATED_TONIC.getMarket(id || marketId);
       setMarket(newMarket);
     },
     [marketId]
@@ -133,9 +133,29 @@ export const pairBalancesState = selector<{
 });
 
 /**
- * Token balances _in the exchange_
+ * Refresher for exchange balances throughout the app
+ */
+export function useExchangeBalances() {
+  const { tonic } = useTonic();
+  const [allBalances, setAllBalances] = useRecoilState(exchangeBalancesState);
+
+  const refreshBalances = useCallback(async () => {
+    try {
+      setAllBalances(await tonic.getBalances());
+    } catch (e) {
+      setAllBalances({});
+    }
+  }, [setAllBalances, tonic]);
+
+  return [allBalances, refreshBalances] as const;
+}
+
+/**
+ * Token balances _in the exchange_. NOTE: the refresher actually fetches all
+ * exchange balances. Don't rely on this behavior in the future.
  */
 export function usePairExchangeBalances(refreshIntervalMs?: number) {
+  const { tonic } = useTonic();
   const balances = useRecoilValue(pairBalancesState);
   const setBalances = useSetRecoilState(exchangeBalancesState);
   const { baseTokenId, quoteTokenId } = useRecoilValue(pairState);
@@ -147,7 +167,7 @@ export function usePairExchangeBalances(refreshIntervalMs?: number) {
     } catch (e) {
       setBalances({});
     }
-  }, [setBalances]);
+  }, [setBalances, tonic]);
 
   useEffect(() => {
     if (refreshIntervalMs) {
@@ -161,7 +181,7 @@ export function usePairExchangeBalances(refreshIntervalMs?: number) {
 
   useEffect(() => {
     refreshBalances();
-  }, [baseTokenId, quoteTokenId]);
+  }, [baseTokenId, quoteTokenId, refreshBalances]);
 
   return [balances, refreshBalances] as const;
 }
@@ -182,7 +202,9 @@ export function useOrderbook(initialLoad = true) {
     async (id?: string) => {
       setLoading(true);
       try {
-        setOrderbook(await tonic.getOrderbook(id || marketId, 30));
+        setOrderbook(
+          await UNAUTHENTICATED_TONIC.getOrderbook(id || marketId, 30)
+        );
       } finally {
         setLoading(false);
       }
@@ -221,6 +243,7 @@ const openOrdersState = atom<OpenLimitOrder[] | undefined>({
 });
 
 export function useOpenOrders(initialLoad = true) {
+  const { tonic } = useTonic();
   const marketId = useRecoilValue(marketIdState);
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useRecoilState(openOrdersState);
@@ -232,7 +255,7 @@ export function useOpenOrders(initialLoad = true) {
       setLoading(true);
       try {
         const newOrders = await tonic.getOpenOrders(id || marketId);
-        await sleep(2000);
+        await sleep(2000); // ?
         setOrders(newOrders);
       } finally {
         setLoading(false);

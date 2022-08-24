@@ -75,3 +75,9 @@ See [`config/index.ts`](./config/index.ts) for available options and documentati
 This UI depends on the Tonic data API to display listings and charting
 information. Check out the [Github repo][data-api-repo] for information on
 running your own instance of the data API.
+
+# Dev notes
+
+- The `pre:all` npm script copies static assets into `dist`. Notably, wallet
+  icon URLs are harcoded by `@near-wallet-selector` to use
+  `/assets/wallet-name.png`, so we're forced to use that scheme in the build.

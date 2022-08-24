@@ -7,14 +7,15 @@ import tw, { styled } from 'twin.macro';
 import AuthButton from '~/components/common/AuthButton';
 import Fallback from '~/components/common/Fallback';
 import { getExplorerUrl } from '~/config';
-import useDepositWithdrawModal from '~/hooks/useDepositWithdrawModal';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
-import { tonic, wallet } from '~/services/near';
 import { getTokenMetadata } from '~/services/token';
 import CloseButton from '../CloseButton';
 import TokenIcon from '../TokenIcon';
 import Button from '../Button';
 import { ModalBody, ModalHeader } from '../Modal';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { useExchangeBalances } from '~/state/trade';
+import useDepositWithdrawModal from '../DepositWithdraw/useDepositWithdrawModal';
 
 const Row = tw.div`flex items-start justify-between gap-x-3`;
 const DepositWithdrawButton = styled(Button)(tw`p-1 px-2 text-sm`);
@@ -76,26 +77,29 @@ const Balance: React.FC<{ tokenId: string; amount: BN }> = ({
 const Balances: React.FC = (props) => {
   const [loading, setLoading] = useState(false);
   const [tokens] = useSupportedTokens();
-  // TODO: atom for this?
+
+  const [exchangeBalances, refreshExchangeBalances] = useExchangeBalances();
   const [balances, setBalances] = useState<ExchangeBalances>();
 
-  // Fetch exchange balances. Include all exchange balances, and display 0 for
-  // anything whitelisted that doesn't have an exchange balance yet.
+  // initial load
+  useEffect(() => {
+    refreshExchangeBalances();
+  }, [refreshExchangeBalances]);
 
+  // Display 0 for whitelisted tokens that don't have an exchange balance yet.
   useEffect(() => {
     async function load() {
       setLoading(true);
       try {
-        const allBalances = await tonic.getBalances();
         if (tokens.length) {
-          const filteredBalances: Record<string, BN> = allBalances;
+          const filteredBalances: Record<string, BN> = { ...exchangeBalances };
           tokens.forEach((info) => {
             filteredBalances[info.address] =
-              allBalances[info.address] || new BN(0);
+              exchangeBalances[info.address] || new BN(0);
           });
           setBalances(filteredBalances);
         } else {
-          setBalances(allBalances);
+          setBalances(exchangeBalances);
         }
       } finally {
         setLoading(false);
@@ -103,7 +107,7 @@ const Balances: React.FC = (props) => {
     }
 
     load();
-  }, [tokens]);
+  }, [exchangeBalances, tokens]);
 
   return (
     <div tw="font-primary text-sm space-y-3" {...props}>
@@ -139,7 +143,7 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
   onClickClose,
   ...props
 }) => {
-  const isSignedIn = wallet.isSignedIn();
+  const { activeAccount } = useWalletSelector();
 
   return (
     <Wrapper {...props}>
@@ -147,7 +151,7 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
         <h1 tw="text-base">Exchange balances</h1>
         <CloseButton hideOnMobile onClick={onClickClose} />
       </ModalHeader>
-      <ModalBody>{!isSignedIn ? <AuthButton /> : <Balances />}</ModalBody>
+      <ModalBody>{!activeAccount ? <AuthButton /> : <Balances />}</ModalBody>
     </Wrapper>
   );
 };

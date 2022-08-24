@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import Button from './Button';
-import Modal, { ModalBody } from './Modal';
+import Button from './common/Button';
+import Modal, { ModalBody } from './common/Modal';
 
 interface Props {
   children: ReactNode;

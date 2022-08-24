@@ -1,34 +1,36 @@
 import BN from 'bn.js';
-import { useEffect, useState } from 'react';
-import { wallet } from '~/services/near';
+import { useCallback, useEffect, useState } from 'react';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { getTokenOrNearBalance } from '~/services/token';
 
 export default function useWalletBalance(tokenId: string) {
+  const { activeAccount } = useWalletSelector();
+
   const [loading, setLoading] = useState(false);
   const [balance, setBalance] = useState<BN>();
 
-  useEffect(() => {
-    async function load() {
-      if (!wallet.isSignedIn()) {
-        return;
-      }
-      setLoading(true);
-      try {
-        const account = wallet.account();
-        const balance = await getTokenOrNearBalance(account, tokenId);
-
-        setBalance(balance);
-      } finally {
-        setLoading(false);
-      }
+  const load = useCallback(async () => {
+    if (!activeAccount) {
+      return;
     }
 
+    setLoading(true);
+    try {
+      const balance = await getTokenOrNearBalance(activeAccount, tokenId);
+
+      setBalance(balance);
+    } finally {
+      setLoading(false);
+    }
+  }, [activeAccount, tokenId]);
+
+  useEffect(() => {
     load();
 
     return () => {
       setBalance(undefined);
     };
-  }, [tokenId]);
+  }, [load]);
 
-  return [balance, loading] as const;
+  return [balance, loading, load] as const;
 }

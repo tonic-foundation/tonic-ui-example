@@ -1,6 +1,6 @@
 import 'twin.macro';
 
-const LogoIcon: React.FC = (props) => {
+export const LogoIcon: React.FC = (props) => {
   return (
     <img alt="" tw="h-6" src={require('~/assets/images/logo.svg')} {...props} />
   );

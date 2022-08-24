@@ -16,8 +16,13 @@ const TxGeneric: React.FC<{
   );
 };
 
+const ErrorSendingTx: React.FC = () => {
+  return <p>Error sending transaction</p>;
+};
+
 const CannedToast = {
   TxGeneric,
+  ErrorSendingTx,
 };
 
 export default CannedToast;

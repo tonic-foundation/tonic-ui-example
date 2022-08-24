@@ -2,9 +2,9 @@ import { ftOrNativeNearMetadata } from '@tonic-foundation/token';
 import { useEffect, useState } from 'react';
 
 import { indexer } from '~/services/indexer';
-import { wallet } from '~/services/near';
 import { FungibleTokenMetadata } from '@tonic-foundation/token';
 import { atom, useRecoilState } from 'recoil';
+import { nobody } from '~/services/near';
 
 export interface HydratedMarketInfo {
   id: string;
@@ -41,14 +41,14 @@ export default function useMarkets(initialLoad = true) {
             baseToken: {
               id: info.base_token_id,
               metadata: await ftOrNativeNearMetadata(
-                wallet.account(),
+                nobody,
                 info.base_token_id
               ),
             },
             quoteToken: {
               id: info.quote_token_id,
               metadata: await ftOrNativeNearMetadata(
-                wallet.account(),
+                nobody,
                 info.quote_token_id
               ),
             },

@@ -1,16 +1,17 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MdLogout } from 'react-icons/md';
 
 import Button from './Button';
-import { TONIC_CONTRACT_ID } from '~/config';
-import { wallet } from '~/services/near';
 import { abbreviateAccountId } from '~/util';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import toast from 'react-hot-toast';
+import { wrappedToast } from './ToastWrapper';
+import useWalletPickerModal from './WalletSelector/useWalletSelectorModal';
 
-const LoggedInContent = () => {
-  const account = wallet.account();
+const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
     <React.Fragment>
-      <span>{abbreviateAccountId(account.accountId, 13, 5)}</span>
+      <span>{abbreviateAccountId(accountId, 13, 5)}</span>
       <MdLogout />
     </React.Fragment>
   );
@@ -21,17 +22,32 @@ const LoggedOutContent = () => {
 };
 
 const AuthButton: React.FC = (props) => {
-  const [loggedIn, setLoggedIn] = useState(wallet.isSignedIn());
+  const { selector, accountId } = useWalletSelector();
+  const [, toggleWalletPicker] = useWalletPickerModal();
+  const [loggedIn, setLoggedIn] = useState(selector.isSignedIn());
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     if (loggedIn) {
-      wallet.signOut();
+      const wallet = await selector.wallet();
+      await wallet.signOut();
       setLoggedIn(false);
-      window.location.reload();
+      toast.custom(
+        wrappedToast(<p>Wallet disconnected.</p>, { variant: 'error' })
+      );
     } else {
-      wallet.requestSignIn(TONIC_CONTRACT_ID);
+      toggleWalletPicker(true);
     }
-  }, [loggedIn, setLoggedIn]);
+  }, [loggedIn, selector, toggleWalletPicker]);
+
+  useEffect(() => {
+    const sub = selector.store.observable.subscribe((s) => {
+      if (s.selectedWalletId?.length) {
+        setLoggedIn(true);
+      }
+    });
+
+    return sub.unsubscribe;
+  }, []);
 
   return (
     <Button
@@ -43,7 +59,11 @@ const AuthButton: React.FC = (props) => {
       variant="down"
       {...props}
     >
-      {loggedIn ? <LoggedInContent /> : <LoggedOutContent />}
+      {loggedIn && accountId ? (
+        <LoggedInContent accountId={accountId} />
+      ) : (
+        <LoggedOutContent />
+      )}
     </Button>
   );
 };

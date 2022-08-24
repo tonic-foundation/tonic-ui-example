@@ -1,6 +1,6 @@
 import React from 'react';
 import tw from 'twin.macro';
-import { wallet } from '~/services/near';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import AuthButton from './AuthButton';
 
 const Wrapper = tw.div`
@@ -12,7 +12,7 @@ const Background = tw.div`absolute h-full w-full inset-0 bg-black opacity-20 dar
  * if not connected. Not reactive, but close enough (updates when React ticks)
  */
 const RequireAuth: React.FC = ({ children }) => {
-  const isSignedIn = wallet.isSignedIn();
+  const { isSignedIn } = useWalletSelector();
 
   return (
     <React.Fragment>
