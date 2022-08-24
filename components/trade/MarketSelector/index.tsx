@@ -49,7 +49,7 @@ const UnknownResult: React.FC<{ marketId: string }> = ({
 const Wrapper = tw.div`
   p-6 overflow-hidden flex flex-col items-stretch
   w-screen h-[60vh]
-  md:max-w-sm
+  sm:max-w-sm
 `;
 
 const MarketSelector: React.FC<{

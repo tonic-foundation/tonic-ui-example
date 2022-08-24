@@ -53,10 +53,10 @@ const contentInvisibleStyles = (drawerOnMobile: boolean) => {
     `;
   }
   return css`
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       transform: translateY(50%);
     }
-    @media (min-width: 769px) {
+    @media (min-width: 641px) {
       transform: scale(99%);
     }
   `;
@@ -68,24 +68,24 @@ const ContentWrapper = styled(Card)<{
 }>(({ visible, drawerOnMobile }) => [
   tw`
     relative mx-auto
-    w-full md:w-auto
+    w-full sm:w-auto
     transition-transform duration-300
   `,
   // mobile drawer needs big radius to look good.
   // modal can retain card's default radius.
   drawerOnMobile
-    ? tw`rounded-2xl rounded-b-none md:rounded-md`
-    : tw`mx-6 md:mx-auto`,
+    ? tw`rounded-2xl rounded-b-none sm:rounded-md`
+    : tw`mx-6 sm:mx-auto`,
   drawerOnMobile &&
     css`
-      @media (max-width: 768px) {
+      @media (max-width: 640px) {
         position: fixed;
         bottom: 0;
         padding-bottom: env(safe-area-inset-bottom);
       }
     `,
   visible
-    ? tw`md:shadow-2xl translate-y-0 scale-100`
+    ? tw`sm:shadow-2xl translate-y-0 scale-100`
     : contentInvisibleStyles(drawerOnMobile),
 ]);
 

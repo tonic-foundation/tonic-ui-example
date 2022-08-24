@@ -323,7 +323,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
         </div>
       </header>
 
-      <div tw="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div tw="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <Label>Price</Label>
           <Field>

@@ -136,7 +136,7 @@ const Balances: React.FC = (props) => {
 
 const Wrapper = tw.div`
   flex flex-col overflow-hidden
-  h-[60vh] md:(w-screen max-w-sm)
+  h-[60vh] sm:(w-screen max-w-sm)
 `;
 
 const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
