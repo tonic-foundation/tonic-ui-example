@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "pre:all": "mkdir -p dist && cp -R charting_library dist/charting_library && cp styles/tradingview.css dist && cp assets/images/favicon.ico dist && cp assets/wallet-icons dist/assets",
+    "pre:all": "scripts/copy-assets.sh",
     "dev": "yarn pre:all && parcel index.html -p 3000",
     "build": "yarn clean && yarn pre:all && parcel build --no-source-maps index.html",
     "clean": "rm -fr .parcel-cache dist"
