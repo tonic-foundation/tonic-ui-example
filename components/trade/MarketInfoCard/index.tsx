@@ -1,9 +1,9 @@
 import React from 'react';
 import tw from 'twin.macro';
 import usePairWalletBalances from '~/hooks/usePairWalletBalances';
-import { useOpenOrders } from '~/state/advanced-trading';
 import {
   useMarket,
+  useOpenOrders,
   usePair,
   usePairExchangeBalances,
   usePairPrecision,

@@ -12,6 +12,7 @@ import { colors } from '~/styles';
 import { TONIC_CONTRACT_ID } from '~/config';
 import {
   useMarket,
+  useOpenOrders,
   useOrderbook,
   usePairExchangeBalances,
   usePairPrecision,
@@ -21,7 +22,6 @@ import Fallback from '../../common/Fallback';
 import IconButton from '../../common/IconButton';
 import Button from '../../common/Button';
 import { bnToFixed } from '@tonic-foundation/utils';
-import { useOpenOrders } from '~/state/advanced-trading';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import CannedToast from '~/components/common/CannedToast';
 

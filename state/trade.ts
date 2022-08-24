@@ -9,13 +9,18 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from 'recoil';
-import { ExchangeBalances, Market, Orderbook } from '@tonic-foundation/tonic';
+import {
+  ExchangeBalances,
+  Market,
+  OpenLimitOrder,
+  Orderbook,
+} from '@tonic-foundation/tonic';
 
 import { TONIC_DEFAULT_MARKET_ID } from '~/config';
 import { ZERO } from '~/util/math';
 import { getMidmarketPrice } from '~/util/market';
 import { getTokenMetadata } from '~/services/token';
-import { getDecimalPrecision } from '~/util';
+import { getDecimalPrecision, sleep } from '~/util';
 import { UNAUTHENTICATED_TONIC, useTonic } from './tonic-client';
 
 export const marketIdState = atom<string>({
@@ -232,41 +237,42 @@ export function useMidmarketPrice() {
   return useRecoilValue(midmarketPriceState);
 }
 
-// const openOrdersState = atom<OpenLimitOrder[] | undefined>({
-//   key: 'open-orders-state',
-//   default: undefined,
-// });
+const openOrdersState = atom<OpenLimitOrder[] | undefined>({
+  key: 'open-orders-state',
+  default: undefined,
+});
 
-// export function useOpenOrders(initialLoad = true) {
-//   const marketId = useRecoilValue(marketIdState);
-//   const [loading, setLoading] = useState(false);
-//   const [orders, setOrders] = useRecoilState(openOrdersState);
+export function useOpenOrders(initialLoad = true) {
+  const { tonic } = useTonic();
+  const marketId = useRecoilValue(marketIdState);
+  const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useRecoilState(openOrdersState);
 
-//   //  manually update instead of using the recoil refresher to avoid showing a
-//   //  spinner over the orderbook
-//   const refreshOpenOrders = useCallback(
-//     async (id?: string) => {
-//       setLoading(true);
-//       try {
-//         const newOrders = await tonic.getOpenOrders(id || marketId);
-//         await sleep(2000);
-//         setOrders(newOrders);
-//       } finally {
-//         setLoading(false);
-//       }
-//     },
-//     [marketId]
-//   );
+  //  manually update instead of using the recoil refresher to avoid showing a
+  //  spinner over the orderbook
+  const refreshOpenOrders = useCallback(
+    async (id?: string) => {
+      setLoading(true);
+      try {
+        const newOrders = await tonic.getOpenOrders(id || marketId);
+        await sleep(2000); // ?
+        setOrders(newOrders);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [marketId]
+  );
 
-//   useEffect(() => {
-//     refreshOpenOrders(marketId);
-//   }, [marketId, refreshOpenOrders]);
+  useEffect(() => {
+    refreshOpenOrders(marketId);
+  }, [marketId, refreshOpenOrders]);
 
-//   useEffect(() => {
-//     if (initialLoad) {
-//       refreshOpenOrders();
-//     }
-//   }, []);
+  useEffect(() => {
+    if (initialLoad) {
+      refreshOpenOrders();
+    }
+  }, []);
 
-//   return [orders, refreshOpenOrders, loading] as const;
-// }
+  return [orders, refreshOpenOrders, loading] as const;
+}
