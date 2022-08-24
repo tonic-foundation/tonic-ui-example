@@ -1,6 +1,6 @@
 // A lot of logic copied from the react example
 // https://github.com/near/wallet-selector/blob/5da151430372d4e4b0edf56feed407a71fabce5f/packages/modal-ui/src/lib/components/WalletOptions.tsx
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import tw from 'twin.macro';
 
 import type {
@@ -10,11 +10,7 @@ import type {
 } from '@near-wallet-selector/core';
 import { ModalOptions } from '@near-wallet-selector/modal-ui';
 
-import { NEAR_HREF } from '~/config';
-import Button from '../../Button';
-import { LogoIcon } from '../../Logo';
 import { NearIcon } from '../../NearLogo';
-import { useWalletPickerPage } from '../state';
 import { searchStyles } from '../../search';
 
 interface WalletOptionsProps {
@@ -36,10 +32,7 @@ const WalletSelect: React.FC<WalletOptionsProps> = ({
   onConnecting,
   onConnected,
 }) => {
-  const [, setPage] = useWalletPickerPage();
-
   // <COPYPASTE>
-  const [walletInfoVisible, setWalletInfoVisible] = useState(false);
   const [modules, setModules] = useState<Array<ModuleState>>([]);
 
   useEffect(() => {
@@ -101,30 +94,20 @@ const WalletSelect: React.FC<WalletOptionsProps> = ({
   };
   // </COPYPASTE>
 
-  const handleClickContinue = useCallback(() => {
-    setPage({
-      route: 'wallet-select',
-    });
-  }, [setPage]);
-
   return (
     <div tw="flex-grow overflow-hidden p-6">
       <h1 tw="text-xl">Select your wallet</h1>
-      <ul tw="flex flex-col items-stretch overflow-hidden">
-        {/* <COPYPASTE> */}
+      <ul tw="py-6 flex flex-col items-stretch overflow-hidden">
+        {/* <COPYPASTE> (restyled) */}
         {modules.reduce<Array<JSX.Element>>((result, module) => {
           const { selectedWalletId } = selector.store.getState();
           const { name, description, iconUrl, deprecated } = module.metadata;
-          // TODO(renthog): iconUrl is hardcoded for /assets/wallet-name.png in the library...
           const selected = module.id === selectedWalletId;
+
           result.push(
             <li
               key={module.id}
               id={module.id}
-              css={[
-                selected && tw`dark:text-up-dark light:underline`,
-                deprecated && tw`text-down-dark`,
-              ]}
               onClick={selected ? undefined : handleWalletClick(module)}
             >
               <div
@@ -132,13 +115,32 @@ const WalletSelect: React.FC<WalletOptionsProps> = ({
                 tw="flex items-center justify-between cursor-pointer"
                 css={searchStyles.result}
               >
-                <img src={iconUrl} alt={name} tw="h-8 w-8 object-cover" />
-                <span>{name}</span>
-                {selected && (
-                  <div className="selected-wallet-text">
-                    <span>selected</span>
+                <div tw="flex items-center gap-3">
+                  {/* come on, man */}
+                  {module.id === 'near-wallet' ? (
+                    <NearIcon tw="dark:text-white light:text-black h-8 w-8" />
+                  ) : (
+                    <img src={iconUrl} alt={name} tw="h-8 w-8 object-cover" />
+                  )}
+                  <div>
+                    <p
+                      css={[
+                        selected && tw`dark:text-up-dark light:underline`,
+                        deprecated && tw`text-down-dark`,
+                      ]}
+                    >
+                      {name}
+                      {selected && ' (Connected)'}
+                    </p>
+                    <p tw="text-sm opacity-80">
+                      {module.type === 'browser'
+                        ? 'Web'
+                        : module.type === 'injected'
+                        ? 'Extension'
+                        : ''}
+                    </p>
                   </div>
-                )}
+                </div>
               </div>
             </li>
           );
