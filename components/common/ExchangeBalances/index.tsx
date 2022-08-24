@@ -7,7 +7,6 @@ import tw, { styled } from 'twin.macro';
 import AuthButton from '~/components/common/AuthButton';
 import Fallback from '~/components/common/Fallback';
 import { getExplorerUrl } from '~/config';
-import useDepositWithdrawModal from '~/hooks/useDepositWithdrawModal';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { getTokenMetadata } from '~/services/token';
 import CloseButton from '../CloseButton';
@@ -16,6 +15,7 @@ import Button from '../Button';
 import { ModalBody, ModalHeader } from '../Modal';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useExchangeBalances } from '~/state/trade';
+import useDepositWithdrawModal from '../DepositWithdraw/useDepositWithdrawModal';
 
 const Row = tw.div`flex items-start justify-between gap-x-3`;
 const DepositWithdrawButton = styled(Button)(tw`p-1 px-2 text-sm`);

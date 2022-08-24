@@ -10,7 +10,7 @@ import type {
 } from '@near-wallet-selector/core';
 import { ModalOptions } from '@near-wallet-selector/modal-ui';
 
-import { searchStyles } from '../../search';
+import { searchStyles } from '../../../search';
 import WalletIcon from '../components/WalletIcon';
 
 interface WalletOptionsProps {

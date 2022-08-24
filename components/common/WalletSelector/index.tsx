@@ -1,22 +1,20 @@
+// TODO: move the "wallet selector container" into this component
 import React, { useCallback } from 'react';
 import tw from 'twin.macro';
 import { ModalOptions } from '@near-wallet-selector/modal-ui';
-import { TONIC_CONTRACT_ID } from '~/config';
-import Modal, { ModalHeader } from '../Modal';
+import { ModalHeader } from '../Modal';
 import Home from './pages/Home';
 import WalletConnect from './pages/WalletConnect';
 import WalletInstall from './pages/WalletInstall';
 import CloseButton from '../CloseButton';
 import { TbArrowLeft } from 'react-icons/tb';
-import { useWalletPickerModal, useWalletPickerPage } from './state';
+import { useWalletPickerPage } from './state';
 import WalletSelect from './pages/WalletSelect';
 import IconButton from '../IconButton';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { ModuleState, Wallet } from '@near-wallet-selector/core';
 import toast from 'react-hot-toast';
 import { wrappedToast } from '../ToastWrapper';
-
-export { useWalletPickerModal } from './state';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
@@ -84,7 +82,7 @@ const BackButton: React.FC<React.HTMLProps<HTMLButtonElement>> = (props) => {
   );
 };
 
-const WalletPicker: React.FC<{
+export const WalletSelector: React.FC<{
   options: ModalOptions;
   onClose: () => unknown;
 }> = ({ options, onClose, ...props }) => {
@@ -122,27 +120,5 @@ const WalletPicker: React.FC<{
         <Content options={options} onConnected={onClose} />
       </div>
     </Wrapper>
-  );
-};
-
-export const WalletPickerModal: React.FC = () => {
-  const [visible, setVisible] = useWalletPickerModal();
-
-  return (
-    <Modal
-      drawerOnMobile
-      visible={visible}
-      onClose={() => setVisible(false)}
-      render={({ closeModal }) => {
-        return (
-          <WalletPicker
-            options={{
-              contractId: TONIC_CONTRACT_ID,
-            }}
-            onClose={closeModal}
-          />
-        );
-      }}
-    />
   );
 };

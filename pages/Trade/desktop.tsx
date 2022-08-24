@@ -17,11 +17,11 @@ import {
 import tw from 'twin.macro';
 import { use24hStats } from '~/hooks/use24hStats';
 import { useTitle } from 'react-use';
-import useMarketSelector from '~/hooks/useMarketSelector';
 import MarketPickerButton from '~/components/trade/MarketPickerButton';
 import { colors } from '~/styles';
 import RequireAuth from '~/components/common/RequireAuth';
 import Fallback from '~/components/common/Fallback';
+import useMarketSelector from '~/components/trade/MarketSelector/useWalletSelectorModal';
 
 const StatContainer = tw.div`flex flex-col`;
 const StatTitle = tw.h2`text-sm text-neutral-400 light:text-black`;

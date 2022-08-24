@@ -2,14 +2,15 @@ import Routes from './routes';
 import { Toaster } from 'react-hot-toast';
 import { HashRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { DepositWithdrawProvider } from '~/hooks/useDepositWithdrawModal';
-import { ExchangeBalancesModalProvider } from '~/hooks/useExchangeBalancesModal';
-import { MarketSelectorModalProvider } from '~/hooks/useMarketSelector';
-import { useIsMobile } from './hooks/useIsMobile';
+import { useIsMobile } from '~/hooks/useIsMobile';
 import { ThemeProvider } from '~/hooks/useTheme';
-import { TxToastProvider } from './hooks/useWalletRedirectHash';
-import { WalletSelectorContextProvider } from './state/WalletSelectorContainer';
-import { WalletPickerModal } from '~/components/common/WalletPicker';
+import { TxToastProvider } from '~/hooks/useWalletRedirectHash';
+import { WalletSelectorContextProvider } from '~/state/WalletSelectorContainer';
+
+import { WalletSelectorModal } from '~/components/common/WalletSelector/useWalletSelectorModal';
+import { DepositWithdrawModal } from '~/components/common/DepositWithdraw/useDepositWithdrawModal';
+import { ExchangeBalancesModal } from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
+import { MarketSelectorModal } from '~/components/trade/MarketSelector/useWalletSelectorModal';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -30,18 +31,15 @@ const App = () => {
         <HashRouter>
           <WalletSelectorContextProvider>
             <TxToastProvider>
-              <MarketSelectorModalProvider>
-                <DepositWithdrawProvider>
-                  <ExchangeBalancesModalProvider>
-                    <WalletPickerModal />
-                    <Routes />
-                    <Toaster
-                      position={toasterPosition}
-                      containerStyle={toasterContainerStyle}
-                    />
-                  </ExchangeBalancesModalProvider>
-                </DepositWithdrawProvider>
-              </MarketSelectorModalProvider>
+              <Routes />
+              <MarketSelectorModal />
+              <ExchangeBalancesModal />
+              <DepositWithdrawModal />
+              <WalletSelectorModal />
+              <Toaster
+                position={toasterPosition}
+                containerStyle={toasterContainerStyle}
+              />
             </TxToastProvider>
           </WalletSelectorContextProvider>
         </HashRouter>

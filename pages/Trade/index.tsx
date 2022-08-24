@@ -14,11 +14,11 @@ import {
   usePairExchangeBalances,
 } from '~/state/trade';
 import { withToastPromise } from '~/components/common/ToastWrapper';
-import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ErrorBoundary from '~/components/ErrorBoundary';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import DesktopContent, { Header as DesktopHeader } from './desktop';
 import MobileContent, { Header as MobileHeader } from './mobile';
-import OrderConfirmingToast from '~/components/common/OrderConfirming';
+import OrderConfirmingToast from '~/components/trade/OrderConfirming';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
 import { sleep } from '../../util';
 
@@ -56,10 +56,7 @@ const Content = () => {
             return <p>Error placing order {`${error}`}</p>;
           },
           success: (outcome) => {
-            // TODO: can the success case be void when using wallet selector?
-            // TODO(renthog): make a wrapper library for wallet-selector, very
-            // painful to use right now
-
+            // TODO: can the success case be void?
             const { transaction_outcome } = outcome!;
             return (
               <React.Fragment>

@@ -21,11 +21,11 @@ import Modal, { ModalBody } from '~/components/common/Modal';
 import Toggle from '~/components/common/Toggle';
 import { use24hStats } from '~/hooks/use24hStats';
 import { useTitle } from 'react-use';
-import useMarketSelector from '~/hooks/useMarketSelector';
 import MarketPickerButton from '~/components/trade/MarketPickerButton';
 import { colors } from '~/styles';
 import AuthButton from '~/components/common/AuthButton';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import useMarketSelector from '~/components/trade/MarketSelector/useWalletSelectorModal';
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();

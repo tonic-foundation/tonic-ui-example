@@ -6,7 +6,7 @@ import { TokenInfo } from '@tonic-foundation/token-list';
 import { DEFAULT_TOKEN_ICON } from '~/config';
 import { bnToApproximateDecimal } from '@tonic-foundation/utils';
 import useWalletBalance from '~/hooks/useWalletBalance';
-import { SearchHeader, searchStyles } from '~/components/common/search';
+import { SearchHeader, searchStyles } from '~/components/search';
 
 const TokenIcon = tw.img`h-8 w-8 rounded-full object-cover`;
 

@@ -2,7 +2,7 @@ import AppLayout from '~/layouts/AppLayout';
 import AuthButton from '~/components/common/AuthButton';
 import Button from '~/components/common/Button';
 import Card from '~/components/common/Card';
-import ErrorBoundary from '~/components/common/ErrorBoundary';
+import ErrorBoundary from '~/components/ErrorBoundary';
 import Fallback from '~/components/common/Fallback';
 import IconButton from '~/components/common/IconButton';
 import Input from '~/components/common/Input';

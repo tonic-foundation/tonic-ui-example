@@ -4,6 +4,7 @@
 // a custom modal.
 //
 // TODO: render the modal here
+// TODO: use recoil
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Account } from 'near-api-js';
 import { map, distinctUntilChanged } from 'rxjs';

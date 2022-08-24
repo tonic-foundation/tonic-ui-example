@@ -6,7 +6,7 @@ import { abbreviateAccountId } from '~/util';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import toast from 'react-hot-toast';
 import { wrappedToast } from './ToastWrapper';
-import { useWalletPickerModal } from './WalletPicker';
+import useWalletPickerModal from './WalletSelector/useWalletSelectorModal';
 
 const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
@@ -37,7 +37,7 @@ const AuthButton: React.FC = (props) => {
     } else {
       toggleWalletPicker(true);
     }
-  }, [loggedIn, setLoggedIn, selector]);
+  }, [loggedIn, selector, toggleWalletPicker]);
 
   useEffect(() => {
     const sub = selector.store.observable.subscribe((s) => {
