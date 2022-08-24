@@ -22,7 +22,7 @@ const LoggedOutContent = () => {
 };
 
 const AuthButton: React.FC = (props) => {
-  const { selector, modal, accountId } = useWalletSelector();
+  const { selector, accountId } = useWalletSelector();
   const [, toggleWalletPicker] = useWalletPickerModal();
   const [loggedIn, setLoggedIn] = useState(selector.isSignedIn());
 
@@ -36,9 +36,8 @@ const AuthButton: React.FC = (props) => {
       );
     } else {
       toggleWalletPicker(true);
-      // modal.show();
     }
-  }, [loggedIn, setLoggedIn, modal, selector]);
+  }, [loggedIn, setLoggedIn, selector]);
 
   useEffect(() => {
     const sub = selector.store.observable.subscribe((s) => {

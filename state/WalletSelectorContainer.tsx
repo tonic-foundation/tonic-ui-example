@@ -4,25 +4,21 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { map, distinctUntilChanged } from 'rxjs';
 import { setupWalletSelector } from '@near-wallet-selector/core';
-import { setupModal } from '@near-wallet-selector/modal-ui';
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
-import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
-import { IS_DEV, TONIC_CONTRACT_ID } from '~/config';
+import { IS_DEV } from '~/config';
 import { Account } from 'near-api-js';
 import { near } from '~/services/near';
 
 declare global {
   interface Window {
     selector: WalletSelector;
-    modal: WalletSelectorModal;
   }
 }
 
 interface WalletSelectorContextValue {
   selector: WalletSelector;
-  modal: WalletSelectorModal;
   accounts: Array<AccountState>;
   accountId: string | null;
   activeAccount: Account | null;
@@ -34,7 +30,6 @@ const WalletSelectorContext =
 
 export const WalletSelectorContextProvider: React.FC = ({ children }) => {
   const [selector, setSelector] = useState<WalletSelector | null>(null);
-  const [modal, setModal] = useState<WalletSelectorModal | null>(null);
   const [accounts, setAccounts] = useState<Array<AccountState>>([]);
   const [activeAccount, setActiveAccount] = useState<Account | null>(null);
 
@@ -45,16 +40,13 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
       modules: [setupNearWallet(), setupSender()],
     });
 
-    const _modal = setupModal(_selector, { contractId: TONIC_CONTRACT_ID });
     const state = _selector.store.getState();
 
     setAccounts(state.accounts);
 
     window.selector = _selector;
-    window.modal = _modal;
 
     setSelector(_selector);
-    setModal(_modal);
   }, []);
 
   useEffect(() => {
@@ -96,7 +88,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
     }
   }, [accounts]);
 
-  if (!selector || !modal) {
+  if (!selector) {
     return null;
   }
 
@@ -107,7 +99,6 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
     <WalletSelectorContext.Provider
       value={{
         selector,
-        modal,
         accounts,
         accountId,
         activeAccount,
