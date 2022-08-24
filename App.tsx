@@ -9,7 +9,7 @@ import { useIsMobile } from './hooks/useIsMobile';
 import { ThemeProvider } from '~/hooks/useTheme';
 import { TxToastProvider } from './hooks/useWalletRedirectHash';
 import { WalletSelectorContextProvider } from './state/WalletSelectorContainer';
-// import { WalletPickerModal } from '~/components/common/WalletPicker';
+import { WalletPickerModal } from '~/components/common/WalletPicker';
 
 import '@near-wallet-selector/modal-ui/styles.css';
 
@@ -35,7 +35,7 @@ const App = () => {
               <MarketSelectorModalProvider>
                 <DepositWithdrawProvider>
                   <ExchangeBalancesModalProvider>
-                    {/* <WalletPickerModal /> */}
+                    <WalletPickerModal />
                     <Routes />
                     <Toaster
                       position={toasterPosition}

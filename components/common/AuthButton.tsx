@@ -6,7 +6,7 @@ import { abbreviateAccountId } from '~/util';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import toast from 'react-hot-toast';
 import { wrappedToast } from './ToastWrapper';
-// import { useWalletPickerModal } from '~/state/wallet-picker';
+import { useWalletPickerModal } from './WalletPicker';
 
 const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
@@ -23,7 +23,7 @@ const LoggedOutContent = () => {
 
 const AuthButton: React.FC = (props) => {
   const { selector, modal, accountId } = useWalletSelector();
-  // const [, toggleWalletPicker] = useWalletPickerModal();
+  const [, toggleWalletPicker] = useWalletPickerModal();
   const [loggedIn, setLoggedIn] = useState(selector.isSignedIn());
 
   const handleClick = useCallback(async () => {
@@ -35,8 +35,8 @@ const AuthButton: React.FC = (props) => {
         wrappedToast(<p>Wallet disconnected.</p>, { variant: 'error' })
       );
     } else {
-      // toggleWalletPicker(true);
-      modal.show();
+      toggleWalletPicker(true);
+      // modal.show();
     }
   }, [loggedIn, setLoggedIn, modal, selector]);
 

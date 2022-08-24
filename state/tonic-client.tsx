@@ -10,6 +10,7 @@ export const UNAUTHENTICATED_TONIC = new Tonic(nobody, TONIC_CONTRACT_ID);
 const tonicClientState = atom<Tonic>({
   key: 'tonic-client-state',
   default: UNAUTHENTICATED_TONIC,
+  dangerouslyAllowMutability: true,
 });
 
 export function useTonic() {

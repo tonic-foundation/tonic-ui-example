@@ -38,7 +38,7 @@ const Container = styled.div<{ visible: boolean }>(({ visible }) => [
   `,
   visible ? tw`opacity-100` : tw`opacity-0`,
 ]);
-const Background = tw.div`absolute inset-0 bg-neutral-400 bg-opacity-40 light:(bg-black bg-opacity-50)`;
+const Backdrop = tw.div`absolute inset-0 bg-neutral-400 bg-opacity-40 light:(bg-black bg-opacity-50)`;
 
 /**
  * Style to use when content not visible, nameley
@@ -162,7 +162,7 @@ const Modal: React.FC<ModalProps> = ({
       visible={!!modalVisible}
       {...props}
     >
-      <Background aria-hidden="true" onClick={handleClickBackground} />
+      <Backdrop aria-hidden="true" onClick={handleClickBackground} />
       <ContentWrapper
         drawerOnMobile={drawerOnMobile}
         visible={!!contentVisible}

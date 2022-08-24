@@ -63,6 +63,7 @@ export const GITHUB_HREF = 'https://github.com/tonic-foundation/tonic-ui';
 export const TELEGRAM_HREF = 'https://t.me/tonicdex';
 export const TWITTER_HREF = 'https://twitter.com/tonicdex';
 export const FEEDBACK_HREF = undefined;
+export const NEAR_HREF = 'https://near.org';
 
 export const getNearConfig = (): ConnectConfig => ({
   ...getBaseNearConfig(NEAR_ENV),
