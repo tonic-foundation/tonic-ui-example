@@ -84,7 +84,6 @@ const BackButton: React.FC<React.HTMLProps<HTMLButtonElement>> = (props) => {
   );
 };
 
-// the official one just doesn't look very good... lmao
 const WalletPicker: React.FC<{
   options: ModalOptions;
   onClose: () => unknown;
