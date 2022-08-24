@@ -1,4 +1,5 @@
 import { ModuleState, Wallet } from '@near-wallet-selector/core';
+import { useCallback } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
 const walletSelectorVisibleState = atom<boolean>({
@@ -18,7 +19,20 @@ const walletSelectorPageState = atom<WalletSelectorState>({
 });
 
 export function useWalletPickerModal() {
-  return useRecoilState(walletSelectorVisibleState);
+  const [, setPage] = useWalletPickerPage();
+  const [visible, _setVisible] = useRecoilState(walletSelectorVisibleState);
+
+  const setVisible = useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        setPage({ route: 'home' });
+      }
+      _setVisible(visible);
+    },
+    [_setVisible, setPage]
+  );
+
+  return [visible, setVisible] as const;
 }
 
 export function useWalletPickerPage() {

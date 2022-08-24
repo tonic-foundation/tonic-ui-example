@@ -37,7 +37,7 @@ const Home: React.FC = (props) => {
         To use Tonic, you need to connect a NEAR wallet.
       </h1>
 
-      <div tw="flex-grow flex flex-col items-stretch justify-end gap-6 mb-12">
+      <div tw="flex-grow flex flex-col items-stretch justify-end gap-6 my-12">
         <div tw="flex items-start gap-3">
           <div tw="pt-2.5">
             <CDot />

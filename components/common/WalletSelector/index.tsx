@@ -18,7 +18,7 @@ import { wrappedToast } from '../ToastWrapper';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
-  w-screen min-h-[65vh] max-h-[75vh] sm:max-w-sm
+  w-screen min-h-[65vh] sm:max-w-sm
 `;
 
 const Content: React.FC<{

@@ -10,7 +10,7 @@ import { WalletSelectorContextProvider } from '~/state/WalletSelectorContainer';
 import { WalletSelectorModal } from '~/components/common/WalletSelector/useWalletSelectorModal';
 import { DepositWithdrawModal } from '~/components/common/DepositWithdraw/useDepositWithdrawModal';
 import { ExchangeBalancesModal } from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
-import { MarketSelectorModal } from '~/components/trade/MarketSelector/useWalletSelectorModal';
+import { MarketSelectorModal } from '~/components/trade/MarketSelector/useMarketSelectorModal';
 
 const App = () => {
   const isMobile = useIsMobile();

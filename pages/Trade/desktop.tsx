@@ -21,7 +21,7 @@ import MarketPickerButton from '~/components/trade/MarketPickerButton';
 import { colors } from '~/styles';
 import RequireAuth from '~/components/common/RequireAuth';
 import Fallback from '~/components/common/Fallback';
-import useMarketSelector from '~/components/trade/MarketSelector/useWalletSelectorModal';
+import useMarketSelector from '~/components/trade/MarketSelector/useMarketSelectorModal';
 
 const StatContainer = tw.div`flex flex-col`;
 const StatTitle = tw.h2`text-sm text-neutral-400 light:text-black`;

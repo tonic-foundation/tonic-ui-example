@@ -25,7 +25,7 @@ import MarketPickerButton from '~/components/trade/MarketPickerButton';
 import { colors } from '~/styles';
 import AuthButton from '~/components/common/AuthButton';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import useMarketSelector from '~/components/trade/MarketSelector/useWalletSelectorModal';
+import useMarketSelector from '~/components/trade/MarketSelector/useMarketSelectorModal';
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();
