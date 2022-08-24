@@ -1,15 +1,16 @@
+import { ModuleState, Wallet } from '@near-wallet-selector/core';
 import { atom, useRecoilState } from 'recoil';
 
 const walletSelectorVisibleState = atom<boolean>({
   key: 'wallet-selector-visible-state',
-  default: true,
+  default: false,
 });
 
 export type WalletSelectorState =
   | { route: 'home' }
   | { route: 'wallet-select' }
-  | { route: 'wallet-connect'; walletId: string }
-  | { route: 'wallet-install'; walletId: string };
+  | { route: 'wallet-connect'; wallet: Wallet }
+  | { route: 'wallet-install'; state: ModuleState<Wallet> };
 
 const walletSelectorPageState = atom<WalletSelectorState>({
   key: 'wallet-selector-page-state',

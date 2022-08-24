@@ -11,8 +11,6 @@ import { TxToastProvider } from './hooks/useWalletRedirectHash';
 import { WalletSelectorContextProvider } from './state/WalletSelectorContainer';
 import { WalletPickerModal } from '~/components/common/WalletPicker';
 
-import '@near-wallet-selector/modal-ui/styles.css';
-
 const App = () => {
   const isMobile = useIsMobile();
   const toasterPosition = isMobile ? 'top-center' : 'bottom-right';

@@ -737,6 +737,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@near-wallet-selector/modal-ui@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@near-wallet-selector/modal-ui@npm:6.0.0"
+  dependencies:
+    "@near-wallet-selector/core": 6.0.0
+    react: 18.2.0
+    react-dom: 18.2.0
+  checksum: 65db8e5f646417445c9df32e32693ef8bddda914c14976d1e3f98d67840a66f902b9e5d369a1a743dac8c017c47450657c8ca8dd26f00aa7b6ba7642f50dfd6d
+  languageName: node
+  linkType: hard
+
 "@near-wallet-selector/my-near-wallet@npm:5.0.3":
   version: 5.0.3
   resolution: "@near-wallet-selector/my-near-wallet@npm:5.0.3"
@@ -747,6 +758,18 @@ __metadata:
     near-api-js: 0.44.2
     rxjs: ~7.4.0
   checksum: 3d51e3acb3126962cb7aa06dc6456f5efcf2f08576abcd7ccb86b5c6eb225083c90b2e84f195679c5ef8da8bae125736ea231b655e133a4dc0dd4410f423ce22
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/my-near-wallet@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@near-wallet-selector/my-near-wallet@npm:6.0.0"
+  dependencies:
+    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/wallet-utils": 6.0.0
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 27211e49c49a8fc08e4a76b1a10b40f4708b852e79ae5b5de7018757bf92d0656db8749c3cc6cf7e3511ac873c6f26e4dc6122facdb55568fc91f9d760014466
   languageName: node
   linkType: hard
 
@@ -761,6 +784,19 @@ __metadata:
     near-api-js: 0.44.2
     rxjs: ~7.4.0
   checksum: db8bd3a418847526e11666b22b97ebe620c302d20baebf61f520024dd1402cd980986878eabd2befcd494d3ce7a90bc30405210d82bad8cace29ba299b7a8818
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/nightly@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@near-wallet-selector/nightly@npm:6.0.0"
+  dependencies:
+    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/wallet-utils": 6.0.0
+    is-mobile: ^3.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 86a659b9fb8d962699ba5270dba98c0d3bdc5422f1e0494a5f272a0c16a7a3203705fa50ed23bd21e587e135578fa29c2623e95204545ba6cef69a6d77bb556d
   languageName: node
   linkType: hard
 
@@ -788,7 +824,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/wallet-utils@npm:^6.0.0":
+"@near-wallet-selector/wallet-utils@npm:6.0.0, @near-wallet-selector/wallet-utils@npm:^6.0.0":
   version: 6.0.0
   resolution: "@near-wallet-selector/wallet-utils@npm:6.0.0"
   dependencies:
@@ -1911,7 +1947,10 @@ __metadata:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
     "@near-wallet-selector/core": ^5.0.3
+    "@near-wallet-selector/modal-ui": ^6.0.0
+    "@near-wallet-selector/my-near-wallet": ^6.0.0
     "@near-wallet-selector/near-wallet": ^5.0.3
+    "@near-wallet-selector/nightly": ^6.0.0
     "@near-wallet-selector/sender": ^5.0.3
     "@near-wallet-selector/wallet-utils": ^6.0.0
     "@parcel/transformer-svg-react": ^2.5.0
@@ -4728,7 +4767,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-mobile@npm:^3.0.0":
+"is-mobile@npm:^3.0.0, is-mobile@npm:^3.1.1":
   version: 3.1.1
   resolution: "is-mobile@npm:3.1.1"
   checksum: b7c549020ac4674520378623afc4976694ff686eb3761cfad12da936ba9c2d675687bdc3c82eadf5a25147ce51c682800679bf835e31de272f05c026cd2b2f14
@@ -6149,6 +6188,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
@@ -6253,6 +6304,15 @@ __metadata:
     react: ^16.8.0  || ^17.0.0
     react-dom: ^16.8.0  || ^17.0.0
   checksum: 7379460f51b78c5375f8e039f59305c55efb75205d49a18d579154fcccfddf98fa9460a734e7d4cf3b1be8f1c15ec86feeab0d846fbaaa1fea425da83aaf117c
+  languageName: node
+  linkType: hard
+
+"react@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
   languageName: node
   linkType: hard
 
@@ -6546,6 +6606,15 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 

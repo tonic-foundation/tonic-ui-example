@@ -7,26 +7,49 @@ import Home from './pages/Home';
 import WalletConnect from './pages/WalletConnect';
 import WalletInstall from './pages/WalletInstall';
 import CloseButton from '../CloseButton';
-import { TbArrowLeft, TbArrowNarrowLeft } from 'react-icons/tb';
+import { TbArrowLeft } from 'react-icons/tb';
 import { useWalletPickerModal, useWalletPickerPage } from './state';
 import WalletSelect from './pages/WalletSelect';
 import IconButton from '../IconButton';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { ModuleState, Wallet } from '@near-wallet-selector/core';
+import toast from 'react-hot-toast';
+import { wrappedToast } from '../ToastWrapper';
 
 export { useWalletPickerModal } from './state';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
-  w-screen h-[60vh] sm:max-w-sm
+  w-screen min-h-[65vh] max-h-[75vh] sm:max-w-sm
 `;
 
 const Content: React.FC<{
   options: ModalOptions;
-}> = ({ options }) => {
-  // TODO
+  onConnected: () => unknown;
+}> = ({ options, onConnected }) => {
   const { selector } = useWalletSelector();
 
-  const [page] = useWalletPickerPage();
+  const [page, setPage] = useWalletPickerPage();
+
+  const handleWalletConnecting = (wallet: Wallet) => {
+    setPage({ route: 'wallet-connect', wallet });
+  };
+
+  const handleWalletNotInstalled = (state: ModuleState<Wallet>) => {
+    setPage({ route: 'wallet-install', state });
+  };
+
+  const handleError = (e: Error) => {
+    toast.custom(
+      wrappedToast(
+        <div>
+          <p>Error connecting wallet</p>
+          <p tw="mt-3 text-sm opacity-80">{e.message}</p>
+        </div>
+      )
+    );
+    setPage({ route: 'wallet-select' });
+  };
 
   switch (page.route) {
     case 'home': {
@@ -36,27 +59,19 @@ const Content: React.FC<{
       return (
         <WalletSelect
           selector={selector}
-          onConnected={() => alert('connected')}
-          onConnecting={() => alert('connecting')}
-          onError={(e) => {
-            alert('error! see console');
-            console.error('error', e);
-          }}
-          onWalletNotInstalled={(m) => {
-            alert('wallet not installed');
-            console.error('wallet not installed', m);
-          }}
+          onConnected={onConnected}
+          onConnecting={handleWalletConnecting}
+          onError={handleError}
+          onWalletNotInstalled={handleWalletNotInstalled}
           options={options}
         />
       );
     }
     case 'wallet-connect': {
-      const { walletId } = page;
-      return <WalletConnect walletId={walletId} />;
+      return <WalletConnect />;
     }
     case 'wallet-install': {
-      const { walletId } = page;
-      return <WalletInstall walletId={walletId} />;
+      return <WalletInstall />;
     }
   }
 };
@@ -84,6 +99,14 @@ const WalletPicker: React.FC<{
       case 'home': {
         return;
       }
+      case 'wallet-install': {
+        setPage({ route: 'wallet-select' });
+        return;
+      }
+      case 'wallet-connect': {
+        setPage({ route: 'wallet-select' });
+        return;
+      }
       default: {
         setPage({ route: 'home' });
       }
@@ -97,7 +120,7 @@ const WalletPicker: React.FC<{
         <CloseButton onClick={onClose} />
       </ModalHeader>
       <div tw="flex-grow flex flex-col items-stretch overflow-auto">
-        <Content options={options} />
+        <Content options={options} onConnected={onClose} />
       </div>
     </Wrapper>
   );

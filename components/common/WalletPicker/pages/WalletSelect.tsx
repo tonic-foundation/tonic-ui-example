@@ -10,8 +10,8 @@ import type {
 } from '@near-wallet-selector/core';
 import { ModalOptions } from '@near-wallet-selector/modal-ui';
 
-import { NearIcon } from '../../NearLogo';
 import { searchStyles } from '../../search';
+import WalletIcon from '../components/WalletIcon';
 
 interface WalletOptionsProps {
   selector: WalletSelector;
@@ -100,6 +100,7 @@ const WalletSelect: React.FC<WalletOptionsProps> = ({
       <ul tw="py-6 flex flex-col items-stretch overflow-hidden">
         {/* <COPYPASTE> (restyled) */}
         {modules.reduce<Array<JSX.Element>>((result, module) => {
+          // TODO: just make this be a component wtf
           const { selectedWalletId } = selector.store.getState();
           const { name, description, iconUrl, deprecated } = module.metadata;
           const selected = module.id === selectedWalletId;
@@ -116,12 +117,12 @@ const WalletSelect: React.FC<WalletOptionsProps> = ({
                 css={searchStyles.result}
               >
                 <div tw="flex items-center gap-3">
-                  {/* come on, man */}
-                  {module.id === 'near-wallet' ? (
-                    <NearIcon tw="dark:text-white light:text-black h-8 w-8" />
-                  ) : (
-                    <img src={iconUrl} alt={name} tw="h-8 w-8 object-cover" />
-                  )}
+                  <WalletIcon
+                    iconUrl={iconUrl}
+                    alt={name}
+                    walletId={module.id}
+                    tw="h-8 w-8"
+                  />
                   <div>
                     <p
                       css={[

@@ -1,14 +1,20 @@
 // Copied from the react example https://github.com/near/wallet-selector
 //
-// Mostly the same, but automatically connects the active account.
+// Mostly the same, but automatically connects the active account and uses
+// a custom modal.
+//
+// TODO: render the modal here
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Account } from 'near-api-js';
 import { map, distinctUntilChanged } from 'rxjs';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
+import { setupNightly } from '@near-wallet-selector/nightly';
+import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+
 import { IS_DEV } from '~/config';
-import { Account } from 'near-api-js';
 import { near } from '~/services/near';
 
 declare global {
@@ -37,7 +43,12 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
     const _selector = await setupWalletSelector({
       network: 'mainnet',
       debug: IS_DEV,
-      modules: [setupNearWallet(), setupSender()],
+      modules: [
+        setupNearWallet(),
+        setupMyNearWallet(),
+        setupSender(),
+        setupNightly(),
+      ],
     });
 
     const state = _selector.store.getState();
