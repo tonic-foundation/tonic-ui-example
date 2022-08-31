@@ -195,8 +195,19 @@ const Content: React.FC<DepositWithdrawProps> = ({
       tokenId,
       decimalToBn(amount, decimals)
     );
+    const action = tx.toWalletSelectorAction();
     return wallet.signAndSendTransaction({
-      actions: [tx.toWalletSelectorAction()],
+      actions: [
+        {
+          ...action,
+          params: {
+            ...action.params,
+            // NEAR wallet "2FA" for email accounts eats up over 100TGas
+            // even on a simple withdraw
+            gas: tgasAmount(300).toString(),
+          },
+        },
+      ],
     });
   }, [tokenId, decimals, selector, amount]);
 
