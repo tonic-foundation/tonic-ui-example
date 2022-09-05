@@ -9,14 +9,13 @@ import Fallback from '~/components/common/Fallback';
 import Icon from '~/components/common/Icons';
 import { wrappedToast } from '~/components/common/ToastWrapper';
 import Tooltip from '~/components/common/Tooltip';
-import { getExplorerUrl, TONIC_DATA_API_URL } from '~/config';
+import { getExplorerUrl, GOBLIN_HREF, TONIC_DATA_API_URL } from '~/config';
 import useMarkets from '~/hooks/useMarkets';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateAccountId } from '~/util';
 import { Race, TraderStats, useLeaderboard } from './helper';
 
-const GOBLIN_HREF = 'https://greedygoblins.enleap.app/';
 const ANNOUNCEMENT_HREF =
   'https://tonicdex.medium.com/pembrock-and-tonic-launch-a-new-trading-competition-671d3d29f646';
 
@@ -174,7 +173,7 @@ const Content = () => {
   const [tab, setTab] = useState<Race>('usdc');
   const [showRules, setShowRules] = useState(true);
 
-  const [traders, _hasMore, _fetchMoreRankings, loading] = useLeaderboard(tab);
+  const [traders, loading] = useLeaderboard(tab);
   const [ownStats, setOwnStats] = useState<TraderStats>();
 
   useEffect(() => {

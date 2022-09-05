@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback } from 'react';
 import { TONIC_DATA_API_URL } from '~/config';
+import { useFetch } from '~/hooks/useFetch';
 
 export type Race = 'usdc' | 'stable'; // hardcode lol
 export interface MarketStats {
@@ -24,41 +25,20 @@ export interface TraderStats {
   threshold_achieved_at?: Date;
 }
 
-export function useLeaderboard(race: Race, batchSize = 50, start = 0) {
-  const [fetched, setFetched] = useState<TraderStats[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
+export function useLeaderboard(race: Race, batchSize = 50) {
+  const fetcher = useCallback(async () => {
+    const res = await fetch(
+      `${TONIC_DATA_API_URL}/leaderboard/rankings?limit=${batchSize}&race=${race}`
+    );
 
-  const prev = useRef(start);
-  async function fetchMore() {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `${TONIC_DATA_API_URL}/leaderboard/rankings?limit=${batchSize}&offset=${prev.current}&race=${race}`
-      );
-      const next = (await res.json()) as {
-        ranks: TraderStats[];
-        hasMore: boolean;
-      };
-      setHasMore(next.hasMore);
-      setFetched((existing) => {
-        return [...existing, ...next?.ranks];
-      });
-      prev.current += next.ranks.length;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // initial fetch
-  useEffect(() => {
-    fetchMore();
-
-    return () => {
-      prev.current = 0;
-      setFetched([]);
+    const data = (await res.json()) as {
+      ranks: TraderStats[];
+      hasMore: boolean;
     };
-  }, [race]);
 
-  return [fetched, hasMore, fetchMore, loading] as const;
+    // ignore pagination, it never matters for this view
+    return data.ranks;
+  }, [batchSize, race]);
+
+  return useFetch(fetcher, []);
 }
