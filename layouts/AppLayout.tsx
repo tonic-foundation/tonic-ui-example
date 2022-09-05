@@ -14,7 +14,7 @@ import {
   DOCS_GENERAL_HREF,
   FEEDBACK_HREF,
   GITHUB_HREF,
-  TONIC_LEADERBOARD_API_URL,
+  TONIC_HAS_LEADERBOARD,
   TELEGRAM_HREF,
   TWITTER_HREF,
 } from '~/config';
@@ -82,7 +82,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
             Deposit/Withdraw
           </MobileMenuButton>
         )}
-        {TONIC_LEADERBOARD_API_URL?.length && (
+        {TONIC_HAS_LEADERBOARD && (
           <MobileMenuButton>
             <Link to="/leaderboard">Leaderboard</Link>
           </MobileMenuButton>
@@ -94,7 +94,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
 
   return (
     <React.Fragment>
-      {TONIC_LEADERBOARD_API_URL?.length && (
+      {TONIC_HAS_LEADERBOARD && (
         <Link css={styles.link} to="/leaderboard">
           Leaderboard
         </Link>

@@ -44,7 +44,8 @@ export const TONIC_TV_URL =
   process.env.TONIC_TV_URL || `${TONIC_DATA_API_URL}/tv`;
 export const TONIC_DEFAULT_MARKET_ID = process.env
   .TONIC_DEFAULT_MARKET_ID as string;
-export const TONIC_LEADERBOARD_API_URL = process.env.TONIC_LEADERBOARD_API_URL;
+export const TONIC_HAS_LEADERBOARD =
+  !!process.env.TONIC_HAS_LEADERBOARD?.length;
 export const TONIC_ORDERBOOK_REFRESH_INTERVAL = parseInt(
   process.env.TONIC_ORDERBOOK_REFRESH_INTERVAL || '15000'
 );

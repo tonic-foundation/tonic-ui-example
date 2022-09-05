@@ -9,7 +9,7 @@ import Fallback from '~/components/common/Fallback';
 import Icon from '~/components/common/Icons';
 import { wrappedToast } from '~/components/common/ToastWrapper';
 import Tooltip from '~/components/common/Tooltip';
-import { getExplorerUrl, TONIC_LEADERBOARD_API_URL } from '~/config';
+import { getExplorerUrl, TONIC_DATA_API_URL } from '~/config';
 import useMarkets from '~/hooks/useMarkets';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
@@ -182,7 +182,7 @@ const Content = () => {
       (async () => {
         try {
           const res = await fetch(
-            `${TONIC_LEADERBOARD_API_URL}/api/v1/search?account=${accountId}&race=${tab}`
+            `${TONIC_DATA_API_URL}/leaderboard/search?account=${accountId}&race=${tab}`
           );
           const me = (await res.json()) as TraderStats;
           setOwnStats(me);

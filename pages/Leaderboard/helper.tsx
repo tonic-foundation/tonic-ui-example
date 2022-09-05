@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { TONIC_LEADERBOARD_API_URL } from '~/config';
+import { TONIC_DATA_API_URL } from '~/config';
 
 export type Race = 'usdc' | 'stable'; // hardcode lol
 export interface MarketStats {
@@ -34,7 +34,7 @@ export function useLeaderboard(race: Race, batchSize = 50, start = 0) {
     setLoading(true);
     try {
       const res = await fetch(
-        `${TONIC_LEADERBOARD_API_URL}/api/v1/rankings?limit=${batchSize}&offset=${prev.current}&race=${race}`
+        `${TONIC_DATA_API_URL}/leaderboard/rankings?limit=${batchSize}&offset=${prev.current}&race=${race}`
       );
       const next = (await res.json()) as {
         ranks: TraderStats[];
