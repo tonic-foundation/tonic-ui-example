@@ -33,8 +33,8 @@ interface StatsRow {
 }
 
 export interface TotalRewardsStats {
-  total_rewards: number;
-  total_participants: number;
+  total_rewards: string;
+  total_participants: string;
   start_date: Date;
   daily_stats: Pick<
     StatsRow,
@@ -42,23 +42,43 @@ export interface TotalRewardsStats {
   >[];
 }
 
-/**
- * an entry in the user's rewards history
- */
-export interface RewardEntry {
+interface RewardEntry {
   total: number;
   reward: number;
   reward_date: Date;
   paid_in_tx_id: string | null;
 }
 
+export type RewardDayEntry = Omit<RewardEntry, 'total'>;
+
 /**
- * essentially the record in db, used to represent unfinalized rewards for the
- * current UTC day
+ * account's overall rewards history
+ */
+export interface RewardsHistory {
+  total: number;
+  rewards: RewardDayEntry[];
+}
+
+/**
+ * basically amount of eligible maker volume today
+ *
+ * nb: "today" means the current UTC day
  */
 export interface UnfinalizedReward {
   account_id: string;
-  reward: number;
+
+  /**
+   * this account's eligible maker volume today
+   */
+  account_unfinalized: number;
+
+  /**
+   * total eligible maker volume today, summed over all accounts
+   */
+  total_unfinalized: number;
+
+  /**
+   * the UTC date
+   */
   reward_date: Date;
-  paid_in_tx_id: string | null;
 }

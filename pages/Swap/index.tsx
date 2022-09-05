@@ -40,7 +40,6 @@ import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/tonic-client';
-import { sleep } from '~/util';
 import toast from 'react-hot-toast';
 import CannedToast from '~/components/common/CannedToast';
 
@@ -261,7 +260,11 @@ const SwapForm: React.FC<{
   };
 
   return (
-    <Card tw="relative light:(border-none shadow)" {...props}>
+    // light:
+    // - needs a bit of border to be distinct from bg but default is too dark
+    // - with shadow it's hard to tell that the border is different, esp bc
+    //   there's no other cards on this page for comparison, so should be fine
+    <Card tw="relative light:(border-neutral-200 shadow-lg)" {...props}>
       {submitting && (
         <div tw="absolute inset-0 flex items-center justify-center z-20 dark:(bg-black bg-opacity-20) light:(bg-black bg-opacity-20)">
           <Fallback tw="light:text-black" />

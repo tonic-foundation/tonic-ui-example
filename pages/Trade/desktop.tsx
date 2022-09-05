@@ -22,9 +22,14 @@ import { colors } from '~/styles';
 import RequireAuth from '~/components/common/RequireAuth';
 import Fallback from '~/components/common/Fallback';
 import useMarketSelector from '~/components/trade/MarketSelector/useMarketSelectorModal';
+import { truncate } from '~/util/math';
 
 const StatContainer = tw.div`flex flex-col`;
 const StatTitle = tw.h2`text-sm text-neutral-400 light:text-black`;
+
+function truncateToLocaleString(v: number, precision: number) {
+  return truncate(v, precision).toLocaleString();
+}
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();
@@ -40,9 +45,10 @@ export const Header: React.FC = (props) => {
 
   const midmarketPrice = useMidmarketPrice();
   const priceFormatted = midmarketPrice
-    ? market
-        .priceBnToNumber(midmarketPrice, pricePrecision)
-        .toFixed(pricePrecision)
+    ? truncateToLocaleString(
+        market.priceBnToNumber(midmarketPrice, pricePrecision),
+        pricePrecision
+      )
     : stats?.previous?.toFixed(pricePrecision) || '---';
 
   useTitle(`${priceFormatted} ${ticker}`);
@@ -66,7 +72,7 @@ export const Header: React.FC = (props) => {
                 <span css={colors.priceText(priceChangePercent || 0)}>
                   {' '}
                   {priceChangePercent >= 0 && '+'}
-                  {priceChangePercent.toFixed(2)}%
+                  {truncate(priceChangePercent, 2)}%
                   {showQuoteSymbolInPrice && quoteTokenMetadata.symbol}
                 </span>
               )}
@@ -77,7 +83,7 @@ export const Header: React.FC = (props) => {
           <StatContainer>
             <React.Fragment>
               <StatTitle>24h High</StatTitle>
-              <span>{stats.high.toFixed(2)}</span>
+              <span>{truncateToLocaleString(stats.high, 2)}</span>
             </React.Fragment>
           </StatContainer>
         )}
@@ -85,7 +91,7 @@ export const Header: React.FC = (props) => {
           <StatContainer>
             <React.Fragment>
               <StatTitle>24h Low</StatTitle>
-              <span>{stats.low.toFixed(2)}</span>
+              <span>{truncateToLocaleString(stats.low, 2)}</span>
             </React.Fragment>
           </StatContainer>
         )}
@@ -94,7 +100,8 @@ export const Header: React.FC = (props) => {
             <React.Fragment>
               <StatTitle>24h Volume</StatTitle>
               <span>
-                {stats.quantity.toFixed(2)} {baseTokenMetadata.symbol}
+                {truncateToLocaleString(stats.quantity, 2)}{' '}
+                {baseTokenMetadata.symbol}
               </span>
             </React.Fragment>
           </StatContainer>

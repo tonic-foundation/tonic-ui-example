@@ -21,3 +21,7 @@ export function abbreviateAccountId(s: string, maxLength = 20, gutter = 0) {
   }
   return s;
 }
+
+export function range(n: number) {
+  return [...new Array(n).keys()];
+}

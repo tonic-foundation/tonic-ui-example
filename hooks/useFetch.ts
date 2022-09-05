@@ -21,7 +21,7 @@ export function useFetch<T>(
     load();
 
     return () => setFetched(initial);
-  }, [load]); // making this depend on initial can cause loop
+  }, [load]); // making this depend on initial can cause loop?
 
   return [fetched, loading, load] as const;
 }
