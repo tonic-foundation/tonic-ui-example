@@ -151,7 +151,11 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
         <h1 tw="text-base">Exchange balances</h1>
         <CloseButton hideOnMobile onClick={onClickClose} />
       </ModalHeader>
-      <ModalBody>{!activeAccount ? <AuthButton /> : <Balances />}</ModalBody>
+      <ModalBody>
+        <React.Suspense fallback={<Fallback tw="my-3" />}>
+          {!activeAccount ? <AuthButton /> : <Balances />}
+        </React.Suspense>
+      </ModalBody>
     </Wrapper>
   );
 };
