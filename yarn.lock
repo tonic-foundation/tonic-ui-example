@@ -709,123 +709,84 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/core@npm:5.0.3, @near-wallet-selector/core@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/core@npm:5.0.3"
-  dependencies:
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 85e6ec6e94aa5ba116aeb530df3f6cdb0f3ea2d74f31595fa3128c67c68464510df156502760bf3d6b30ca468479fcdbcad09ce1ebc998d078134398ffdc433e
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/core@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/core@npm:6.0.0"
+"@near-wallet-selector/core@npm:7.0.0, @near-wallet-selector/core@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/core@npm:7.0.0"
   dependencies:
     rxjs: ^7.5.5
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: dd247a87b0ac2cfe626afc97e66ddae3a4257b8da6df03d321c9a5c0273abb42a7e214476a3d2cf9a8d2ff1b4f200e7572d1e07a6970b24343d1d96fc30275ce
+  checksum: 3d96e5d04f7734f9361bf57ade3892346198c379c2121c0b08de3ab8615a5703d07a5f09f0f89d07cafaf85e6f71c3cb4f4dfb2d4b17aee12db09df476ebc897
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/modal-ui@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/modal-ui@npm:6.0.0"
+"@near-wallet-selector/modal-ui@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/modal-ui@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
     react: 18.2.0
     react-dom: 18.2.0
-  checksum: 65db8e5f646417445c9df32e32693ef8bddda914c14976d1e3f98d67840a66f902b9e5d369a1a743dac8c017c47450657c8ca8dd26f00aa7b6ba7642f50dfd6d
+  checksum: 4819e693021c88c0764797ee8d13528dbe23dfe0916a81c234ca2465a002398822c8939d0e89aafae961daa865d6dd9ac4d80241358e6754dd185ff473692f77
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/my-near-wallet@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/my-near-wallet@npm:5.0.3"
+"@near-wallet-selector/my-near-wallet@npm:7.0.0, @near-wallet-selector/my-near-wallet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/my-near-wallet@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    "@near-wallet-selector/wallet-utils": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 3d51e3acb3126962cb7aa06dc6456f5efcf2f08576abcd7ccb86b5c6eb225083c90b2e84f195679c5ef8da8bae125736ea231b655e133a4dc0dd4410f423ce22
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/my-near-wallet@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/my-near-wallet@npm:6.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 6.0.0
-    "@near-wallet-selector/wallet-utils": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/wallet-utils": 7.0.0
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 27211e49c49a8fc08e4a76b1a10b40f4708b852e79ae5b5de7018757bf92d0656db8749c3cc6cf7e3511ac873c6f26e4dc6122facdb55568fc91f9d760014466
+  checksum: 3b80380c1e5d24391d5024caba9094c02e4d89c04bd05c59039107284c47059d1b6efab338f5707c872049d6a3c6a803301eea092c278af128532a260346899b
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/near-wallet@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/near-wallet@npm:5.0.3"
+"@near-wallet-selector/near-wallet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/near-wallet@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    "@near-wallet-selector/my-near-wallet": 5.0.3
-    "@near-wallet-selector/wallet-utils": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: db8bd3a418847526e11666b22b97ebe620c302d20baebf61f520024dd1402cd980986878eabd2befcd494d3ce7a90bc30405210d82bad8cace29ba299b7a8818
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/my-near-wallet": 7.0.0
+  checksum: 8115d0ea62a90fdd3096c3b879235933dd0e255393612cc7dbe26d1243a21169549839cb111a108586b092bee2348de089925bc78be956441a2dec0e3fc17b42
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/nightly@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/nightly@npm:6.0.0"
+"@near-wallet-selector/nightly@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/nightly@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 6.0.0
-    "@near-wallet-selector/wallet-utils": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/wallet-utils": 7.0.0
     is-mobile: ^3.1.1
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 86a659b9fb8d962699ba5270dba98c0d3bdc5422f1e0494a5f272a0c16a7a3203705fa50ed23bd21e587e135578fa29c2623e95204545ba6cef69a6d77bb556d
+  checksum: 0ec172fe458c1e8c3a256c3afd310899e07ee9e9ed0572a0406fb03bd89e2a31ec22c8d35a5ee4bd38af817965813de9b8fc3ae92a0a00723e484a35a1b6d42b
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/sender@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/sender@npm:5.0.3"
+"@near-wallet-selector/sender@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/sender@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    is-mobile: ^3.0.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 67a3731a8f90cca3361730539987ae9760f77a87003dba5a00e141ac4a16e8789adcc68318235d0e31970a726385cfba0c85fae9041ab2ae2eb24f7e347ffc9e
+    "@near-wallet-selector/core": 7.0.0
+    is-mobile: ^3.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: d5ee57a3619458a97163ed1e5dbbd47aa87ddd2bedbe58cb96c65637431e9531e9a2060f550d7f7bcb4c07d347dcbdda4847e0dad478af0949ec888ef884e089
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/wallet-utils@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/wallet-utils@npm:5.0.3"
+"@near-wallet-selector/wallet-utils@npm:7.0.0, @near-wallet-selector/wallet-utils@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/wallet-utils@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: f9dce5c221ce3c540e2b6443e61c933ed7180769d142484a5bed2484efa672a1097502867388d31ccb65d1ba5d2bdc5c2cfee6896a4173c8cc43dd09a7743168
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/wallet-utils@npm:6.0.0, @near-wallet-selector/wallet-utils@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/wallet-utils@npm:6.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
     bn.js: ^5.2.0
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 44dcbb3ca7caf22f50cdfdd2d7f211cf8fcfffa6aa140db779532f06dc1e3a53010c08ba53c8cb9898095bfc57897f21cd3b1fa847de85cd5c74eb9e1e686a5e
+  checksum: dce62d3c959298f1b4a07e3acc80339c95cfc598bf3a300719714b75edc4d3624a5c33a0b12b59b23712faad3e8afbfb841d9bd3a71075875567313abd99f3cf
   languageName: node
   linkType: hard
 
@@ -1824,12 +1785,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/config@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/config@npm:0.1.1"
+"@tonic-foundation/config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/config@npm:1.0.0"
   dependencies:
-    near-api-js: ^0.45.1
-  checksum: 0b788d429274d07751492ca6b6430c26dd52e0e1b9d7a3e01de08f9d98b1e074273faf2c46b3a8242e21163aaf99c7360b03e13876327e5e5e37c956870074bb
+    near-api-js: ^1.0.0
+  checksum: c76ec3fee902340b7874d1130714c6c329a8748e30e77bbd4662d4c95186302482acd4c8b88e833f9314215efeb0b7dbb7dda7c4a36a3e7b7462735a3c6b8ba7
   languageName: node
   linkType: hard
 
@@ -1856,15 +1817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/storage@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/storage@npm:0.1.1"
+"@tonic-foundation/storage@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/storage@npm:1.0.0"
   dependencies:
-    "@tonic-foundation/transaction": 0.1.1
-    "@tonic-foundation/utils": 0.1.1
+    "@tonic-foundation/transaction": 1.0.0
+    "@tonic-foundation/utils": 1.0.0
     bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: a2c4fdb2f773a3742c5f691a90afcd3e22fee6f1aaa8f5baf54413b746107f11877d1b71f3a7e71627c8963a719cf7c6e3c73aba7410ebaa4c8075867854afd9
+    near-api-js: ^1.0.0
+  checksum: 098a6160114c299dbe043442bddc68e20b06ab87df08cdb409e8c000c647348c3c7d7badb311b38963ca704943c79f4bc8e4b5365d4143eea1bf6bc3a7ce6199
   languageName: node
   linkType: hard
 
@@ -1890,48 +1851,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/token@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/token@npm:0.1.1"
+"@tonic-foundation/token@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/token@npm:1.0.0"
   dependencies:
-    "@tonic-foundation/transaction": 0.1.1
-    "@tonic-foundation/utils": 0.1.1
+    "@tonic-foundation/transaction": 1.0.0
+    "@tonic-foundation/utils": 1.0.0
     bn.js: ^5.2.1
-    near-api-js: ^0.45.1
-  checksum: df28679670588eecef0e98ff49f94d08cc559eab4f6337a3f7f935eae4c22b28d81f2da931521c62ccd1b14dbf683f4f5d38f8e34dfb2aed74f376155b8bfe15
+    near-api-js: ^1.0.0
+  checksum: 3ec9cf58213d094160986c739af3edb38e4c09fa5762aeed83cc5b76ca7cbfc5fe2a6c39e7044434e42046b56f5aeb19f335a31097afd5cc23247f7cfaa24b80
   languageName: node
   linkType: hard
 
-"@tonic-foundation/tonic@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@tonic-foundation/tonic@npm:0.1.0"
-  dependencies:
-    "@tonic-foundation/storage": ^0.1.1
-    "@tonic-foundation/token": ^0.1.1
-    "@tonic-foundation/transaction": ^0.1.1
-    "@tonic-foundation/utils": ^0.1.1
-    bn.js: ^5.2.0
-    isomorphic-ws: ^4.0.1
-    near-api-js: ^0.45.1
-    ws: ^8.5.0
-  checksum: 5a8018a90c3dbf48a4918e94ad430cc6bc12e9011bcd66c91ca718af07665a751e099b766ad2c1d2f909bd66980680d4090ee1f755d731ee52a7909d69dbada4
-  languageName: node
-  linkType: hard
-
-"@tonic-foundation/transaction@npm:0.1.1, @tonic-foundation/transaction@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/transaction@npm:0.1.1"
-  dependencies:
-    "@tonic-foundation/utils": 0.1.1
-    bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: c1a7cf740a21ce9f4bdaf73f383af8c6bb009c699fe2f30dd8689672735d08e6f537d6d457616742a51e32be7ce21ab92fcdf95f000e7573924e7421e2f94c8a
-  languageName: node
-  linkType: hard
-
-"@tonic-foundation/ui-react-twin@workspace:.":
+"@tonic-foundation/tonic-ui-example@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@tonic-foundation/ui-react-twin@workspace:."
+  resolution: "@tonic-foundation/tonic-ui-example@workspace:."
   dependencies:
     "@babel/core": ^7.0.0-0
     "@babel/preset-react": ^7.14.5
@@ -1939,21 +1873,21 @@ __metadata:
     "@emotion/babel-preset-css-prop": ^11.2.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@near-wallet-selector/core": ^5.0.3
-    "@near-wallet-selector/modal-ui": ^6.0.0
-    "@near-wallet-selector/my-near-wallet": ^6.0.0
-    "@near-wallet-selector/near-wallet": ^5.0.3
-    "@near-wallet-selector/nightly": ^6.0.0
-    "@near-wallet-selector/sender": ^5.0.3
-    "@near-wallet-selector/wallet-utils": ^6.0.0
+    "@near-wallet-selector/core": ^7.0.0
+    "@near-wallet-selector/modal-ui": ^7.0.0
+    "@near-wallet-selector/my-near-wallet": ^7.0.0
+    "@near-wallet-selector/near-wallet": ^7.0.0
+    "@near-wallet-selector/nightly": ^7.0.0
+    "@near-wallet-selector/sender": ^7.0.0
+    "@near-wallet-selector/wallet-utils": ^7.0.0
     "@parcel/transformer-svg-react": ^2.5.0
-    "@tonic-foundation/config": ^0.1.1
+    "@tonic-foundation/config": ^1.0.0
     "@tonic-foundation/data-client": ^0.0.4
-    "@tonic-foundation/storage": ^0.1.1
-    "@tonic-foundation/token": ^0.1.1
+    "@tonic-foundation/storage": ^1.0.0
+    "@tonic-foundation/token": ^1.0.0
     "@tonic-foundation/token-list": ^0.0.6
-    "@tonic-foundation/tonic": ^0.1.0
-    "@tonic-foundation/utils": ^0.1.1
+    "@tonic-foundation/tonic": ^1.0.0
+    "@tonic-foundation/utils": ^1.0.0
     "@types/bn.js": ^5.1.0
     "@types/node": ^17.0.17
     "@types/react": ^17.0.21
@@ -1974,7 +1908,7 @@ __metadata:
     eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     fuse.js: ^6.5.3
-    near-api-js: ^0.45.1
+    near-api-js: ^1.0.0
     parcel: ^2.5.0
     prettier: ^2.6.2
     process: ^0.11.10
@@ -1992,6 +1926,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tonic-foundation/tonic@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/tonic@npm:1.0.0"
+  dependencies:
+    "@tonic-foundation/storage": ^1.0.0
+    "@tonic-foundation/token": ^1.0.0
+    "@tonic-foundation/transaction": ^1.0.0
+    "@tonic-foundation/utils": ^1.0.0
+    bn.js: ^5.2.0
+    isomorphic-ws: ^4.0.1
+    near-api-js: ^1.0.0
+    ws: ^8.5.0
+  checksum: 23c8218415f2a7a53fd3747a13216e4bf029d0bd3ad04cb69e09b682f84e5108bd0ab69c3299199870fb922f94543aaf47478a567c22e9034f70cf2025e6c8f4
+  languageName: node
+  linkType: hard
+
+"@tonic-foundation/transaction@npm:1.0.0, @tonic-foundation/transaction@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/transaction@npm:1.0.0"
+  dependencies:
+    "@tonic-foundation/utils": 1.0.0
+    bn.js: ^5.2.0
+    near-api-js: ^1.0.0
+  checksum: 2ea60c61bc4c02f060718d816741b3aca23930ef2efe002801039986cf3838aa0f2f220b5d932f3e699c1452aad8db5c5b8981a2ef6a3c72db1751c0ef7cc5bb
+  languageName: node
+  linkType: hard
+
 "@tonic-foundation/utils@npm:0.0.3":
   version: 0.0.3
   resolution: "@tonic-foundation/utils@npm:0.0.3"
@@ -2002,13 +1963,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/utils@npm:0.1.1, @tonic-foundation/utils@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/utils@npm:0.1.1"
+"@tonic-foundation/utils@npm:1.0.0, @tonic-foundation/utils@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/utils@npm:1.0.0"
   dependencies:
     bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: 88cbe72e3f39db8359fc0651525fc131667eea62db1c285682a47a09520af3602f0f2d2702163b7ead3dedf59cc5d0909fa6352cd2ea77616d3fed2d06c7fa3e
+    near-api-js: ^1.0.0
+  checksum: 3f6b07885f1fdc8a94e9db82eca715bf13d442f8dc150e709560b9edc6cdf737b628233585b7e3b96e6ac8244aa64384176cd7672a194c55eaa72eccb911e1d7
   languageName: node
   linkType: hard
 
@@ -2634,7 +2595,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5.2.1":
+"bn.js@npm:5.2.1, bn.js@npm:^5.2.1":
   version: 5.2.1
   resolution: "bn.js@npm:5.2.1"
   checksum: 3dd8c8d38055fedfa95c1d5fc3c99f8dd547b36287b37768db0abab3c239711f88ff58d18d155dd8ad902b0b0cee973747b7ae20ea12a09473272b0201c9edd3
@@ -4719,7 +4680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-mobile@npm:^3.0.0, is-mobile@npm:^3.1.1":
+"is-mobile@npm:^3.1.1":
   version: 3.1.1
   resolution: "is-mobile@npm:3.1.1"
   checksum: b7c549020ac4674520378623afc4976694ff686eb3761cfad12da936ba9c2d675687bdc3c82eadf5a25147ce51c682800679bf835e31de272f05c026cd2b2f14
@@ -5408,7 +5369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"near-api-js@npm:0.44.2, near-api-js@npm:^0.44.2":
+"near-api-js@npm:^0.44.2":
   version: 0.44.2
   resolution: "near-api-js@npm:0.44.2"
   dependencies:
@@ -5427,11 +5388,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"near-api-js@npm:^0.45.1":
-  version: 0.45.1
-  resolution: "near-api-js@npm:0.45.1"
+"near-api-js@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "near-api-js@npm:1.0.0"
   dependencies:
-    bn.js: 5.2.0
+    bn.js: 5.2.1
     borsh: ^0.7.0
     bs58: ^4.0.0
     depd: ^2.0.0
@@ -5442,7 +5403,7 @@ __metadata:
     node-fetch: ^2.6.1
     text-encoding-utf-8: ^1.0.2
     tweetnacl: ^1.0.1
-  checksum: b684e16c6a0b845bed98ff273a992e6a7d04287ed90c6b2cf3b4bad30f62a906b0e2f6fa0776e4fc8d47bb46d2620f41e20fe909c7b2472e96dedf75fa8b4598
+  checksum: 6475af743de3a43653a8007ea990e5005d3cc4183f7a43387703e109cea0b35b2c572237866d6f9253f4c06b5fe040ed82bf73a6aa31374a9ef4fdd3cfab1536
   languageName: node
   linkType: hard
 
@@ -6521,15 +6482,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:~7.4.0":
-  version: 7.4.0
-  resolution: "rxjs@npm:7.4.0"
-  dependencies:
-    tslib: ~2.1.0
-  checksum: 6b33172a760dcad6882fdc836ee8cf1ebe160dd7eaad95c45a12338ffdaa96eb41e48e6c25bbd3d1fdf45075949ff447954bc17a9d01c688558a67967d09c114
-  languageName: node
-  linkType: hard
-
 "safe-buffer@npm:^5.0.1, safe-buffer@npm:~5.2.0":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
@@ -7286,13 +7238,6 @@ __metadata:
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
-  languageName: node
-  linkType: hard
-
-"tslib@npm:~2.1.0":
-  version: 2.1.0
-  resolution: "tslib@npm:2.1.0"
-  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
   languageName: node
   linkType: hard
 
