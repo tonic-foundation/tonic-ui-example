@@ -15,7 +15,7 @@ export function getDecimalPrecision(tick: number): number {
   return tick.toString().length - 2;
 }
 
-export function abbreviateAccountId(s: string, maxLength = 20, gutter = 0) {
+export function abbreviateCryptoString(s: string, maxLength = 20, gutter = 0) {
   if (s.length > maxLength) {
     const head = s.slice(0, maxLength - 3 - gutter);
     const tail = s.slice(s.length - gutter);

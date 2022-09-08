@@ -4,7 +4,7 @@ interface StatsRow {
   /**
    * Total since start of program, paid or pending.
    */
-  total_rewards: number;
+  total_payouts: number;
 
   /**
    * Distinct participants with reward earned on at least one day.
@@ -24,7 +24,7 @@ interface StatsRow {
   /**
    * Total rewards earned on `reward_date`.
    */
-  daily_rewards: number;
+  daily_payouts: number;
 
   /**
    * Total distinct participants who earned any reward on `reward_date`.
@@ -33,18 +33,18 @@ interface StatsRow {
 }
 
 export interface TotalRewardsStats {
-  total_rewards: string;
+  total_payouts: string;
   total_participants: string;
   start_date: Date;
   daily_stats: Pick<
     StatsRow,
-    'reward_date' | 'daily_rewards' | 'daily_participants'
+    'reward_date' | 'daily_payouts' | 'daily_participants'
   >[];
 }
 
 interface RewardEntry {
   total: number;
-  reward: number;
+  payout: number;
   reward_date: Date;
   paid_in_tx_id: string | null;
 }
@@ -78,7 +78,13 @@ export interface UnfinalizedReward {
   total_unfinalized: number;
 
   /**
-   * the UTC date
+   * overall ranking by points earned today
    */
-  reward_date: Date;
+  overall_rank: number;
+}
+
+export interface RewardsParameters {
+  start_date: Date;
+  end_date: Date;
+  rewards_pool: number;
 }

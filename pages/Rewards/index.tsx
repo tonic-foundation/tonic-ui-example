@@ -1,6 +1,6 @@
-// TODO: finish the hover/click for today
-// TODO: finish the hover/click for previous days
-// TODO: don't show rewards if the user isn't eligible (maybe just don't show them the rewards page at all, or pop a modal saying they're not eligible this time but to pay attention for the news)
+// TODO: don't show rewards if the user isn't eligible (maybe just don't show
+// them the rewards page at all, or pop a modal saying they're not eligible this
+// time but to pay attention for the news)
 import React, { useEffect, useMemo, useRef } from 'react';
 import tw, { css, styled, theme } from 'twin.macro';
 import { Chart } from 'chart.js';
@@ -10,14 +10,17 @@ import ErrorBoundary from '~/components/ErrorBoundary';
 import Icon from '~/components/common/Icons';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { range } from '~/util';
+import { abbreviateCryptoString, range, truncateToLocaleString } from '~/util';
 import {
+  UnfinalizedRewardsChartOptions,
   useRewardsHistory,
+  useRewardsProgramParameters,
   useRewardsProgramStats,
   useUnfinalizedRewards,
 } from './helper';
 import { RewardDayEntry, RewardsHistory } from './shim';
 import {
+  addDays,
   addWeeks,
   eachDayOfInterval,
   isFuture,
@@ -39,12 +42,15 @@ import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
+import { DISCORD_GENERAL_HREF, getExplorerUrl } from '~/config';
 
+// XXX: no point making this come from the API because a lot of copy containing
+// dates is handwritten anyway
 const startEndState = atom<{ start: Date; end: Date }>({
   key: 'rewards-start-end-state',
   default: {
-    start: new Date('2022-08-01'),
-    end: new Date('2022-09-12'),
+    start: new Date('2022-09-11'),
+    end: new Date('2022-10-12'),
   },
 });
 
@@ -84,7 +90,7 @@ const Card = styled(BaseCard)(
   `
 );
 const Wrapper = tw.main`flex-grow w-full overflow-auto space-y-6 py-12`;
-const Section = tw.section`max-w-lg mx-auto px-3 sm:px-0`;
+const Section = tw.section`max-w-xl mx-auto px-3 sm:px-0`;
 
 const animateBubbleInfinite = css`
   animation: bubble 20s linear infinite;
@@ -111,11 +117,19 @@ const animateSpinSlow = css`
   }
 `;
 
-const YourCutChart: React.FC<{ percentage: number }> = ({
-  percentage,
+const PulseLoad = {
+  Container: tw.div`animate-pulse`,
+  Item: styled(BaseCard)(
+    tw`light:(border-transparent bg-neutral-900) dark:(bg-neutral-700)`
+  ),
+};
+
+const LeaderboardChart: React.FC<{ data: UnfinalizedRewardsChartOptions }> = ({
+  data,
   ...props
 }) => {
   const containerRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<Chart | null>(null);
   const { theme: uiTheme } = useTheme();
 
   const myBg = useMemo(() => {
@@ -131,7 +145,7 @@ const YourCutChart: React.FC<{ percentage: number }> = ({
   const borderColor = useMemo(() => {
     return uiTheme === 'dark'
       ? theme`colors.neutral.900` // effectively no border
-      : theme`colors.neutral.300`;
+      : theme`colors.white`;
   }, [uiTheme]);
 
   useEffect(() => {
@@ -139,35 +153,56 @@ const YourCutChart: React.FC<{ percentage: number }> = ({
       return;
     }
 
-    const data = percentage > 0 ? [percentage, 100 - percentage] : [100];
-    const labels =
-      percentage > 0 ? ['Your share', 'Other traders'] : ['Other traders'];
-    const backgroundColor = percentage > 0 ? [myBg, othersBg] : [othersBg];
+    // XXX: how awful
+    const { chartOptions } = data;
+
+    // background colors are [ grey, grey, grey, green, gray ]
+    const backgroundColor = range(chartOptions.data.length).map(() => othersBg);
+    backgroundColor[data.myIndex] = myBg;
+
     const chart = new Chart(containerRef.current, {
       options: {
         borderColor,
+        plugins: {
+          tooltip: {},
+        },
       },
       type: 'doughnut',
       data: {
-        labels,
+        labels: chartOptions.labels,
         datasets: [
           {
-            data,
+            data: chartOptions.data,
             backgroundColor,
           },
         ],
       },
     });
 
-    return () => chart.destroy();
-  }, [borderColor, myBg, othersBg, percentage]);
+    chartRef.current = chart;
+
+    // highlight own slice
+    chartRef.current.tooltip?.setActiveElements(
+      [{ datasetIndex: 0, index: data.myIndex }],
+      { x: 0, y: 0 }
+    );
+
+    return () => {
+      chart.destroy();
+      chartRef.current = null;
+    };
+  }, [borderColor, myBg, othersBg, data]);
+
+  const percentage = data.totalShares
+    ? truncateToLocaleString(data.myShare / data.totalShares, 2)
+    : '0';
 
   return (
     <div tw="relative flex flex-col items-stretch justify-center" {...props}>
       <canvas tw="relative z-10" ref={containerRef}></canvas>
       {/* show the total percentage in the center */}
       <div tw="absolute inset-0 flex items-center justify-center">
-        <span tw="text-xl">{percentage.toFixed()}%</span>
+        <span tw="text-xl">{percentage}%</span>
       </div>
     </div>
   );
@@ -186,7 +221,7 @@ const Week: React.FC<{
       {entries.map((r) => {
         const isEligibleDate = isWithinInterval(r.reward_date, {
           start,
-          end,
+          end: addDays(end, 1),
         });
 
         if (!isEligibleDate) {
@@ -209,7 +244,7 @@ const Week: React.FC<{
             }}
             onClick={(e) => {
               e.preventDefault();
-              if (!isFutureReward && r.reward > 0) {
+              if (!isFutureReward && r.payout > 0) {
                 setRewardModal(r);
               }
             }}
@@ -222,7 +257,7 @@ const Week: React.FC<{
                 ? tw`bg-neutral-100 dark:(bg-black bg-opacity-[15%])`
                 : isTodayReward
                 ? tw`border-neutral-900 dark:(bg-neutral-800 border-white)`
-                : r.reward > 0
+                : r.payout > 0
                 ? tw`bg-up-dark cursor-pointer` // clickable
                 : tw`bg-neutral-300 dark:bg-neutral-800`,
               hoveredDayId &&
@@ -255,7 +290,9 @@ const RewardsCalendar: React.FC<{
     return weeks.map((weekStart) => {
       return eachDayOfInterval({
         start: weekStart,
-        end: subDays(addWeeks(weekStart, 1), 1), // some shit with timezones maybe idk
+        // it includes the end day, of the range, so without this sub you get
+        // last day of each week duplicated
+        end: subDays(addWeeks(weekStart, 1), 1),
       }).map((d) => {
         // TODO: refactor to atom?
         const r = history.rewards.find((r) =>
@@ -263,14 +300,14 @@ const RewardsCalendar: React.FC<{
         );
         if (r) {
           return {
-            reward: r.reward,
+            payout: r.payout,
             reward_date: r.reward_date,
             paid_in_tx_id: r.paid_in_tx_id,
           } as RewardDayEntry;
         } else {
           return {
             paid_in_tx_id: null,
-            reward: 0,
+            payout: 0,
             reward_date: d,
           } as RewardDayEntry;
         }
@@ -308,16 +345,15 @@ const RewardsGraph: React.FC<{
   const { start, end } = useRecoilValue(startEndState);
 
   const rewardsWithRunningTotal = useMemo(() => {
-    // const maxReward = Math.max(...history.rewards.map((r) => r.reward));
     let runningTotal = 0;
     return eachDayOfInterval({ start, end }).map((d) => {
       const r = history.rewards.find((r) =>
         isSameDay(new Date(r.reward_date), d)
       );
       if (r) {
-        runningTotal += r.reward;
+        runningTotal += r.payout;
         return {
-          reward: r.reward,
+          payout: r.payout,
           reward_date: r.reward_date,
           runningTotal,
           paid_in_tx_id: r.paid_in_tx_id,
@@ -325,7 +361,7 @@ const RewardsGraph: React.FC<{
       } else {
         return {
           paid_in_tx_id: null,
-          reward: 0,
+          payout: 0,
           reward_date: d,
           runningTotal,
         } as RewardWithRunningTotal;
@@ -344,7 +380,7 @@ const RewardsGraph: React.FC<{
     >
       {hovered && (
         <div tw="absolute z-10 top-1.5 left-0 p-2 rounded light:(bg-white shadow)">
-          <p tw="text-sm">{hovered.reward.toFixed(3)} USN</p>
+          <p tw="text-sm">{hovered.payout.toFixed(3)} USN</p>
           <p tw="text-sm">{hovered.reward_date.toLocaleDateString()}</p>
         </div>
       )}
@@ -357,7 +393,7 @@ const RewardsGraph: React.FC<{
         // always at least 1%
         const rewardHeight =
           history.total > 0
-            ? `${Math.max((r.reward / history.total) * 100, 1)}%`
+            ? `${Math.max((r.payout / history.total) * 100, 1)}%`
             : '1%';
         const cumulativeHeight =
           history.total > 0
@@ -404,125 +440,194 @@ const RewardsGraph: React.FC<{
 };
 
 const AccountRewardsToday: React.FC = (props) => {
-  return (
-    <Card tw="light:bg-white" {...props}>
-      <h1 tw="text-xl">Your activity today</h1>
-      <AccountUnfinalizedRewards tw="mt-3" />
-    </Card>
-  );
-};
+  const { error, data } = useUnfinalizedRewards();
+  const { data: params } = useRewardsProgramParameters();
 
-const AccountRewardsHistory: React.FC = (props) => {
-  const [rewardsHistory, historyLoading] = useRewardsHistory();
+  const myEstimatedReward = useMemo(() => {
+    if (!params?.rewards_pool) {
+      return '0.00';
+    } else if (!data?.totalShares) {
+      return '0.00';
+    } else {
+      return truncateToLocaleString(
+        (data.myShare / data.totalShares) * params.rewards_pool,
+        2
+      );
+    }
+  }, [data, params]);
+
+  if (error) {
+    return (
+      <Card {...props}>
+        <p>Error loading today&apos;s activity.</p>
+      </Card>
+    );
+  }
 
   return (
-    <Card tw="light:bg-white" {...props}>
-      <h1 tw="text-xl">Your payout history</h1>
-      <p tw="mt-1.5">Total: {rewardsHistory.total} USN</p>
-      {!historyLoading && <RewardsGraph tw="mt-3" history={rewardsHistory} />}
-      {!historyLoading && (
-        <RewardsCalendar tw="mt-3" history={rewardsHistory} />
+    <Card {...props}>
+      <h1 tw="text-xl">Today&apos;s rewards pool</h1>
+      {!data ? (
+        <PulseLoad.Container tw="grid grid-cols-2 gap-6 mt-3 h-40">
+          <PulseLoad.Item />
+          <PulseLoad.Item />
+        </PulseLoad.Container>
+      ) : (
+        <div tw="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div tw="flex flex-col items-stretch justify-center gap-3">
+            <LineItem.Container>
+              <LineItem.Left>Rewards pool</LineItem.Left>
+              <LineItem.Right>
+                {params?.rewards_pool ? (
+                  <span>{params.rewards_pool} USN</span>
+                ) : (
+                  <span tw="inline-flex items-center">
+                    &nbsp;
+                    <PulseLoad.Item tw="self-stretch w-16 animate-pulse" />
+                  </span>
+                )}
+              </LineItem.Right>
+            </LineItem.Container>
+            <LineItem.Container>
+              <LineItem.Left>Your points</LineItem.Left>
+              <LineItem.Right>
+                {truncateToLocaleString(data.myShare, 2)}
+              </LineItem.Right>
+            </LineItem.Container>
+            <LineItem.Container tw="light:text-emerald-600 dark:text-up-dark">
+              <LineItem.Left>Your share</LineItem.Left>
+              <LineItem.Right>{myEstimatedReward} USN</LineItem.Right>
+            </LineItem.Container>
+            <p tw="text-sm">
+              Your share of the rewards is based on your activity as a
+              proportion of total activity on Tonic today. You can increase it
+              by trading more.
+            </p>
+          </div>
+          <LeaderboardChart data={data} />
+        </div>
       )}
     </Card>
   );
 };
 
-const PayoutsToDate: React.FC = (props) => {
-  const [stats, statsLoading] = useRewardsProgramStats();
+const AccountRewardsHistory: React.FC = (props) => {
+  const { data, error } = useRewardsHistory();
 
-  // idc
-  const total = Math.round(parseFloat(stats.total_rewards) * 100) / 100;
-  const totalStr = statsLoading ? '--' : total.toLocaleString();
-  const width = `${(total / 50_000) * 100}%`;
+  if (error) {
+    return (
+      <Card {...props}>
+        <p>Error loading your payout history.</p>
+      </Card>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Card {...props}>
+        <PulseLoad.Container tw="flex items-stretch flex-col gap-6">
+          <PulseLoad.Item tw="h-40" />
+          <PulseLoad.Item tw="h-40" />
+        </PulseLoad.Container>
+      </Card>
+    );
+  }
+
+  if (!data.total) {
+    return (
+      <Card {...props}>
+        <h1 tw="text-xl">Your payout history</h1>
+        <p tw="mt-3">
+          You have no previous payouts. If you earned points on a previous day,
+          please allow up to 24h for the previous day&apos;s payouts to process.
+        </p>
+        <p tw="mt-3">
+          If it has been more than 24h, please reach out on{' '}
+          <a tw="underline" href={DISCORD_GENERAL_HREF}>
+            Discord
+          </a>{' '}
+          for assistance.
+        </p>
+      </Card>
+    );
+  }
+
   return (
-    <BaseCard
-      tw="
-          mt-1.5 relative flex items-center justify-center
+    <Card {...props}>
+      <h1 tw="text-xl">Your payout history</h1>
+      <p tw="mt-1.5">Total: {data.total} USN</p>
+      <RewardsGraph tw="mt-3" history={data} />
+      <RewardsCalendar tw="mt-3" history={data} />
+    </Card>
+  );
+};
+
+/** Return a progress bar of total program payouts to date */
+const PayoutsToDate: React.FC = (props) => {
+  const { data, error } = useRewardsProgramStats();
+
+  if (error) {
+    return <p>Error loading program stats.</p>;
+  }
+
+  if (!data) {
+    return (
+      <PulseLoad.Container>
+        {/* match the actual bar height */}
+        <PulseLoad.Item tw="py-1 text-lg">&nbsp;</PulseLoad.Item>
+      </PulseLoad.Container>
+    );
+  }
+
+  const total = Math.round(parseFloat(data.total_payouts) * 100) / 100;
+  const totalStr = total.toLocaleString();
+  const width = `${(total / 50_000) * 100}%`;
+
+  if (!total) {
+    return <React.Fragment />;
+  }
+
+  // hack: including the heading inside the component makes it easier to hide
+  // the bar on the first day when there's no data to show yet
+  return (
+    <React.Fragment>
+      <p tw="mt-6 text-xl">Program payouts to date</p>
+      <BaseCard
+        tw="
+          mt-3.5 relative flex items-center justify-center
           light:(border-transparent bg-neutral-900 text-white)
         "
-      {...props}
-    >
-      {/* the bar itself */}
-      <div
-        style={{ width }}
-        tw="absolute top-0 left-0 bottom-0 h-full bg-up-dark"
-      ></div>
-      {/* some fun little things flying around... */}
-      <div
-        css={animateBubbleInfinite}
-        tw="rotate-45 absolute inset-0 w-full h-full grid grid-cols-7 gap-8 px-12"
+        {...props}
       >
-        {range(48).map((i) => (
-          <React.Fragment key={i}>
-            <span></span>
-            <UsnIcon tw="block h-4 w-4 opacity-70" css={animateSpinSlow} />
-          </React.Fragment>
-        ))}
-      </div>
-      <p tw="text-lg py-1 relative">
-        {totalStr} / {(50000.0).toLocaleString()} USN
-      </p>
-    </BaseCard>
+        {/* the bar itself */}
+        <div
+          style={{ width }}
+          tw="absolute top-0 left-0 bottom-0 h-full bg-up-dark"
+        ></div>
+        {/* some little usn icons flying around... */}
+        <div
+          css={animateBubbleInfinite}
+          tw="rotate-45 absolute inset-0 w-full h-full grid grid-cols-7 gap-8 px-12"
+        >
+          {range(48).map((i) => (
+            <React.Fragment key={i}>
+              <span></span>
+              <UsnIcon tw="block h-4 w-4 opacity-70" css={animateSpinSlow} />
+            </React.Fragment>
+          ))}
+        </div>
+        <p tw="text-lg py-1 relative">
+          {totalStr} / {(50000.0).toLocaleString()} USN
+        </p>
+      </BaseCard>
+    </React.Fragment>
   );
 };
 
 const LineItem = {
   Container: tw.div`flex items-center justify-between`,
-  Left: tw.p``,
-  Right: tw.p``,
-};
-
-const AccountUnfinalizedRewards: React.FC = (props) => {
-  const [unfinalized, unfinalizedLoading] = useUnfinalizedRewards();
-  const mine = Math.round(unfinalized.account_unfinalized * 100) / 100;
-
-  if (unfinalizedLoading) {
-    return (
-      <div
-        // pt is a hack to make the spacing look right when loading
-        tw="
-        grid grid-cols-2 gap-6 pt-3
-          animate-pulse
-          h-40
-        "
-        {...props}
-      >
-        <BaseCard tw="light:(border-transparent bg-neutral-900) dark:(bg-neutral-700)" />
-        <BaseCard tw="light:(border-transparent bg-neutral-900) dark:(bg-neutral-700)" />
-      </div>
-    );
-  }
-
-  return (
-    <div tw="grid grid-cols-1 sm:grid-cols-2 gap-6" {...props}>
-      <div tw="flex flex-col items-stretch justify-center gap-3">
-        <LineItem.Container>
-          <LineItem.Left>Maker rebates</LineItem.Left>
-          <LineItem.Right>todo</LineItem.Right>
-        </LineItem.Container>
-        <LineItem.Container>
-          <LineItem.Left>Multiplier</LineItem.Left>
-          <LineItem.Right>todo</LineItem.Right>
-        </LineItem.Container>
-        <LineItem.Container>
-          <LineItem.Left>Rewards available</LineItem.Left>
-          <LineItem.Right>Jones</LineItem.Right>
-        </LineItem.Container>
-        <hr tw="light:border-black" />
-        <LineItem.Container>
-          <LineItem.Left>Your rewards&dagger;</LineItem.Left>
-          <LineItem.Right>Jones</LineItem.Right>
-        </LineItem.Container>
-
-        <p tw="text-xs">
-          &dagger; Your reward for today are estimated based on the percentage
-          of total maker rebates that you earned today and is not final. It may
-          decrease if you stop trading.
-        </p>
-      </div>
-      <YourCutChart percentage={mine} />
-    </div>
-  );
+  Left: tw.div``,
+  Right: tw.div``,
 };
 
 const Content = () => {
@@ -556,8 +661,7 @@ const Content = () => {
               </a>
             </p>
           </div>
-          <p tw="mt-6 text-xl">Program payouts to date</p>
-          <PayoutsToDate tw="mt-3" />
+          <PayoutsToDate />
         </Card>
       </Section>
 
@@ -594,6 +698,7 @@ const RewardModal = () => {
 
   return (
     <Modal
+      hasBorder={false}
       drawerOnMobile
       onClose={() => setSelected(null)}
       visible={!!selected}
@@ -609,17 +714,52 @@ const RewardModal = () => {
                 Rewards on {selected.reward_date.toLocaleDateString()}
               </h1>
             </ModalHeader>
-            <ModalBody tw="w-screen md:max-w-sm">
-              <p>
-                Tonic Swap allows you to trade on Tonic without creating an
-                account.
-              </p>
-              <p tw="mt-3">
-                Enjoy low slippage and low fees with the ease of use of a
-                traditional DEX.
-              </p>
-              <Button tw="mt-3" onClick={closeModal} variant="up">
-                Got it!
+            <ModalBody tw="w-screen md:max-w-xs">
+              <div tw="space-y-3">
+                <LineItem.Container>
+                  <LineItem.Left>Points earned</LineItem.Left>
+                  <LineItem.Right>{selected.payout}</LineItem.Right>
+                </LineItem.Container>
+                <LineItem.Container>
+                  <LineItem.Left>Reward</LineItem.Left>
+                  <LineItem.Right>{selected.payout} USN</LineItem.Right>
+                </LineItem.Container>
+                <LineItem.Container>
+                  <LineItem.Left>Transaction</LineItem.Left>
+                  <LineItem.Right>
+                    {selected.paid_in_tx_id ? (
+                      <div tw="flex items-center gap-1.5">
+                        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+                        <a
+                          tw="underline inline-flex items-center gap-x-1"
+                          href={getExplorerUrl(
+                            'transaction',
+                            selected.paid_in_tx_id
+                          )}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>
+                            {abbreviateCryptoString(
+                              selected.paid_in_tx_id,
+                              9,
+                              3
+                            )}
+                          </span>
+                          <Icon.Link tw="mt-0.5" />
+                        </a>
+                      </div>
+                    ) : (
+                      <div tw="flex items-center gap-1.5">
+                        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-yellow-500"></span>
+                        <span>Pending</span>
+                      </div>
+                    )}
+                  </LineItem.Right>
+                </LineItem.Container>
+              </div>
+              <Button tw="mt-6" onClick={closeModal} variant="up">
+                Close
               </Button>
             </ModalBody>
           </React.Fragment>

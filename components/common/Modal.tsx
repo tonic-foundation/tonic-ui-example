@@ -19,11 +19,18 @@ export interface ModalProps {
   drawerOnMobile?: boolean;
   /**
    * Whether clicking the background/pressing ESC should close this modal.
+   *
    * Defaults to true.
    */
   shouldHandleClose?: boolean;
   render?: (props: { closeModal: () => unknown }) => React.ReactNode;
   disableTransitions?: boolean;
+  /**
+   * Show a border on the content wrapper? (border is same as Card border)
+   *
+   * Defaults to true.
+   */
+  hasBorder?: boolean;
 }
 
 export type ModalComponent<T> = React.FC<ModalProps & T>;
@@ -98,6 +105,7 @@ const Modal: React.FC<ModalProps> = ({
   disableTransitions = false,
   drawerOnMobile = false,
   wrapperId = 'root',
+  hasBorder = true,
   ...props
 }) => {
   // The `visible` prop controls whether to render the modal.
@@ -164,6 +172,7 @@ const Modal: React.FC<ModalProps> = ({
     >
       <Backdrop aria-hidden="true" onClick={handleClickBackground} />
       <ContentWrapper
+        hasBorder={hasBorder}
         drawerOnMobile={drawerOnMobile}
         visible={!!contentVisible}
       >

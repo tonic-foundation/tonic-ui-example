@@ -13,7 +13,7 @@ import { getExplorerUrl, GOBLIN_HREF, TONIC_DATA_API_URL } from '~/config';
 import useMarkets from '~/hooks/useMarkets';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { abbreviateAccountId } from '~/util';
+import { abbreviateCryptoString } from '~/util';
 import { Race, TraderStats, useLeaderboard } from './helper';
 
 const ANNOUNCEMENT_HREF =
@@ -67,7 +67,7 @@ const Ranking: React.FC<{
               rel="noreferrer"
               tw="inline hover:underline"
             >
-              {abbreviateAccountId(trader.account_id, 20)}
+              {abbreviateCryptoString(trader.account_id, 20)}
             </a>
           </span>
           {isHolder && (
