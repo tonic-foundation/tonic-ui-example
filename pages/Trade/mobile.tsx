@@ -26,6 +26,7 @@ import { colors } from '~/styles';
 import AuthButton from '~/components/common/AuthButton';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import useMarketSelector from '~/components/trade/MarketSelector/useMarketSelectorModal';
+import { truncateToLocaleString } from '~/util';
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();
@@ -37,10 +38,13 @@ export const Header: React.FC = (props) => {
 
   const midmarketPrice = useMidmarketPrice();
   const priceFormatted = midmarketPrice
-    ? market
-        .priceBnToNumber(midmarketPrice, pricePrecision)
-        .toFixed(pricePrecision)
-    : stats?.previous?.toFixed(pricePrecision) || '---';
+    ? truncateToLocaleString(
+        market.priceBnToNumber(midmarketPrice, pricePrecision),
+        pricePrecision
+      )
+    : stats?.previous
+    ? truncateToLocaleString(stats.previous, pricePrecision)
+    : '---';
 
   useTitle(`${priceFormatted} ${ticker}`);
 
@@ -59,8 +63,8 @@ export const Header: React.FC = (props) => {
         />
         {!!stats?.quantity && (
           <p>
-            {stats.quantity.toFixed(2)} {baseTokenMetadata.symbol}{' '}
-            <span tw="opacity-70">24h vol</span>
+            {truncateToLocaleString(stats.quantity, 2)}{' '}
+            {baseTokenMetadata.symbol} <span tw="opacity-70">24h vol</span>
           </p>
         )}
       </div>
@@ -71,7 +75,7 @@ export const Header: React.FC = (props) => {
         {!!priceChangePercent && (
           <span css={colors.priceText(priceChangePercent || 0)}>
             {priceChangePercent >= 0 && '+'}
-            {priceChangePercent.toFixed(2)}%
+            {truncateToLocaleString(priceChangePercent, 2)}%
           </span>
         )}
       </div>

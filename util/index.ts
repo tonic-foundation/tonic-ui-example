@@ -1,3 +1,5 @@
+import { truncate } from './math';
+
 export function sleep(n: number) {
   return new Promise((resolve) => setTimeout(resolve, n));
 }
@@ -20,6 +22,13 @@ export function abbreviateAccountId(s: string, maxLength = 20, gutter = 0) {
     return head + '...' + tail;
   }
   return s;
+}
+
+export function truncateToLocaleString(v: number, precision: number) {
+  return truncate(v, precision).toLocaleString(undefined, {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  });
 }
 
 export function range(n: number) {

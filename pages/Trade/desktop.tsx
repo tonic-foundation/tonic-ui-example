@@ -22,14 +22,10 @@ import { colors } from '~/styles';
 import RequireAuth from '~/components/common/RequireAuth';
 import Fallback from '~/components/common/Fallback';
 import useMarketSelector from '~/components/trade/MarketSelector/useMarketSelectorModal';
-import { truncate } from '~/util/math';
+import { truncateToLocaleString } from '~/util';
 
 const StatContainer = tw.div`flex flex-col`;
 const StatTitle = tw.h2`text-sm text-neutral-400 light:text-black`;
-
-function truncateToLocaleString(v: number, precision: number) {
-  return truncate(v, precision).toLocaleString();
-}
 
 export const Header: React.FC = (props) => {
   const [market] = useMarket();
@@ -49,7 +45,9 @@ export const Header: React.FC = (props) => {
         market.priceBnToNumber(midmarketPrice, pricePrecision),
         pricePrecision
       )
-    : stats?.previous?.toFixed(pricePrecision) || '---';
+    : stats?.previous
+    ? truncateToLocaleString(stats.previous, pricePrecision)
+    : '---';
 
   useTitle(`${priceFormatted} ${ticker}`);
 
@@ -72,7 +70,7 @@ export const Header: React.FC = (props) => {
                 <span css={colors.priceText(priceChangePercent || 0)}>
                   {' '}
                   {priceChangePercent >= 0 && '+'}
-                  {truncate(priceChangePercent, 2)}%
+                  {truncateToLocaleString(priceChangePercent, 2)}%
                   {showQuoteSymbolInPrice && quoteTokenMetadata.symbol}
                 </span>
               )}
