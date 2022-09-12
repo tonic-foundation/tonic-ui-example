@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import tw, { css, styled } from 'twin.macro';
 import Button from '~/components/common/Button';
@@ -6,6 +6,7 @@ import BaseCDot from '~/components/common/Cdot';
 import { LogoIcon } from '~/components/common/Logo';
 import Modal from '~/components/common/Modal';
 import usePersistentState from '~/hooks/usePersistentState';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { range } from '~/util';
 import UsnIcon from '../UsnIcon';
 
@@ -64,11 +65,35 @@ const Rain: React.FC = (props) => {
   );
 };
 
+const ConfirmButton = styled(Button)(
+  tw`py-3 dark:(bg-neutral-900 text-white) light:(bg-neutral-900 text-white)`
+);
+
 export const RewardsWelcomeModal = () => {
-  const [visible, setVisible] = usePersistentState(
+  const { isSignedIn } = useWalletSelector();
+
+  const [_visible, _setVisible] = usePersistentState(
     'usn-rewards-sep-2022-visible',
     true
   );
+  const [visible, setVisible] = useState(!!_visible);
+
+  // localstorage is async so must handle transition from undefined -> boolean
+  useEffect(() => {
+    if (_visible) {
+      setVisible(true);
+    }
+  }, [_visible]);
+
+  // Permanently close the modal if the user has signed in, otherwise no point
+  const handleClose = useCallback(() => {
+    if (isSignedIn) {
+      _setVisible(false);
+      setVisible(false);
+    } else {
+      setVisible(false);
+    }
+  }, [_setVisible, isSignedIn]);
 
   return (
     <Modal
@@ -76,8 +101,10 @@ export const RewardsWelcomeModal = () => {
       hasBorder={false}
       drawerOnMobile
       visible={visible}
-      onClose={() => setVisible(false)}
-      render={({ closeModal }) => {
+      // do the close logic a little different here, because it's conditional on
+      // which button gets pressed and some other state
+      /* onClose={handleClose} */
+      render={() => {
         return (
           <Wrapper>
             <Rain tw="absolute top-0 bottom-0 left-8 right-8" />
@@ -120,17 +147,17 @@ export const RewardsWelcomeModal = () => {
                 </div>
               </div>
 
-              <Button
-                tw="py-3 dark:(bg-neutral-900 text-white) light:(bg-neutral-900 text-white)"
+              <ConfirmButton
                 onClick={() => {
-                  closeModal();
+                  handleClose();
                   window.location.href = '/#/rewards';
                 }}
               >
                 Learn more
-              </Button>
+              </ConfirmButton>
               <a
-                onClick={closeModal}
+                // XXX
+                onClick={() => setVisible(false)}
                 tw="mt-3 underline cursor-pointer opacity-80 hover:opacity-100 text-sm text-center"
               >
                 Maybe later

@@ -42,6 +42,8 @@ import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
 import { DISCORD_GENERAL_HREF, getExplorerUrl } from '~/config';
 import Tooltip from '~/components/common/Tooltip';
+import usePersistentState from '~/hooks/usePersistentState';
+import CloseButton from '~/components/common/CloseButton';
 
 // no point making this come from the API because a lot of copy containing dates
 // is handwritten anyway
@@ -685,39 +687,55 @@ const RewardsDataIfEligible = () => {
 
 const Content = () => {
   const { isSignedIn } = useWalletSelector();
+  const [rulesVisible, setRulesVisible] = usePersistentState(
+    'rewards-rules',
+    true
+  );
 
   return (
     <Wrapper>
       <Section>
-        <Card tw="dark:(bg-gradient-to-tr from-fuchsia-400 to-teal-400)">
-          <header tw="flex items-center justify-between">
-            <h1 tw="text-xl">USN/USDC Liquidity Rewards</h1>
-          </header>
-          <div tw="mt-3 space-y-3">
-            <p>
-              Starting September 12, 2022, maker orders filled in the{' '}
-              <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
-                USN/USDC market
-              </a>{' '}
-              will earn points towards USN rewards. Orders placed closer to
-              midmarket earn more points.
-            </p>
-            <p>
-              Rewards are paid daily. Your share of rewards is proportional to
-              the points you earn each day.
-            </p>
-            <a
-              href={ANNOUNCEMENT_HREF}
-              target="_blank"
-              rel="noreferrer"
-              tw="underline flex items-center gap-1"
+        {rulesVisible ? (
+          <Card tw="dark:(bg-gradient-to-tr from-fuchsia-400 to-teal-400)">
+            <header tw="flex items-center justify-between">
+              <h1 tw="text-xl">USN/USDC Liquidity Rewards</h1>
+              <CloseButton onClick={() => setRulesVisible(false)} />
+            </header>
+            <div tw="mt-3 space-y-3">
+              <p>
+                Starting September 12, 2022, maker orders filled in the{' '}
+                <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
+                  USN/USDC market
+                </a>{' '}
+                will earn points towards USN rewards. Orders placed closer to
+                midmarket earn more points.
+              </p>
+              <p>
+                Rewards are paid daily. Your share of rewards is proportional to
+                the points you earn each day.
+              </p>
+              <a
+                href={ANNOUNCEMENT_HREF}
+                target="_blank"
+                rel="noreferrer"
+                tw="underline flex items-center gap-1"
+              >
+                <span>View the announcement</span>
+                <Icon.Link tw="mt-0.5" />
+              </a>
+            </div>
+            <PayoutsToDate />
+          </Card>
+        ) : (
+          <div tw="flex items-center justify-end">
+            <button
+              tw="text-sm opacity-80 hover:opacity-100"
+              onClick={() => setRulesVisible(true)}
             >
-              <span>View the announcement</span>
-              <Icon.Link tw="mt-0.5" />
-            </a>
+              Show rules
+            </button>
           </div>
-          <PayoutsToDate />
-        </Card>
+        )}
       </Section>
 
       {isSignedIn ? (
