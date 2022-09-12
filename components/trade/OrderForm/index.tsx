@@ -19,6 +19,7 @@ import {
 import Input from '../../common/Input';
 import Tooltip from '../../common/Tooltip';
 import Toggle from '../../common/Toggle';
+import { truncate } from '~/util/math';
 
 const Field = tw.div`relative`;
 const Label = tw.p`light:text-neutral-700 mb-1 text-sm`;
@@ -146,7 +147,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
   // the tick, ie, length of the price tick with the whole part and dot removed
   function setPrice(p?: number | string) {
     if (typeof p === 'number') {
-      setPriceStr(p.toFixed(pricePrecision));
+      setPriceStr(truncate(p, pricePrecision).toString());
     } else {
       setPriceStr(p);
     }
@@ -154,7 +155,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
 
   function setQuantity(q?: number | string) {
     if (typeof q === 'number') {
-      setQuantityStr(q.toFixed(quantityPrecision));
+      setQuantityStr(truncate(q, quantityPrecision).toString());
     } else {
       setQuantityStr(q);
     }
@@ -379,7 +380,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
         <LineItem>
           <span>Volume</span>
           <span>
-            {subtotal?.toFixed(pricePrecision) || '0'}{' '}
+            {subtotal ? truncate(subtotal, pricePrecision) : 0}{' '}
             {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
@@ -393,7 +394,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             </Tooltip>
           </div>
           <span>
-            {takerFee?.toFixed(pricePrecision) || '0'}{' '}
+            {takerFee ? truncate(takerFee, pricePrecision) : 0}{' '}
             {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
@@ -401,7 +402,8 @@ const OrderForm: React.FC<OrderFormProps> = ({
         <LineItem>
           <span>Total</span>
           <span>
-            {total?.toFixed(pricePrecision) || '0'} {quoteTokenMetadata.symbol}
+            {total ? truncate(total, pricePrecision) : 0}{' '}
+            {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
       </section>
