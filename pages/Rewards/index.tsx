@@ -413,7 +413,19 @@ const RewardsGraph: React.FC<{
               `,
             ]}
           >
-            {!isFutureReward && (
+            {isFutureReward ? (
+              // it's a future reward: just show the shadow of previous earnings
+              <React.Fragment>
+                <div
+                  tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark opacity-30"
+                  style={{ height: cumulativeHeight }}
+                ></div>
+                <div
+                  tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark"
+                  style={{ height: rewardHeight }}
+                ></div>
+              </React.Fragment>
+            ) : (
               <React.Fragment>
                 <div
                   tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark opacity-30"
