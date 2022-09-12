@@ -13,6 +13,7 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateCryptoString, range, truncateToLocaleString } from '~/util';
 import {
   UnfinalizedRewardsChartOptions,
+  useRewardsEligibility,
   useRewardsHistory,
   useRewardsProgramParameters,
   useRewardsProgramStats,
@@ -630,6 +631,40 @@ const LineItem = {
   Right: tw.div``,
 };
 
+// ugly hack, fix this nesting later
+const RewardsDataIfEligible = () => {
+  const { data } = useRewardsEligibility();
+
+  if (!data) return <React.Fragment></React.Fragment>;
+
+  if (!data.eligible) {
+    return (
+      <Section>
+        <Card>
+          <p>
+            Your account is not eligible for this month&apos;s rewards program.
+          </p>
+          <p tw="mt-3">
+            To be eligible, you must sign up and hold a Tonic Greedy Goblin NFT.
+            Look out for next month&apos;s signups on our social media!
+          </p>
+        </Card>
+      </Section>
+    );
+  }
+
+  return (
+    <React.Fragment>
+      <Section>
+        <AccountRewardsToday />
+      </Section>
+      <Section>
+        <AccountRewardsHistory />
+      </Section>
+    </React.Fragment>
+  );
+};
+
 const Content = () => {
   const { isSignedIn } = useWalletSelector();
 
@@ -666,14 +701,7 @@ const Content = () => {
       </Section>
 
       {isSignedIn ? (
-        <React.Fragment>
-          <Section>
-            <AccountRewardsToday />
-          </Section>
-          <Section>
-            <AccountRewardsHistory />
-          </Section>
-        </React.Fragment>
+        <RewardsDataIfEligible />
       ) : (
         <Section>
           <Card>

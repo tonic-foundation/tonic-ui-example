@@ -15,6 +15,20 @@ function useAccountId() {
   return accountId;
 }
 
+export function useRewardsEligibility() {
+  const accountId = useAccountId();
+
+  const fetcher = useCallback(async (url: string) => {
+    const res = await fetch(url);
+    return (await res.json()) as { eligible: boolean };
+  }, []);
+
+  return useSWR(
+    `${TONIC_DATA_API_URL}/rewards/eligibility?account=${accountId}`,
+    fetcher
+  );
+}
+
 export function useRewardsHistory() {
   const accountId = useAccountId();
 
