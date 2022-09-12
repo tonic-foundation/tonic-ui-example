@@ -1,16 +1,21 @@
-import Routes from './routes';
+import { useEffect } from 'react';
+import { ArcElement, Chart, DoughnutController, Tooltip } from 'chart.js';
 import { Toaster } from 'react-hot-toast';
 import { HashRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { ThemeProvider } from '~/hooks/useTheme';
 import { TxToastProvider } from '~/hooks/useWalletRedirectHash';
 import { WalletSelectorContextProvider } from '~/state/WalletSelectorContainer';
 
+import Routes from './routes';
 import { WalletSelectorModal } from '~/components/common/WalletSelector/useWalletSelectorModal';
 import { DepositWithdrawModal } from '~/components/common/DepositWithdraw/useDepositWithdrawModal';
 import { ExchangeBalancesModal } from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
 import { MarketSelectorModal } from '~/components/trade/MarketSelector/useMarketSelectorModal';
+import RewardsWelcomeModal from './components/rewards/RewardsWelcomeModal';
+import { TONIC_HAS_REWARDS } from './config';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -25,6 +30,11 @@ const App = () => {
         marginBottom: '2rem',
       };
 
+  // required for pie chart
+  useEffect(() => {
+    Chart.register(ArcElement, DoughnutController, Tooltip);
+  }, []);
+
   return (
     <RecoilRoot>
       <ThemeProvider>
@@ -36,6 +46,7 @@ const App = () => {
               <ExchangeBalancesModal />
               <DepositWithdrawModal />
               <WalletSelectorModal />
+              {TONIC_HAS_REWARDS && <RewardsWelcomeModal />}
               <Toaster
                 position={toasterPosition}
                 containerStyle={toasterContainerStyle}

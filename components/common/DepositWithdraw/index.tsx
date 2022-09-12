@@ -28,7 +28,7 @@ import {
   TONIC_CONTRACT_ID,
 } from '~/config';
 import Input from '../Input';
-import { abbreviateAccountId } from '~/util';
+import { abbreviateCryptoString } from '~/util';
 import TabButton from '../TabButton';
 import { CardBody, CardHeader } from '../Card';
 import CannedTooltip from '../CannedTooltip';
@@ -362,7 +362,7 @@ const Content: React.FC<DepositWithdrawProps> = ({
                 target="_blank"
                 rel="noreferrer"
               >
-                {abbreviateAccountId(tokenId, 24, 8)}
+                {abbreviateCryptoString(tokenId, 24, 8)}
               </a>{' '}
               contract to withdraw {symbol}.
             </p>

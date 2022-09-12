@@ -65,7 +65,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-annotate-as-pure@npm:^7.16.0, @babel/helper-annotate-as-pure@npm:^7.16.7":
+"@babel/helper-annotate-as-pure@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/helper-annotate-as-pure@npm:7.16.7"
   dependencies:
@@ -142,7 +142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-module-imports@npm:^7.0.0, @babel/helper-module-imports@npm:^7.12.13, @babel/helper-module-imports@npm:^7.16.0, @babel/helper-module-imports@npm:^7.16.7":
+"@babel/helper-module-imports@npm:^7.12.13, @babel/helper-module-imports@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/helper-module-imports@npm:7.16.7"
   dependencies:
@@ -402,7 +402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.16.7, @babel/traverse@npm:^7.17.10, @babel/traverse@npm:^7.17.3, @babel/traverse@npm:^7.17.9, @babel/traverse@npm:^7.4.5":
+"@babel/traverse@npm:^7.16.7, @babel/traverse@npm:^7.17.10, @babel/traverse@npm:^7.17.3, @babel/traverse@npm:^7.17.9":
   version: 7.17.10
   resolution: "@babel/traverse@npm:7.17.10"
   dependencies:
@@ -497,7 +497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/is-prop-valid@npm:^1.1.0, @emotion/is-prop-valid@npm:^1.1.2":
+"@emotion/is-prop-valid@npm:^1.1.2":
   version: 1.1.2
   resolution: "@emotion/is-prop-valid@npm:1.1.2"
   dependencies:
@@ -578,14 +578,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/stylis@npm:^0.8.4":
-  version: 0.8.5
-  resolution: "@emotion/stylis@npm:0.8.5"
-  checksum: 67ff5958449b2374b329fb96e83cb9025775ffe1e79153b499537c6c8b2eb64b77f32d7b5d004d646973662356ceb646afd9269001b97c54439fceea3203ce65
-  languageName: node
-  linkType: hard
-
-"@emotion/unitless@npm:^0.7.4, @emotion/unitless@npm:^0.7.5":
+"@emotion/unitless@npm:^0.7.5":
   version: 0.7.5
   resolution: "@emotion/unitless@npm:0.7.5"
   checksum: f976e5345b53fae9414a7b2e7a949aa6b52f8bdbcc84458b1ddc0729e77ba1d1dfdff9960e0da60183877873d3a631fa24d9695dd714ed94bcd3ba5196586a6b
@@ -716,123 +709,84 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/core@npm:5.0.3, @near-wallet-selector/core@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/core@npm:5.0.3"
-  dependencies:
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 85e6ec6e94aa5ba116aeb530df3f6cdb0f3ea2d74f31595fa3128c67c68464510df156502760bf3d6b30ca468479fcdbcad09ce1ebc998d078134398ffdc433e
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/core@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/core@npm:6.0.0"
+"@near-wallet-selector/core@npm:7.0.0, @near-wallet-selector/core@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/core@npm:7.0.0"
   dependencies:
     rxjs: ^7.5.5
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: dd247a87b0ac2cfe626afc97e66ddae3a4257b8da6df03d321c9a5c0273abb42a7e214476a3d2cf9a8d2ff1b4f200e7572d1e07a6970b24343d1d96fc30275ce
+  checksum: 3d96e5d04f7734f9361bf57ade3892346198c379c2121c0b08de3ab8615a5703d07a5f09f0f89d07cafaf85e6f71c3cb4f4dfb2d4b17aee12db09df476ebc897
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/modal-ui@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/modal-ui@npm:6.0.0"
+"@near-wallet-selector/modal-ui@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/modal-ui@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
     react: 18.2.0
     react-dom: 18.2.0
-  checksum: 65db8e5f646417445c9df32e32693ef8bddda914c14976d1e3f98d67840a66f902b9e5d369a1a743dac8c017c47450657c8ca8dd26f00aa7b6ba7642f50dfd6d
+  checksum: 4819e693021c88c0764797ee8d13528dbe23dfe0916a81c234ca2465a002398822c8939d0e89aafae961daa865d6dd9ac4d80241358e6754dd185ff473692f77
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/my-near-wallet@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/my-near-wallet@npm:5.0.3"
+"@near-wallet-selector/my-near-wallet@npm:7.0.0, @near-wallet-selector/my-near-wallet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/my-near-wallet@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    "@near-wallet-selector/wallet-utils": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 3d51e3acb3126962cb7aa06dc6456f5efcf2f08576abcd7ccb86b5c6eb225083c90b2e84f195679c5ef8da8bae125736ea231b655e133a4dc0dd4410f423ce22
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/my-near-wallet@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/my-near-wallet@npm:6.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 6.0.0
-    "@near-wallet-selector/wallet-utils": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/wallet-utils": 7.0.0
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 27211e49c49a8fc08e4a76b1a10b40f4708b852e79ae5b5de7018757bf92d0656db8749c3cc6cf7e3511ac873c6f26e4dc6122facdb55568fc91f9d760014466
+  checksum: 3b80380c1e5d24391d5024caba9094c02e4d89c04bd05c59039107284c47059d1b6efab338f5707c872049d6a3c6a803301eea092c278af128532a260346899b
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/near-wallet@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/near-wallet@npm:5.0.3"
+"@near-wallet-selector/near-wallet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/near-wallet@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    "@near-wallet-selector/my-near-wallet": 5.0.3
-    "@near-wallet-selector/wallet-utils": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: db8bd3a418847526e11666b22b97ebe620c302d20baebf61f520024dd1402cd980986878eabd2befcd494d3ce7a90bc30405210d82bad8cace29ba299b7a8818
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/my-near-wallet": 7.0.0
+  checksum: 8115d0ea62a90fdd3096c3b879235933dd0e255393612cc7dbe26d1243a21169549839cb111a108586b092bee2348de089925bc78be956441a2dec0e3fc17b42
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/nightly@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/nightly@npm:6.0.0"
+"@near-wallet-selector/nightly@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/nightly@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 6.0.0
-    "@near-wallet-selector/wallet-utils": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/wallet-utils": 7.0.0
     is-mobile: ^3.1.1
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 86a659b9fb8d962699ba5270dba98c0d3bdc5422f1e0494a5f272a0c16a7a3203705fa50ed23bd21e587e135578fa29c2623e95204545ba6cef69a6d77bb556d
+  checksum: 0ec172fe458c1e8c3a256c3afd310899e07ee9e9ed0572a0406fb03bd89e2a31ec22c8d35a5ee4bd38af817965813de9b8fc3ae92a0a00723e484a35a1b6d42b
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/sender@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/sender@npm:5.0.3"
+"@near-wallet-selector/sender@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/sender@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    is-mobile: ^3.0.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: 67a3731a8f90cca3361730539987ae9760f77a87003dba5a00e141ac4a16e8789adcc68318235d0e31970a726385cfba0c85fae9041ab2ae2eb24f7e347ffc9e
+    "@near-wallet-selector/core": 7.0.0
+    is-mobile: ^3.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: d5ee57a3619458a97163ed1e5dbbd47aa87ddd2bedbe58cb96c65637431e9531e9a2060f550d7f7bcb4c07d347dcbdda4847e0dad478af0949ec888ef884e089
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/wallet-utils@npm:5.0.3":
-  version: 5.0.3
-  resolution: "@near-wallet-selector/wallet-utils@npm:5.0.3"
+"@near-wallet-selector/wallet-utils@npm:7.0.0, @near-wallet-selector/wallet-utils@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@near-wallet-selector/wallet-utils@npm:7.0.0"
   dependencies:
-    "@near-wallet-selector/core": 5.0.3
-    bn.js: ^5.2.0
-    near-api-js: 0.44.2
-    rxjs: ~7.4.0
-  checksum: f9dce5c221ce3c540e2b6443e61c933ed7180769d142484a5bed2484efa672a1097502867388d31ccb65d1ba5d2bdc5c2cfee6896a4173c8cc43dd09a7743168
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/wallet-utils@npm:6.0.0, @near-wallet-selector/wallet-utils@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@near-wallet-selector/wallet-utils@npm:6.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 6.0.0
+    "@near-wallet-selector/core": 7.0.0
     bn.js: ^5.2.0
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 44dcbb3ca7caf22f50cdfdd2d7f211cf8fcfffa6aa140db779532f06dc1e3a53010c08ba53c8cb9898095bfc57897f21cd3b1fa847de85cd5c74eb9e1e686a5e
+  checksum: dce62d3c959298f1b4a07e3acc80339c95cfc598bf3a300719714b75edc4d3624a5c33a0b12b59b23712faad3e8afbfb841d9bd3a71075875567313abd99f3cf
   languageName: node
   linkType: hard
 
@@ -1831,12 +1785,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/config@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/config@npm:0.1.1"
+"@tonic-foundation/config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/config@npm:1.0.0"
   dependencies:
-    near-api-js: ^0.45.1
-  checksum: 0b788d429274d07751492ca6b6430c26dd52e0e1b9d7a3e01de08f9d98b1e074273faf2c46b3a8242e21163aaf99c7360b03e13876327e5e5e37c956870074bb
+    near-api-js: ^1.0.0
+  checksum: c76ec3fee902340b7874d1130714c6c329a8748e30e77bbd4662d4c95186302482acd4c8b88e833f9314215efeb0b7dbb7dda7c4a36a3e7b7462735a3c6b8ba7
   languageName: node
   linkType: hard
 
@@ -1863,15 +1817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/storage@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/storage@npm:0.1.1"
+"@tonic-foundation/storage@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/storage@npm:1.0.0"
   dependencies:
-    "@tonic-foundation/transaction": 0.1.1
-    "@tonic-foundation/utils": 0.1.1
+    "@tonic-foundation/transaction": 1.0.0
+    "@tonic-foundation/utils": 1.0.0
     bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: a2c4fdb2f773a3742c5f691a90afcd3e22fee6f1aaa8f5baf54413b746107f11877d1b71f3a7e71627c8963a719cf7c6e3c73aba7410ebaa4c8075867854afd9
+    near-api-js: ^1.0.0
+  checksum: 098a6160114c299dbe043442bddc68e20b06ab87df08cdb409e8c000c647348c3c7d7badb311b38963ca704943c79f4bc8e4b5365d4143eea1bf6bc3a7ce6199
   languageName: node
   linkType: hard
 
@@ -1897,48 +1851,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/token@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/token@npm:0.1.1"
+"@tonic-foundation/token@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/token@npm:1.0.0"
   dependencies:
-    "@tonic-foundation/transaction": 0.1.1
-    "@tonic-foundation/utils": 0.1.1
+    "@tonic-foundation/transaction": 1.0.0
+    "@tonic-foundation/utils": 1.0.0
     bn.js: ^5.2.1
-    near-api-js: ^0.45.1
-  checksum: df28679670588eecef0e98ff49f94d08cc559eab4f6337a3f7f935eae4c22b28d81f2da931521c62ccd1b14dbf683f4f5d38f8e34dfb2aed74f376155b8bfe15
+    near-api-js: ^1.0.0
+  checksum: 3ec9cf58213d094160986c739af3edb38e4c09fa5762aeed83cc5b76ca7cbfc5fe2a6c39e7044434e42046b56f5aeb19f335a31097afd5cc23247f7cfaa24b80
   languageName: node
   linkType: hard
 
-"@tonic-foundation/tonic@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@tonic-foundation/tonic@npm:0.1.0"
-  dependencies:
-    "@tonic-foundation/storage": ^0.1.1
-    "@tonic-foundation/token": ^0.1.1
-    "@tonic-foundation/transaction": ^0.1.1
-    "@tonic-foundation/utils": ^0.1.1
-    bn.js: ^5.2.0
-    isomorphic-ws: ^4.0.1
-    near-api-js: ^0.45.1
-    ws: ^8.5.0
-  checksum: 5a8018a90c3dbf48a4918e94ad430cc6bc12e9011bcd66c91ca718af07665a751e099b766ad2c1d2f909bd66980680d4090ee1f755d731ee52a7909d69dbada4
-  languageName: node
-  linkType: hard
-
-"@tonic-foundation/transaction@npm:0.1.1, @tonic-foundation/transaction@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/transaction@npm:0.1.1"
-  dependencies:
-    "@tonic-foundation/utils": 0.1.1
-    bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: c1a7cf740a21ce9f4bdaf73f383af8c6bb009c699fe2f30dd8689672735d08e6f537d6d457616742a51e32be7ce21ab92fcdf95f000e7573924e7421e2f94c8a
-  languageName: node
-  linkType: hard
-
-"@tonic-foundation/ui-react-twin@workspace:.":
+"@tonic-foundation/tonic-ui-example@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@tonic-foundation/ui-react-twin@workspace:."
+  resolution: "@tonic-foundation/tonic-ui-example@workspace:."
   dependencies:
     "@babel/core": ^7.0.0-0
     "@babel/preset-react": ^7.14.5
@@ -1946,21 +1873,21 @@ __metadata:
     "@emotion/babel-preset-css-prop": ^11.2.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@near-wallet-selector/core": ^5.0.3
-    "@near-wallet-selector/modal-ui": ^6.0.0
-    "@near-wallet-selector/my-near-wallet": ^6.0.0
-    "@near-wallet-selector/near-wallet": ^5.0.3
-    "@near-wallet-selector/nightly": ^6.0.0
-    "@near-wallet-selector/sender": ^5.0.3
-    "@near-wallet-selector/wallet-utils": ^6.0.0
+    "@near-wallet-selector/core": ^7.0.0
+    "@near-wallet-selector/modal-ui": ^7.0.0
+    "@near-wallet-selector/my-near-wallet": ^7.0.0
+    "@near-wallet-selector/near-wallet": ^7.0.0
+    "@near-wallet-selector/nightly": ^7.0.0
+    "@near-wallet-selector/sender": ^7.0.0
+    "@near-wallet-selector/wallet-utils": ^7.0.0
     "@parcel/transformer-svg-react": ^2.5.0
-    "@tonic-foundation/config": ^0.1.1
+    "@tonic-foundation/config": ^1.0.0
     "@tonic-foundation/data-client": ^0.0.4
-    "@tonic-foundation/storage": ^0.1.1
-    "@tonic-foundation/token": ^0.1.1
+    "@tonic-foundation/storage": ^1.0.0
+    "@tonic-foundation/token": ^1.0.0
     "@tonic-foundation/token-list": ^0.0.6
-    "@tonic-foundation/tonic": ^0.1.0
-    "@tonic-foundation/utils": ^0.1.1
+    "@tonic-foundation/tonic": ^1.0.0
+    "@tonic-foundation/utils": ^1.0.0
     "@types/bn.js": ^5.1.0
     "@types/node": ^17.0.17
     "@types/react": ^17.0.21
@@ -1972,6 +1899,7 @@ __metadata:
     babel-plugin-twin: ^1.0.2
     bn.js: ^5.2.0
     buffer: ^6.0.3
+    chart.js: ^3.9.1
     date-fns: ^2.28.0
     eslint: ^8.12.0
     eslint-config-next: ^12.0.10
@@ -1980,7 +1908,7 @@ __metadata:
     eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     fuse.js: ^6.5.3
-    near-api-js: ^0.45.1
+    near-api-js: ^1.0.0
     parcel: ^2.5.0
     prettier: ^2.6.2
     process: ^0.11.10
@@ -1992,12 +1920,39 @@ __metadata:
     react-router-dom: ^6.2.1
     react-use: ^17.3.2
     recoil: ^0.6.1
-    styled-components: ^5.3.1
+    swr: ^1.3.0
     tailwindcss: ^3.1.3
     twin.macro: ^2.7.0
     typescript: ^4.6.3
   languageName: unknown
   linkType: soft
+
+"@tonic-foundation/tonic@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/tonic@npm:1.0.0"
+  dependencies:
+    "@tonic-foundation/storage": ^1.0.0
+    "@tonic-foundation/token": ^1.0.0
+    "@tonic-foundation/transaction": ^1.0.0
+    "@tonic-foundation/utils": ^1.0.0
+    bn.js: ^5.2.0
+    isomorphic-ws: ^4.0.1
+    near-api-js: ^1.0.0
+    ws: ^8.5.0
+  checksum: 23c8218415f2a7a53fd3747a13216e4bf029d0bd3ad04cb69e09b682f84e5108bd0ab69c3299199870fb922f94543aaf47478a567c22e9034f70cf2025e6c8f4
+  languageName: node
+  linkType: hard
+
+"@tonic-foundation/transaction@npm:1.0.0, @tonic-foundation/transaction@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/transaction@npm:1.0.0"
+  dependencies:
+    "@tonic-foundation/utils": 1.0.0
+    bn.js: ^5.2.0
+    near-api-js: ^1.0.0
+  checksum: 2ea60c61bc4c02f060718d816741b3aca23930ef2efe002801039986cf3838aa0f2f220b5d932f3e699c1452aad8db5c5b8981a2ef6a3c72db1751c0ef7cc5bb
+  languageName: node
+  linkType: hard
 
 "@tonic-foundation/utils@npm:0.0.3":
   version: 0.0.3
@@ -2009,13 +1964,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tonic-foundation/utils@npm:0.1.1, @tonic-foundation/utils@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@tonic-foundation/utils@npm:0.1.1"
+"@tonic-foundation/utils@npm:1.0.0, @tonic-foundation/utils@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@tonic-foundation/utils@npm:1.0.0"
   dependencies:
     bn.js: ^5.2.0
-    near-api-js: ^0.45.1
-  checksum: 88cbe72e3f39db8359fc0651525fc131667eea62db1c285682a47a09520af3602f0f2d2702163b7ead3dedf59cc5d0909fa6352cd2ea77616d3fed2d06c7fa3e
+    near-api-js: ^1.0.0
+  checksum: 3f6b07885f1fdc8a94e9db82eca715bf13d442f8dc150e709560b9edc6cdf737b628233585b7e3b96e6ac8244aa64384176cd7672a194c55eaa72eccb911e1d7
   languageName: node
   linkType: hard
 
@@ -2588,28 +2543,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-styled-components@npm:>= 1.12.0":
-  version: 2.0.7
-  resolution: "babel-plugin-styled-components@npm:2.0.7"
-  dependencies:
-    "@babel/helper-annotate-as-pure": ^7.16.0
-    "@babel/helper-module-imports": ^7.16.0
-    babel-plugin-syntax-jsx: ^6.18.0
-    lodash: ^4.17.11
-    picomatch: ^2.3.0
-  peerDependencies:
-    styled-components: ">= 2"
-  checksum: 80b06b10db02d749432a0ac43a5feedd686f6b648628d7433a39b1844260b2b7c72431f6e705c82636ee025fcfd4f6c32fc05677e44033b8a39ddcd4488b3147
-  languageName: node
-  linkType: hard
-
-"babel-plugin-syntax-jsx@npm:^6.18.0":
-  version: 6.18.0
-  resolution: "babel-plugin-syntax-jsx@npm:6.18.0"
-  checksum: 0c7ce5b81d6cfc01a7dd7a76a9a8f090ee02ba5c890310f51217ef1a7e6163fb7848994bbc14fd560117892e82240df9c7157ad0764da67ca5f2afafb73a7d27
-  languageName: node
-  linkType: hard
-
 "babel-plugin-twin@npm:^1.0.2":
   version: 1.0.2
   resolution: "babel-plugin-twin@npm:1.0.2"
@@ -2663,7 +2596,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5.2.1":
+"bn.js@npm:5.2.1, bn.js@npm:^5.2.1":
   version: 5.2.1
   resolution: "bn.js@npm:5.2.1"
   checksum: 3dd8c8d38055fedfa95c1d5fc3c99f8dd547b36287b37768db0abab3c239711f88ff58d18d155dd8ad902b0b0cee973747b7ae20ea12a09473272b0201c9edd3
@@ -2832,13 +2765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"camelize@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "camelize@npm:1.0.0"
-  checksum: 769f8d10071f57b974d9a51dc02f589dd7fb07ea6a7ecde1a57b52ae68657ba61fe85c60d50661b76c7dbb76b6474fbfd3356aee33cf5f025cd7fd6fb2811b73
-  languageName: node
-  linkType: hard
-
 "caniuse-lite@npm:^1.0.30001332, caniuse-lite@npm:^1.0.30001335":
   version: 1.0.30001339
   resolution: "caniuse-lite@npm:1.0.30001339"
@@ -2871,6 +2797,13 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
+  languageName: node
+  linkType: hard
+
+"chart.js@npm:^3.9.1":
+  version: 3.9.1
+  resolution: "chart.js@npm:3.9.1"
+  checksum: 9ab0c0ac01215af0b3f020f2e313030fd6e347b48ed17d5484ee9c4e8ead45e78ae71bea16c397621c386b409ce0b14bf17f9f6c2492cd15b56c0f433efdfff6
   languageName: node
   linkType: hard
 
@@ -3119,13 +3052,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-color-keywords@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "css-color-keywords@npm:1.0.0"
-  checksum: 8f125e3ad477bd03c77b533044bd9e8a6f7c0da52d49bbc0bbe38327b3829d6ba04d368ca49dd9ff3b667d2fc8f1698d891c198bbf8feade1a5501bf5a296408
-  languageName: node
-  linkType: hard
-
 "css-color-names@npm:^0.0.4":
   version: 0.0.4
   resolution: "css-color-names@npm:0.0.4"
@@ -3153,17 +3079,6 @@ __metadata:
     domutils: ^2.8.0
     nth-check: ^2.0.1
   checksum: d6202736839194dd7f910320032e7cfc40372f025e4bf21ca5bf6eb0a33264f322f50ba9c0adc35dadd342d3d6fae5ca244779a4873afbfa76561e343f2058e0
-  languageName: node
-  linkType: hard
-
-"css-to-react-native@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "css-to-react-native@npm:3.0.0"
-  dependencies:
-    camelize: ^1.0.0
-    css-color-keywords: ^1.0.0
-    postcss-value-parser: ^4.0.2
-  checksum: 98a2e9d4fbe9cabc8b744dfdd5ec108396ce497a7b860912a95b299bd52517461281810fcb707965a021a8be39adca9587184a26fb4e926211391a1557aca3c1
   languageName: node
   linkType: hard
 
@@ -4414,7 +4329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.0.0, hoist-non-react-statics@npm:^3.3.1":
+"hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -4766,7 +4681,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-mobile@npm:^3.0.0, is-mobile@npm:^3.1.1":
+"is-mobile@npm:^3.1.1":
   version: 3.1.1
   resolution: "is-mobile@npm:3.1.1"
   checksum: b7c549020ac4674520378623afc4976694ff686eb3761cfad12da936ba9c2d675687bdc3c82eadf5a25147ce51c682800679bf835e31de272f05c026cd2b2f14
@@ -5089,7 +5004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.11, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -5455,7 +5370,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"near-api-js@npm:0.44.2, near-api-js@npm:^0.44.2":
+"near-api-js@npm:^0.44.2":
   version: 0.44.2
   resolution: "near-api-js@npm:0.44.2"
   dependencies:
@@ -5474,11 +5389,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"near-api-js@npm:^0.45.1":
-  version: 0.45.1
-  resolution: "near-api-js@npm:0.45.1"
+"near-api-js@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "near-api-js@npm:1.0.0"
   dependencies:
-    bn.js: 5.2.0
+    bn.js: 5.2.1
     borsh: ^0.7.0
     bs58: ^4.0.0
     depd: ^2.0.0
@@ -5489,7 +5404,7 @@ __metadata:
     node-fetch: ^2.6.1
     text-encoding-utf-8: ^1.0.2
     tweetnacl: ^1.0.1
-  checksum: b684e16c6a0b845bed98ff273a992e6a7d04287ed90c6b2cf3b4bad30f62a906b0e2f6fa0776e4fc8d47bb46d2620f41e20fe909c7b2472e96dedf75fa8b4598
+  checksum: 6475af743de3a43653a8007ea990e5005d3cc4183f7a43387703e109cea0b35b2c572237866d6f9253f4c06b5fe040ed82bf73a6aa31374a9ef4fdd3cfab1536
   languageName: node
   linkType: hard
 
@@ -5916,7 +5831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.3.0, picomatch@npm:^2.3.1":
+"picomatch@npm:^2.0.4, picomatch@npm:^2.2.1, picomatch@npm:^2.3.1":
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
@@ -6019,7 +5934,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.0.2, postcss-value-parser@npm:^4.1.0, postcss-value-parser@npm:^4.2.0":
+"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.1.0, postcss-value-parser@npm:^4.2.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 819ffab0c9d51cf0acbabf8996dffbfafbafa57afc0e4c98db88b67f2094cb44488758f06e5da95d7036f19556a4a732525e84289a425f4f6fd8e412a9d7442f
@@ -6568,15 +6483,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:~7.4.0":
-  version: 7.4.0
-  resolution: "rxjs@npm:7.4.0"
-  dependencies:
-    tslib: ~2.1.0
-  checksum: 6b33172a760dcad6882fdc836ee8cf1ebe160dd7eaad95c45a12338ffdaa96eb41e48e6c25bbd3d1fdf45075949ff447954bc17a9d01c688558a67967d09c114
-  languageName: node
-  linkType: hard
-
 "safe-buffer@npm:^5.0.1, safe-buffer@npm:~5.2.0":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
@@ -6682,13 +6588,6 @@ __metadata:
   version: 1.2.0
   resolution: "setprototypeof@npm:1.2.0"
   checksum: be18cbbf70e7d8097c97f713a2e76edf84e87299b40d085c6bf8b65314e994cc15e2e317727342fa6996e38e1f52c59720b53fe621e2eb593a6847bf0356db89
-  languageName: node
-  linkType: hard
-
-"shallowequal@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "shallowequal@npm:1.1.0"
-  checksum: f4c1de0837f106d2dbbfd5d0720a5d059d1c66b42b580965c8f06bb1db684be8783538b684092648c981294bf817869f743a066538771dbecb293df78f765e00
   languageName: node
   linkType: hard
 
@@ -6979,28 +6878,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^5.3.1":
-  version: 5.3.5
-  resolution: "styled-components@npm:5.3.5"
-  dependencies:
-    "@babel/helper-module-imports": ^7.0.0
-    "@babel/traverse": ^7.4.5
-    "@emotion/is-prop-valid": ^1.1.0
-    "@emotion/stylis": ^0.8.4
-    "@emotion/unitless": ^0.7.4
-    babel-plugin-styled-components: ">= 1.12.0"
-    css-to-react-native: ^3.0.0
-    hoist-non-react-statics: ^3.0.0
-    shallowequal: ^1.1.0
-    supports-color: ^5.5.0
-  peerDependencies:
-    react: ">= 16.8.0"
-    react-dom: ">= 16.8.0"
-    react-is: ">= 16.8.0"
-  checksum: 05a664dfe423c2906959a0f3f47f9b1ad630e493eb2e06deea0dc0906af33ba5ca17277b98948a6c9642e73894d6533391aebf45576489f5afe920c974e9f8eb
-  languageName: node
-  linkType: hard
-
 "stylis@npm:4.0.13":
   version: 4.0.13
   resolution: "stylis@npm:4.0.13"
@@ -7015,7 +6892,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^5.3.0, supports-color@npm:^5.5.0":
+"supports-color@npm:^5.3.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
   dependencies:
@@ -7061,6 +6938,15 @@ __metadata:
   bin:
     svgo: bin/svgo
   checksum: b92f71a8541468ffd0b81b8cdb36b1e242eea320bf3c1a9b2c8809945853e9d8c80c19744267eb91cabf06ae9d5fff3592d677df85a31be4ed59ff78534fa420
+  languageName: node
+  linkType: hard
+
+"swr@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "swr@npm:1.3.0"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
   languageName: node
   linkType: hard
 
@@ -7362,13 +7248,6 @@ __metadata:
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
-  languageName: node
-  linkType: hard
-
-"tslib@npm:~2.1.0":
-  version: 2.1.0
-  resolution: "tslib@npm:2.1.0"
-  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
   languageName: node
   linkType: hard
 

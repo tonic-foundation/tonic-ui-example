@@ -2,11 +2,11 @@ import { useCallback } from 'react';
 import tw from 'twin.macro';
 import { NEAR_HREF } from '~/config';
 import Button from '../../Button';
+import CDot from '../../Cdot';
 import { LogoIcon } from '../../Logo';
 import { NearIcon } from '../../NearLogo';
 import { useWalletPickerPage } from '../state';
 
-const CDot = tw.div`h-1.5 w-1.5 dark:(bg-white opacity-50) light:(bg-black opacity-30)`;
 const CDots = () => {
   return (
     <div tw="flex items-center gap-3">

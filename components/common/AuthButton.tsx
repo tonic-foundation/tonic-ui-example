@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MdLogout } from 'react-icons/md';
 
 import Button from './Button';
-import { abbreviateAccountId } from '~/util';
+import { abbreviateCryptoString } from '~/util';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import toast from 'react-hot-toast';
 import { wrappedToast } from './ToastWrapper';
@@ -11,7 +11,7 @@ import useWalletPickerModal from './WalletSelector/useWalletSelectorModal';
 const LoggedInContent: React.FC<{ accountId: string }> = ({ accountId }) => {
   return (
     <React.Fragment>
-      <span>{abbreviateAccountId(accountId, 13, 5)}</span>
+      <span>{abbreviateCryptoString(accountId, 13, 5)}</span>
       <MdLogout />
     </React.Fragment>
   );

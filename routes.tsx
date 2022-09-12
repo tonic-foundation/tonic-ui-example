@@ -2,8 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 
 import Leaderboard from '~/pages/Leaderboard';
 import Swap from './pages/Swap';
+import Rewards from '~/pages/Rewards';
 import Trade from '~/pages/Trade';
-import { TONIC_LEADERBOARD_API_URL } from './config';
+import { TONIC_HAS_LEADERBOARD, TONIC_HAS_REWARDS } from './config';
 
 function routes() {
   return (
@@ -15,9 +16,10 @@ function routes() {
       <Route path="/advanced" element={<Trade />} />
       <Route path="/advanced/:market" element={<Trade />} />
 
-      {TONIC_LEADERBOARD_API_URL?.length && (
+      {TONIC_HAS_LEADERBOARD && (
         <Route path="/leaderboard" element={<Leaderboard />} />
       )}
+      {TONIC_HAS_REWARDS && <Route path="/rewards" element={<Rewards />} />}
     </Routes>
   );
 }

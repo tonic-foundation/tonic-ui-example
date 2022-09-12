@@ -44,10 +44,13 @@ export const TONIC_TV_URL =
   process.env.TONIC_TV_URL || `${TONIC_DATA_API_URL}/tv`;
 export const TONIC_DEFAULT_MARKET_ID = process.env
   .TONIC_DEFAULT_MARKET_ID as string;
-export const TONIC_LEADERBOARD_API_URL = process.env.TONIC_LEADERBOARD_API_URL;
 export const TONIC_ORDERBOOK_REFRESH_INTERVAL = parseInt(
   process.env.TONIC_ORDERBOOK_REFRESH_INTERVAL || '15000'
 );
+
+export const TONIC_HAS_LEADERBOARD =
+  !!process.env.TONIC_HAS_LEADERBOARD?.length;
+export const TONIC_HAS_REWARDS = !!process.env.TONIC_HAS_REWARDS?.length;
 
 export const TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS =
   !!process.env.TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS;
@@ -56,6 +59,7 @@ export const TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT = process.env
   ? parseInt(process.env.TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT)
   : 1;
 
+export const GOBLIN_HREF = 'https://greedygoblins.enleap.app/';
 export const DISCORD_DEVELOPERS_HREF = 'https://discord.gg/tscr95ufxx';
 export const DISCORD_GENERAL_HREF = 'https://discord.gg/zedYdpyaTd';
 export const DOCS_GENERAL_HREF = 'https://docs.tonic.foundation';

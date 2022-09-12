@@ -6,7 +6,7 @@ import ErrorBoundary from '~/components/ErrorBoundary';
 import Fallback from '~/components/common/Fallback';
 import IconButton from '~/components/common/IconButton';
 import Input from '~/components/common/Input';
-import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
+import Modal from '~/components/common/Modal';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import SwapSettingsForm from '~/components/swap/SwapSettingsForm';
 import TokenIcon from '~/components/common/TokenIcon';
@@ -26,8 +26,6 @@ import { truncate } from '~/util/math';
 import { useTitle } from 'react-use';
 import { ImplicitSignerTransaction } from '~/services/near';
 import WaitingForNearNetwork from '~/components/common/WaitingForNearNetwork';
-import usePersistentState from '~/hooks/usePersistentState';
-import Logo from '~/components/common/Logo';
 import useMarkets from '~/hooks/useMarkets';
 import useHasStorageBalance from '~/hooks/useHasStorageBalance';
 import {
@@ -40,7 +38,6 @@ import Icon from '~/components/common/Icons';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/tonic-client';
-import { sleep } from '~/util';
 import toast from 'react-hot-toast';
 import CannedToast from '~/components/common/CannedToast';
 
@@ -261,7 +258,11 @@ const SwapForm: React.FC<{
   };
 
   return (
-    <Card tw="relative light:(border-none shadow)" {...props}>
+    // light:
+    // - needs a bit of border to be distinct from bg but default is too dark
+    // - with shadow it's hard to tell that the border is different, esp bc
+    //   there's no other cards on this page for comparison, so should be fine
+    <Card tw="relative light:(border-neutral-200 shadow-lg)" {...props}>
       {submitting && (
         <div tw="absolute inset-0 flex items-center justify-center z-20 dark:(bg-black bg-opacity-20) light:(bg-black bg-opacity-20)">
           <Fallback tw="light:text-black" />
@@ -507,45 +508,11 @@ const Content = () => {
 function SwapPage() {
   useTitle('Tonic');
 
-  const [swapWelcomeVisible, setSwapWelcomeVisible] = usePersistentState(
-    'swap-welcome-visible',
-    true
-  );
-
   return (
     <ErrorBoundary>
       <AppLayout>
         <React.Suspense fallback={<WaitingForNearNetwork />}>
           <Content />
-          <Modal
-            drawerOnMobile
-            visible={swapWelcomeVisible}
-            onClose={() => setSwapWelcomeVisible(false)}
-            render={({ closeModal }) => {
-              return (
-                <React.Fragment>
-                  <ModalHeader>
-                    <h1 tw="text-lg">
-                      <Logo text="Tonic Swap" />
-                    </h1>
-                  </ModalHeader>
-                  <ModalBody tw="w-screen md:max-w-sm">
-                    <p>
-                      Tonic Swap allows you to trade on Tonic without creating
-                      an account.
-                    </p>
-                    <p tw="mt-3">
-                      Enjoy low slippage and low fees with the ease of use of a
-                      traditional DEX.
-                    </p>
-                    <Button tw="mt-3" onClick={closeModal} variant="up">
-                      Got it!
-                    </Button>
-                  </ModalBody>
-                </React.Fragment>
-              );
-            }}
-          />
         </React.Suspense>
       </AppLayout>
     </ErrorBoundary>

@@ -14,9 +14,10 @@ import {
   DOCS_GENERAL_HREF,
   FEEDBACK_HREF,
   GITHUB_HREF,
-  TONIC_LEADERBOARD_API_URL,
+  TONIC_HAS_LEADERBOARD,
   TELEGRAM_HREF,
   TWITTER_HREF,
+  TONIC_HAS_REWARDS,
 } from '~/config';
 import Logo from '~/components/common/Logo';
 import { useIsMobile } from '~/hooks/useIsMobile';
@@ -82,9 +83,14 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
             Deposit/Withdraw
           </MobileMenuButton>
         )}
-        {TONIC_LEADERBOARD_API_URL?.length && (
+        {TONIC_HAS_LEADERBOARD && (
           <MobileMenuButton>
             <Link to="/leaderboard">Leaderboard</Link>
+          </MobileMenuButton>
+        )}
+        {TONIC_HAS_REWARDS && (
+          <MobileMenuButton>
+            <Link to="/rewards">Rewards</Link>
           </MobileMenuButton>
         )}
         <AuthButton tw="py-4" />
@@ -94,9 +100,14 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
 
   return (
     <React.Fragment>
-      {TONIC_LEADERBOARD_API_URL?.length && (
+      {TONIC_HAS_LEADERBOARD && (
         <Link css={styles.link} to="/leaderboard">
           Leaderboard
+        </Link>
+      )}
+      {TONIC_HAS_REWARDS && (
+        <Link css={styles.link} to="/rewards">
+          Rewards
         </Link>
       )}
       {/* putting the theme toggle here is a hack */}
@@ -223,13 +234,14 @@ const Wrapper = tw.div`
 
 const AppLayout: React.FC<{
   headerLeftContent?: React.ReactNode;
-}> = ({ headerLeftContent, children, ...props }) => {
+  hasFooter?: boolean;
+}> = ({ headerLeftContent, children, hasFooter = true, ...props }) => {
   return (
     <div tw="w-screen min-h-screen overflow-auto">
       <Wrapper {...props}>
         <Header leftContent={headerLeftContent} />
         {children}
-        <Footer />
+        {hasFooter && <Footer />}
       </Wrapper>
     </div>
   );
