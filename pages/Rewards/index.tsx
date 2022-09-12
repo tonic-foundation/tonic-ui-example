@@ -18,7 +18,6 @@ import {
 } from './helper';
 import { RewardDayEntry, RewardsHistory } from './shim';
 import {
-  addDays,
   addWeeks,
   eachDayOfInterval,
   isFuture,
@@ -44,14 +43,15 @@ import { DISCORD_GENERAL_HREF, getExplorerUrl } from '~/config';
 import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
+import { TzDate } from '~/util/date';
 
 // no point making this come from the API because a lot of copy containing dates
 // is handwritten anyway
 const startEndState = atom<{ start: Date; end: Date }>({
   key: 'rewards-start-end-state',
   default: {
-    start: new Date('2022-09-11'),
-    end: new Date('2022-10-12'),
+    start: TzDate('2022-09-12'),
+    end: TzDate('2022-10-12'),
   },
 });
 
@@ -222,7 +222,7 @@ const Week: React.FC<{
       {entries.map((r) => {
         const isEligibleDate = isWithinInterval(r.reward_date, {
           start,
-          end: addDays(end, 1),
+          end,
         });
 
         if (!isEligibleDate) {
@@ -291,18 +291,18 @@ const RewardsCalendar: React.FC<{
         end: subDays(addWeeks(weekStart, 1), 1),
       }).map((d) => {
         // TODO: refactor. This is the same as in the graph
-        const r = history.rewards.find((r) =>
-          isSameDay(new Date(r.reward_date), d)
-        );
+        const r = history.rewards.find((r) => isSameDay(r.reward_date, d));
         if (r) {
           return {
             payout: r.payout,
+            points: r.points,
             reward_date: r.reward_date,
             paid_in_tx_id: r.paid_in_tx_id,
           } as RewardDayEntry;
         } else {
           return {
             paid_in_tx_id: null,
+            points: 0,
             payout: 0,
             reward_date: d,
           } as RewardDayEntry;
@@ -340,13 +340,12 @@ const RewardsGraph: React.FC<{
   const rewardsWithRunningTotal = useMemo(() => {
     let runningTotal = 0;
     return eachDayOfInterval({ start, end }).map((d) => {
-      const r = history.rewards.find((r) =>
-        isSameDay(new Date(r.reward_date), d)
-      );
+      const r = history.rewards.find((r) => isSameDay(r.reward_date, d));
       if (r) {
         runningTotal += r.payout;
         return {
           payout: r.payout,
+          points: r.points,
           reward_date: r.reward_date,
           runningTotal,
           paid_in_tx_id: r.paid_in_tx_id,
@@ -354,6 +353,7 @@ const RewardsGraph: React.FC<{
       } else {
         return {
           paid_in_tx_id: null,
+          points: 0,
           payout: 0,
           reward_date: d,
           runningTotal,
@@ -536,6 +536,7 @@ const AccountRewardsHistory: React.FC = (props) => {
   const { data, error } = useRewardsHistory();
 
   if (error) {
+    console.error(error);
     return (
       <Card {...props}>
         <p>Error loading your payout history.</p>
@@ -784,7 +785,7 @@ const RewardModal = () => {
               <div tw="space-y-3">
                 <LineItem.Container>
                   <LineItem.Left>Points earned</LineItem.Left>
-                  <LineItem.Right>{selected.payout}</LineItem.Right>
+                  <LineItem.Right>{selected.points}</LineItem.Right>
                 </LineItem.Container>
                 <LineItem.Container>
                   <LineItem.Left>Reward</LineItem.Left>

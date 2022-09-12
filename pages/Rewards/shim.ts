@@ -45,6 +45,7 @@ export interface TotalRewardsStats {
 interface RewardEntry {
   total: number;
   payout: number;
+  points: number;
   reward_date: Date;
   paid_in_tx_id: string | null;
 }
@@ -84,7 +85,5 @@ export interface UnfinalizedReward {
 }
 
 export interface RewardsParameters {
-  start_date: Date;
-  end_date: Date;
   rewards_pool: number;
 }

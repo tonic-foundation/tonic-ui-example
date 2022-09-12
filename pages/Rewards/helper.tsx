@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import useSWR from 'swr';
 import { TONIC_DATA_API_URL } from '~/config';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { TzDate } from '~/util/date';
 import {
   RewardsHistory,
   RewardsParameters,
@@ -32,19 +33,22 @@ export function useRewardsEligibility() {
 export function useRewardsHistory() {
   const accountId = useAccountId();
 
-  const fetcher = useCallback(async (url: string) => {
+  const fetcher = useCallback(async (url: string): Promise<RewardsHistory> => {
     const res = await fetch(url);
     const data = (await res.json()) as RewardsHistory;
-    return {
+    const hydrated = {
       total: parseFloat(data.total as unknown as string),
       rewards: data.rewards.map((r) => {
         return {
           payout: parseFloat(r.payout as unknown as string),
-          reward_date: new Date(r.reward_date),
+          points: parseFloat(r.points as unknown as string),
+          reward_date: TzDate(r.reward_date as unknown as string),
           paid_in_tx_id: r.paid_in_tx_id,
         };
       }),
-    } as RewardsHistory;
+    };
+    console.log('history', hydrated);
+    return hydrated;
   }, []);
 
   return useSWR(
@@ -181,8 +185,6 @@ export function useRewardsProgramParameters() {
 
     return {
       rewards_pool: parseInt(data.rewards_pool as unknown as string),
-      start_date: new Date(data.start_date),
-      end_date: new Date(data.end_date),
     } as RewardsParameters;
   }, []);
 
