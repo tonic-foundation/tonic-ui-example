@@ -45,6 +45,21 @@ import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 
+const A: React.FC<{ url: string }> = ({ url, children, ...props }) => {
+  return (
+    <a
+      tw="underline inline-flex items-center gap-1"
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    >
+      <span>{children}</span>
+      <Icon.Link tw="mt-0.5" />
+    </a>
+  );
+};
+
 // no point making this come from the API because a lot of copy containing dates
 // is handwritten anyway
 const startEndState = atom<{ start: Date; end: Date }>({
@@ -81,6 +96,7 @@ const rewardDayEntryModalState = atom<RewardDayEntry | null>({
 
 const ANNOUNCEMENT_HREF =
   'https://tonicdex.medium.com/announcing-tonics-usn-liquidity-program-d5087a9abeb7';
+const SIGNUP_HREF = `https://airtable.com/shrdpa3AXGoDY4W7B`;
 
 const USN_MARKET_ID = 'J5mggeEGCyXVUibvYTe9ydVBrELECRUu23VRk2TwC2is';
 
@@ -582,10 +598,7 @@ const AccountRewardsHistory: React.FC = (props) => {
         </p>
         <p tw="mt-3">
           If it has been more than 24h, please reach out on{' '}
-          <a tw="underline" href={DISCORD_GENERAL_HREF}>
-            Discord
-          </a>{' '}
-          for assistance.
+          <A url={DISCORD_GENERAL_HREF}>Discord</A> for assistance.
         </p>
       </Card>
     );
@@ -682,7 +695,15 @@ const RewardsDataIfEligible = () => {
     return (
       <Section>
         <Card>
-          <p>Signups for the September liquidity program have closed.</p>
+          <p>
+            General signups for the September liquidity program have closed.
+            However, Tonic Greedy Goblin holders can still{' '}
+            <A url={SIGNUP_HREF}>sign up here</A>.
+          </p>
+          <p tw="mt-3">
+            Once you&apos; signed up, please create a support ticket in{' '}
+            <A url={DISCORD_GENERAL_HREF}>Discord</A> to be whitelisted.
+          </p>
           <p tw="mt-3">
             Look out for next month&apos;s signups on our social media!
           </p>
@@ -692,14 +713,9 @@ const RewardsDataIfEligible = () => {
   }
 
   return (
-    <React.Fragment>
-      <Section>
-        <AccountRewardsToday />
-      </Section>
-      <Section>
-        <AccountRewardsHistory />
-      </Section>
-    </React.Fragment>
+    <Section>
+      <AccountRewardsHistory />
+    </Section>
   );
 };
 
@@ -732,15 +748,7 @@ const Content = () => {
                 Rewards are paid daily. Your share of rewards is proportional to
                 the points you earn each day.
               </p>
-              <a
-                href={ANNOUNCEMENT_HREF}
-                target="_blank"
-                rel="noreferrer"
-                tw="underline flex items-center gap-1"
-              >
-                <span>View the announcement</span>
-                <Icon.Link tw="mt-0.5" />
-              </a>
+              <A url={ANNOUNCEMENT_HREF}>View the announcement</A>
             </div>
             <PayoutsToDate />
           </Card>
@@ -757,7 +765,12 @@ const Content = () => {
       </Section>
 
       {isSignedIn ? (
-        <RewardsDataIfEligible />
+        <React.Fragment>
+          <Section>
+            <AccountRewardsToday />
+          </Section>
+          <RewardsDataIfEligible />
+        </React.Fragment>
       ) : (
         <Section>
           <Card>
@@ -814,24 +827,14 @@ const RewardModal = () => {
                     {selected.paid_in_tx_id ? (
                       <div tw="flex items-center gap-1.5">
                         <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
-                        <a
-                          tw="underline inline-flex items-center gap-x-1"
-                          href={getExplorerUrl(
+                        <A
+                          url={getExplorerUrl(
                             'transaction',
                             selected.paid_in_tx_id
                           )}
-                          target="_blank"
-                          rel="noreferrer"
                         >
-                          <span>
-                            {abbreviateCryptoString(
-                              selected.paid_in_tx_id,
-                              9,
-                              3
-                            )}
-                          </span>
-                          <Icon.Link tw="mt-0.5" />
-                        </a>
+                          {abbreviateCryptoString(selected.paid_in_tx_id, 9, 3)}
+                        </A>
                       </div>
                     ) : (
                       <div tw="flex items-center gap-1.5">
