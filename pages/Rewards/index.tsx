@@ -265,7 +265,7 @@ const Week: React.FC<{
                 : isTodayReward
                 ? styles.today(r)
                 : r.payout > 0
-                ? tw`bg-up-dark` // clickable
+                ? tw`bg-up-dark cursor-pointer`
                 : tw`bg-neutral-300 dark:bg-neutral-800`,
               hoveredDayId &&
                 (hoveredDayId === r.reward_date.toString()
