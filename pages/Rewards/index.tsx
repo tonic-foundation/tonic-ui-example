@@ -209,6 +209,12 @@ const LeaderboardChart: React.FC<{ data: UnfinalizedRewardsChartOptions }> = ({
   );
 };
 
+const styles = {
+  today: (entry: RewardDayEntry) =>
+    entry.points > 0
+      ? tw`border-neutral-900 bg-up-dark dark:(border-white) cursor-pointer`
+      : tw`border-neutral-900 dark:(bg-neutral-800 border-white)`,
+};
 const Week: React.FC<{
   entries: RewardDayEntry[];
 }> = ({ entries }) => {
@@ -257,9 +263,9 @@ const Week: React.FC<{
               isFutureReward
                 ? tw`bg-neutral-100 dark:(bg-black bg-opacity-[15%])`
                 : isTodayReward
-                ? tw`border-neutral-900 dark:(bg-neutral-800 border-white)`
+                ? styles.today(r)
                 : r.payout > 0
-                ? tw`bg-up-dark cursor-pointer` // clickable
+                ? tw`bg-up-dark` // clickable
                 : tw`bg-neutral-300 dark:bg-neutral-800`,
               hoveredDayId &&
                 (hoveredDayId === r.reward_date.toString()
@@ -267,7 +273,7 @@ const Week: React.FC<{
                   : tw`opacity-50`),
             ]}
           >
-            <span tw="cursor-default">{r.reward_date.getDate()}</span>
+            <span>{r.reward_date.getDate()}</span>
           </div>
         );
       })}
@@ -548,7 +554,6 @@ const AccountRewardsHistory: React.FC = (props) => {
   const { data, error } = useRewardsHistory();
 
   if (error) {
-    console.error(error);
     return (
       <Card {...props}>
         <p>Error loading your payout history.</p>
