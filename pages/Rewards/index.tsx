@@ -227,7 +227,7 @@ const LeaderboardChart: React.FC<{ data: UnfinalizedRewardsChartOptions }> = ({
 
 const styles = {
   today: (entry: RewardDayEntry) =>
-    entry.points > 0
+    entry.payout > 0
       ? tw`border-neutral-900 bg-up-dark dark:(border-white) cursor-pointer`
       : tw`border-neutral-900 dark:(bg-neutral-800 border-white)`,
 };
