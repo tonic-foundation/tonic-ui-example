@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import useSWR from 'swr';
 import { TONIC_DATA_API_URL } from '~/config';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import { abbreviateCryptoString } from '~/util';
 import { TzDate } from '~/util/date';
 import {
   RewardsHistory,
@@ -47,7 +48,6 @@ export function useRewardsHistory() {
         };
       }),
     };
-    console.log('history', hydrated);
     return hydrated;
   }, []);
 
@@ -137,7 +137,10 @@ export function useUnfinalizedRewards() {
         data.push(otherTradersShare);
 
         // labels are [ rank1.near, rank2.near, rank3.near, 'Your share', 'Other traders' ]
-        const labels = [...parsed.map((r) => r.account_id), 'Other traders'];
+        const labels = [
+          ...parsed.map((r) => abbreviateCryptoString(r.account_id, 16, 3)),
+          'Other traders',
+        ];
         labels[myIndex] = 'Your share';
 
         return {
