@@ -156,7 +156,7 @@ const LeaderboardChart: React.FC<{ data: UnfinalizedRewardsChartOptions }> = ({
   const othersBg = useMemo(() => {
     return uiTheme === 'dark'
       ? theme`colors.neutral.800`
-      : theme`colors.neutral.300`;
+      : theme`colors.neutral.700`;
   }, [uiTheme]);
 
   const borderColor = useMemo(() => {
@@ -172,9 +172,22 @@ const LeaderboardChart: React.FC<{ data: UnfinalizedRewardsChartOptions }> = ({
 
     const { chartOptions } = data;
 
-    // background colors are [ grey, grey, grey, green, gray ]
-    // you are here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    // background colors are [ gold, silver, bronze, green, gray ]
+    // you are here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    // note: last element is guaranteed to be other traders' share
+    const colors = [
+      // colors for first, second, and third rank
+      theme`colors.neutral.400`,
+      theme`colors.neutral.500`,
+      theme`colors.neutral.600`,
+    ];
     const backgroundColor = range(chartOptions.data.length).map(() => othersBg);
+    // logged in user is always as late as possible, but before "other traders",
+    // so this loop sets colors for up to the first three ranks
+    for (let i = 0; i < data.myIndex; i++) {
+      backgroundColor[i] = colors[i];
+    }
+    // if current user is in top 3, override their color with emerald
     backgroundColor[data.myIndex] = myBg;
 
     const chart = new Chart(containerRef.current, {

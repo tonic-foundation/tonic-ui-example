@@ -17,6 +17,15 @@ function useAccountId() {
   return accountId;
 }
 
+// could've actually used some sort of forceType utility type but this is easier
+function forceFloat<T = number>(s: T) {
+  return parseFloat(s as unknown as string);
+}
+
+function forceInt<T = number>(s: T) {
+  return parseInt(s as unknown as string);
+}
+
 export function useRewardsEligibility() {
   const accountId = useAccountId();
 
@@ -38,11 +47,11 @@ export function useRewardsHistory() {
     const res = await fetch(url);
     const data = (await res.json()) as RewardsHistory;
     const hydrated = {
-      total: parseFloat(data.total as unknown as string),
+      total: forceFloat(data.total),
       rewards: data.rewards.map((r) => {
         return {
-          payout: parseFloat(r.payout as unknown as string),
-          points: parseFloat(r.points as unknown as string),
+          payout: forceFloat(r.payout),
+          points: forceFloat(r.points),
           reward_date: TzDate(r.reward_date as unknown as string),
           paid_in_tx_id: r.paid_in_tx_id,
         };
@@ -87,13 +96,9 @@ export function useUnfinalizedRewards() {
       const parsed = raw.map((d) => {
         return {
           account_id: d.account_id,
-          overall_rank: parseInt(d.overall_rank as unknown as string),
-          account_unfinalized: parseFloat(
-            d.account_unfinalized as unknown as string
-          ),
-          total_unfinalized: parseFloat(
-            d.total_unfinalized as unknown as string
-          ),
+          overall_rank: forceInt(d.overall_rank),
+          account_unfinalized: forceFloat(d.account_unfinalized),
+          total_unfinalized: forceFloat(d.total_unfinalized),
         } as UnfinalizedReward;
       });
 
@@ -192,4 +197,40 @@ export function useRewardsProgramParameters() {
   }, []);
 
   return useSWR(`${TONIC_DATA_API_URL}/rewards/parameters`, fetcher);
+}
+
+export interface LeaderboardRanking {
+  ranking: number;
+  account_id: string;
+  points: number;
+  share: number;
+  payout: number;
+  /* */
+  reward_date: Date;
+}
+
+/**
+ * @param dateStr UTC date in the format yyyy-mm-dd
+ */
+export function useLeaderboard(dateStr: string) {
+  const fetcher = useCallback(
+    async (url: string): Promise<LeaderboardRanking[]> => {
+      const res = await fetch(url);
+      const data = (await res.json()) as LeaderboardRanking[];
+
+      return data.map((r) => {
+        return {
+          ranking: forceInt(r.ranking),
+          account_id: r.account_id,
+          payout: forceFloat(r.payout),
+          points: forceFloat(r.points),
+          share: forceFloat(r.share),
+          reward_date: TzDate(r.reward_date as unknown as string),
+        };
+      });
+    },
+    []
+  );
+
+  return useSWR(`/rewards/leaderboard?date=${dateStr}`, fetcher);
 }
