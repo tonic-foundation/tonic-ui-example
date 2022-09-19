@@ -8,4 +8,4 @@ test -f dist/tradingview.css || { echo 'copying tradingview styles'; cp styles/t
 test -f dist/favicon.ico || { echo 'copying favicon'; cp assets/images/favicon.ico dist; }
 
 # wallet icon path hardcoded in the library, we have no choice
-test -d dist/assets || { echo 'copying wallet icons'; cp -R assets/wallet-icons dist/assets; }
+# test -d dist/assets || { echo 'copying wallet icons'; cp -R assets/wallet-icons dist/assets; }
