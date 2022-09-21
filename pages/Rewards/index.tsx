@@ -601,22 +601,6 @@ const AccountRewardsHistory: React.FC = (props) => {
     );
   }
 
-  if (!data.total) {
-    return (
-      <Card {...props}>
-        <h1 tw="text-xl">Your payout history</h1>
-        <p tw="mt-3">
-          You have no previous payouts. If you earned points on a previous day,
-          please allow up to 24h for the previous day&apos;s payouts to process.
-        </p>
-        <p tw="mt-3">
-          If it has been more than 24h, please reach out on{' '}
-          <A url={DISCORD_GENERAL_HREF}>Discord</A> for assistance.
-        </p>
-      </Card>
-    );
-  }
-
   return (
     <Card {...props}>
       <h1 tw="text-xl">Your payout history</h1>
