@@ -734,7 +734,7 @@ const Content = () => {
             </header>
             <div tw="mt-3 space-y-3">
               <p>
-                Starting September 12, 2022, maker orders filled in the{' '}
+                Starting September 12, 2022, liquidity provided in the{' '}
                 <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
                   USN/USDC market
                 </a>{' '}
@@ -861,7 +861,7 @@ const Page = () => {
         hasFooter={false}
         tw="
           min-h-screen h-full md:(min-h-screen h-full)
-          light:(bg-gradient-to-t from-fuchsia-300 to-teal-400)
+          light:(bg-gradient-to-t from-fuchsia-400 to-teal-400)
         "
       >
         <Content />

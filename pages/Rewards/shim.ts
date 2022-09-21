@@ -66,22 +66,35 @@ export interface RewardsHistory {
  * nb: "today" means the current UTC day
  */
 export interface UnfinalizedReward {
+  ranking: number;
   account_id: string;
 
   /**
-   * this account's eligible maker volume today
+   * qualifying points earned today
    */
-  account_unfinalized: number;
+  earned_points: number;
 
   /**
-   * total eligible maker volume today, summed over all accounts
+   * points rolled over from yesterday
    */
-  total_unfinalized: number;
+  rollover_points: number;
 
   /**
-   * overall ranking by points earned today
+   * all points today
    */
-  overall_rank: number;
+  points: number;
+
+  /**
+   * points earned by all traders
+   */
+  all_traders_points: number;
+
+  /**
+   * share of rewards
+   */
+  share: number;
+
+  payout: number;
 }
 
 export interface RewardsParameters {

@@ -35,7 +35,7 @@ export function useRewardsEligibility() {
   }, []);
 
   return useSWR(
-    `${TONIC_DATA_API_URL}/rewards/eligibility?account=${accountId}`,
+    `${TONIC_DATA_API_URL}/rewards/v2/eligibility?account=${accountId}`,
     fetcher
   );
 }
@@ -61,7 +61,7 @@ export function useRewardsHistory() {
   }, []);
 
   return useSWR(
-    `${TONIC_DATA_API_URL}/rewards/history?account=${accountId}`,
+    `${TONIC_DATA_API_URL}/rewards/v2/history?account=${accountId}`,
     fetcher
   );
 }
@@ -96,9 +96,13 @@ export function useUnfinalizedRewards() {
       const parsed = raw.map((d) => {
         return {
           account_id: d.account_id,
-          overall_rank: forceInt(d.overall_rank),
-          account_unfinalized: forceFloat(d.account_unfinalized),
-          total_unfinalized: forceFloat(d.total_unfinalized),
+          ranking: forceInt(d.ranking),
+          points: forceFloat(d.points),
+          earned_points: forceFloat(d.earned_points),
+          payout: forceFloat(d.payout),
+          rollover_points: forceFloat(d.rollover_points),
+          share: forceFloat(d.share),
+          all_traders_points: forceFloat(d.all_traders_points),
         } as UnfinalizedReward;
       });
 
@@ -112,18 +116,15 @@ export function useUnfinalizedRewards() {
         // which tooltip to highlight
         const myIndex = parsed.findIndex((r) => r.account_id === accountId);
 
-        const myShare = parsed[myIndex].account_unfinalized;
+        const myShare = parsed[myIndex].points;
 
         // get how much of the pie belongs to accounts not returned in the top 3 + me
-        const namedShare = parsed.reduce(
-          (acc, r) => r.account_unfinalized + acc,
-          0
-        );
+        const namedShare = parsed.reduce((acc, r) => r.points + acc, 0);
         // if there's no data, just say 100% earned by others
         const otherTradersShare =
-          parsed[0].total_unfinalized > 0
-            ? ((parsed[0].total_unfinalized - namedShare) /
-                parsed[0].total_unfinalized) *
+          parsed[0].all_traders_points > 0
+            ? ((parsed[0].all_traders_points - namedShare) /
+                parsed[0].all_traders_points) *
               100
             : 100;
 
@@ -132,9 +133,9 @@ export function useUnfinalizedRewards() {
         // data is [ rank 1, rank 2, rank 3, you, other traders ]
         // (you may be in the first 3 ranks)
         const data = parsed.map((r) => {
-          if (r.total_unfinalized > 0) {
+          if (r.all_traders_points > 0) {
             // percentages
-            return (r.account_unfinalized / r.total_unfinalized) * 100;
+            return (r.points / r.all_traders_points) * 100;
           } else {
             return 0;
           }
@@ -150,7 +151,7 @@ export function useUnfinalizedRewards() {
 
         return {
           myIndex,
-          totalShares: parsed[0].total_unfinalized,
+          totalShares: parsed[0].all_traders_points,
           otherTradersShare,
           chartOptions: {
             data,
@@ -166,7 +167,7 @@ export function useUnfinalizedRewards() {
   );
 
   return useSWR(
-    `${TONIC_DATA_API_URL}/rewards/unfinalized?account=${accountId}`,
+    `${TONIC_DATA_API_URL}/rewards/v2/unfinalized?account=${accountId}`,
     fetcher
   );
 }
@@ -177,7 +178,7 @@ export function useRewardsProgramStats() {
     return (await res.json()) as TotalRewardsStats;
   }, []);
 
-  return useSWR(`${TONIC_DATA_API_URL}/rewards/stats`, fetcher);
+  return useSWR(`${TONIC_DATA_API_URL}/rewards/v2/stats`, fetcher);
 }
 
 /**
@@ -196,7 +197,7 @@ export function useRewardsProgramParameters() {
     } as RewardsParameters;
   }, []);
 
-  return useSWR(`${TONIC_DATA_API_URL}/rewards/parameters`, fetcher);
+  return useSWR(`${TONIC_DATA_API_URL}/rewards/v2/parameters`, fetcher);
 }
 
 export interface LeaderboardRanking {
@@ -209,6 +210,7 @@ export interface LeaderboardRanking {
   reward_date: Date;
 }
 
+// currently unused but will be useful later
 /**
  * @param dateStr UTC date in the format yyyy-mm-dd
  */
@@ -232,5 +234,5 @@ export function useLeaderboard(dateStr: string) {
     []
   );
 
-  return useSWR(`/rewards/leaderboard?date=${dateStr}`, fetcher);
+  return useSWR(`/rewards/v2/leaderboard?date=${dateStr}`, fetcher);
 }

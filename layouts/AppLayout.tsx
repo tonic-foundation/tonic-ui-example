@@ -22,13 +22,15 @@ import {
 import Logo from '~/components/common/Logo';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import { MdOutlineMenu } from 'react-icons/md';
-import { Link, useMatch, useResolvedPath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ThemeToggle from '~/components/common/ThemeToggle';
 import NearLogo from '~/components/common/NearLogo';
 import Modal, { ModalBody } from '~/components/common/Modal';
 import Toggle from '~/components/common/Toggle';
 import useHasTonicAccount from '~/hooks/useHasTonicAccount';
 import useExchangeBalancesModal from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
+import RewardsBanner from '~/components/rewards/RewardsBanner';
+import usePathMatches from '~/hooks/usePathMatches';
 
 const styles = {
   link: ({ active }: { active?: boolean }) => [
@@ -40,12 +42,6 @@ const styles = {
     active && tw`dark:opacity-100 light:underline`,
   ],
 };
-
-function usePathMatches(pattern: string) {
-  const resolved = useResolvedPath(pattern);
-  const match = useMatch({ path: resolved.pathname });
-  return !!match;
-}
 
 /**
  * Toggle-like links for switching between the swap and exchange views
@@ -238,6 +234,8 @@ const AppLayout: React.FC<{
 }> = ({ headerLeftContent, children, hasFooter = true, ...props }) => {
   return (
     <div tw="w-screen min-h-screen overflow-auto">
+      {/* TODO: useBanner? */}
+      <RewardsBanner />
       <Wrapper {...props}>
         <Header leftContent={headerLeftContent} />
         {children}

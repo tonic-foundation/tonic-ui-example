@@ -69,14 +69,14 @@ const ConfirmButton = styled(Button)(
   tw`py-3 dark:(bg-neutral-900 text-white) light:(bg-neutral-900 text-white)`
 );
 
-export const RewardsWelcomeModal = () => {
+export function useRewardsModalVisible() {
   const { isSignedIn } = useWalletSelector();
 
   const [_visible, _setVisible] = usePersistentState(
     'usn-rewards-sep-2022-visible',
     true
   );
-  const [visible, setVisible] = useState(!!_visible);
+  const [visible, setVisible] = useState(isSignedIn ? !!_visible : true);
 
   // localstorage is async so must handle transition from undefined -> boolean
   useEffect(() => {
@@ -94,6 +94,12 @@ export const RewardsWelcomeModal = () => {
       setVisible(false);
     }
   }, [_setVisible, isSignedIn]);
+
+  return [visible, handleClose, setVisible] as const;
+}
+
+export const RewardsWelcomeModal = () => {
+  const [visible, handleClose, setVisibleRaw] = useRewardsModalVisible();
 
   return (
     <Modal
@@ -156,8 +162,8 @@ export const RewardsWelcomeModal = () => {
                 Learn more
               </ConfirmButton>
               <a
-                // XXX
-                onClick={() => setVisible(false)}
+                // "maybe later": don't hide it permanently
+                onClick={() => setVisibleRaw(false)}
                 tw="mt-3 underline cursor-pointer opacity-80 hover:opacity-100 text-sm text-center"
               >
                 Maybe later
