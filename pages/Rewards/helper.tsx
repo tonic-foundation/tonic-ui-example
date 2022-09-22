@@ -72,6 +72,8 @@ export function useRewardsHistory() {
 export interface UnfinalizedRewardsChartOptions {
   myIndex: number;
   myShare: number;
+  myRollover: number;
+  myPointsEarnedToday: number;
   totalShares: number;
   otherTradersShare: number;
   chartOptions: {
@@ -158,6 +160,8 @@ export function useUnfinalizedRewards() {
             labels,
           },
           myShare,
+          myRollover: parsed[myIndex].rollover_points,
+          myPointsEarnedToday: parsed[myIndex].earned_points,
         };
       })();
 

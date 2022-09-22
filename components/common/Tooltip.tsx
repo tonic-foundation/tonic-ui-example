@@ -7,7 +7,7 @@ const Card = styled(BaseCard)(
   tw`
     dark:(bg-white text-black)
     hidden text-xs border border-neutral-600 p-3 py-2
-    group-hover:(top-0 min-w-[180px] absolute z-10 block shadow-md)
+    group-hover:(top-0 min-w-[180px] absolute z-10 block shadow-lg)
   `
 );
 

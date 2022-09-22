@@ -534,15 +534,30 @@ const AccountRewardsToday: React.FC = (props) => {
                 <Tooltip>
                   <div>
                     <LineItem.Container>
-                      <LineItem.Left>All traders</LineItem.Left>
+                      <LineItem.Left>Earned today</LineItem.Left>
                       <LineItem.Right>
-                        {truncateToLocaleString(data.totalShares, 2)}
+                        {truncateToLocaleString(data.myPointsEarnedToday, 2)}
+                      </LineItem.Right>
+                    </LineItem.Container>
+                    {data.myRollover > 0 && (
+                      <LineItem.Container>
+                        <LineItem.Left>Rollover</LineItem.Left>
+                        <LineItem.Right>
+                          {truncateToLocaleString(data.myRollover, 2)}
+                        </LineItem.Right>
+                      </LineItem.Container>
+                    )}
+                    <hr tw="my-1 border-black" />
+                    <LineItem.Container>
+                      <LineItem.Left>Your total</LineItem.Left>
+                      <LineItem.Right>
+                        {truncateToLocaleString(data.myShare, 2)}
                       </LineItem.Right>
                     </LineItem.Container>
                     <LineItem.Container>
-                      <LineItem.Left>Your points</LineItem.Left>
+                      <LineItem.Left>All traders</LineItem.Left>
                       <LineItem.Right>
-                        {truncateToLocaleString(data.myShare, 2)}
+                        {truncateToLocaleString(data.totalShares, 2)}
                       </LineItem.Right>
                     </LineItem.Container>
                     <hr tw="my-1 border-black" />
