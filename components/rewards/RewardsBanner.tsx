@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { atom, useRecoilState } from 'recoil';
 import usePathMatches from '~/hooks/usePathMatches';
 import Banner from '../common/Banner';
 
+const bannerVisibilityState = atom({
+  key: 'rewards-banner-visibility-state',
+  default: true,
+});
+
 const RewardsBanner = () => {
-  const [bannerVisible, setBannerVisible] = useState(true);
+  const [bannerVisible, setBannerVisible] = useRecoilState(
+    bannerVisibilityState
+  );
   const onRewardsPage = usePathMatches('/rewards');
 
   return (
