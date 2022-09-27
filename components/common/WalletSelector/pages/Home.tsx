@@ -51,7 +51,7 @@ const Home: React.FC = (props) => {
         </div>
         <div tw="flex items-start gap-3">
           <div tw="pt-2.5">
-            <CDot />
+            <Shape.Cdot />
           </div>
           <div>
             <p tw="text-base font-bold">Transact quickly and cheaply</p>
