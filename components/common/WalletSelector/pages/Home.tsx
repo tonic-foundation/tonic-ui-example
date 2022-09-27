@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
-import tw from 'twin.macro';
 import { NEAR_HREF } from '~/config';
 import Button from '../../Button';
-import CDot from '../../Cdot';
+import Shape from '../../Shape';
 import { LogoIcon } from '../../Logo';
 import { NearIcon } from '../../NearLogo';
 import { useWalletPickerPage } from '../state';
@@ -10,9 +9,9 @@ import { useWalletPickerPage } from '../state';
 const CDots = () => {
   return (
     <div tw="flex items-center gap-3">
-      <CDot />
-      <CDot />
-      <CDot />
+      <Shape.Cdot />
+      <Shape.Cdot />
+      <Shape.Cdot />
     </div>
   );
 };
@@ -40,7 +39,7 @@ const Home: React.FC = (props) => {
       <div tw="flex-grow flex flex-col items-stretch justify-end gap-6 my-12">
         <div tw="flex items-start gap-3">
           <div tw="pt-2.5">
-            <CDot />
+            <Shape.Cdot />
           </div>
           <div>
             <p tw="text-base font-bold">You control your crypto</p>

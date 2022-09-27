@@ -31,6 +31,8 @@ import useHasTonicAccount from '~/hooks/useHasTonicAccount';
 import useExchangeBalancesModal from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
 import RewardsBanner from '~/components/rewards/RewardsBanner';
 import usePathMatches from '~/hooks/usePathMatches';
+import Card from '~/components/common/Card';
+import Notices from '~/components/Notices';
 
 const styles = {
   link: ({ active }: { active?: boolean }) => [
@@ -232,14 +234,16 @@ const AppLayout: React.FC<{
   headerLeftContent?: React.ReactNode;
   hasFooter?: boolean;
 }> = ({ headerLeftContent, children, hasFooter = true, ...props }) => {
+  const isMobile = useIsMobile();
   return (
     <div tw="w-screen min-h-screen overflow-auto">
-      {/* TODO: useBanner? */}
-      <RewardsBanner />
       <Wrapper {...props}>
         <Header leftContent={headerLeftContent} />
         {children}
         {hasFooter && <Footer />}
+        {TONIC_HAS_REWARDS && !isMobile && (
+          <Notices tw="fixed z-20 bottom-9 right-2" />
+        )}
       </Wrapper>
     </div>
   );

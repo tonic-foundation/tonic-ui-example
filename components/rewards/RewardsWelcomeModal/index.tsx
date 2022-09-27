@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
-import tw, { css, styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import Button from '~/components/common/Button';
-import BaseCDot from '~/components/common/Cdot';
+import Shape from '~/components/common/Shape';
 import { LogoIcon } from '~/components/common/Logo';
 import Modal from '~/components/common/Modal';
 import usePersistentState from '~/hooks/usePersistentState';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { range } from '~/util';
 import UsnIcon from '../UsnIcon';
+import UsnShower from '../UsnShower';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
@@ -19,51 +19,9 @@ const Wrapper = tw.div`
   relative
 `;
 
-const CDot = styled(BaseCDot)(tw`dark:(bg-neutral-900) light:(bg-neutral-900)`);
-
-const animateFall = css`
-  animation: fall 3s linear infinite;
-
-  @keyframes fall {
-    0% {
-      transform: translate(0%, 0%);
-      opacity: 0.5;
-    }
-    100% {
-      transform: translate(0%, 40vh);
-      opacity: 0;
-    }
-  }
-`;
-
-const Rain: React.FC = (props) => {
-  const limit = 16;
-
-  return (
-    <div {...props}>
-      <div tw="absolute inset-0">
-        {range(limit).map((i) => {
-          return (
-            <div
-              key={i}
-              style={{ left: `${(i / 8) * 100}%` }}
-              // negative top to hide while waiting for animation to start
-              tw="absolute -top-20"
-              css={[
-                animateFall,
-                css`
-                  animation-delay: ${Math.random() * 6}s;
-                `,
-              ]}
-            >
-              <UsnIcon tw="animate-spin w-4 h-4" />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+const Cdot = styled(Shape.Cdot)(
+  tw`dark:(bg-neutral-900) light:(bg-neutral-900)`
+);
 
 const ConfirmButton = styled(Button)(
   tw`py-3 dark:(bg-neutral-900 text-white) light:(bg-neutral-900 text-white)`
@@ -113,7 +71,7 @@ export const RewardsWelcomeModal = () => {
       render={() => {
         return (
           <Wrapper>
-            <Rain tw="absolute top-0 bottom-0 left-8 right-8" />
+            <UsnShower count={16} tw="absolute top-0 bottom-0 left-8 right-8" />
             <div tw="relative z-10 flex-grow flex flex-col p-6 items-stretch">
               <div tw="mt-6 flex items-center justify-center gap-6">
                 <LogoIcon tw="h-9 w-9" />
@@ -129,7 +87,7 @@ export const RewardsWelcomeModal = () => {
               <div tw="flex-grow flex flex-col items-stretch justify-end gap-6 my-12">
                 <div tw="flex items-start gap-3">
                   <div tw="pt-2.5">
-                    <CDot />
+                    <Cdot />
                   </div>
                   <div>
                     <p tw="text-base font-bold">How to participate</p>
@@ -141,7 +99,7 @@ export const RewardsWelcomeModal = () => {
                 </div>
                 <div tw="flex items-start gap-3">
                   <div tw="pt-2.5">
-                    <CDot />
+                    <Cdot />
                   </div>
                   <div>
                     <p tw="text-base font-bold">Eligibility</p>

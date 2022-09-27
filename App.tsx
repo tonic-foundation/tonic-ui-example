@@ -46,7 +46,9 @@ const App = () => {
               <ExchangeBalancesModal />
               <DepositWithdrawModal />
               <WalletSelectorModal />
-              {TONIC_HAS_REWARDS && <RewardsWelcomeModal />}
+              {/* since we have notices now, only show this for mobile users
+              (TODO: make notices mobile-friendly) */}
+              {TONIC_HAS_REWARDS && isMobile && <RewardsWelcomeModal />}
               <Toaster
                 position={toasterPosition}
                 containerStyle={toasterContainerStyle}
