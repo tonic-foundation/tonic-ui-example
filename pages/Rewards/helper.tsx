@@ -1,3 +1,4 @@
+import { isSameDay } from 'date-fns';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 import { TONIC_DATA_API_URL } from '~/config';
@@ -5,6 +6,7 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateCryptoString } from '~/util';
 import { TzDate } from '~/util/date';
 import {
+  RewardDayEntry,
   RewardsHistory,
   RewardsParameters,
   TotalRewardsStats,
@@ -24,6 +26,10 @@ function forceFloat<T = number>(s: T) {
 
 function forceInt<T = number>(s: T) {
   return parseInt(s as unknown as string);
+}
+
+function forceTzDate<T = Date>(s: T) {
+  return TzDate(s as unknown as string);
 }
 
 export function useRewardsEligibility() {
@@ -48,15 +54,40 @@ export function useRewardsHistory() {
     const data = (await res.json()) as RewardsHistory;
     const hydrated = {
       total: forceFloat(data.total),
-      rewards: data.rewards.map((r) => {
-        return {
-          payout: forceFloat(r.payout),
-          points: forceFloat(r.points),
-          reward_date: TzDate(r.reward_date as unknown as string),
-          paid_in_tx_id: r.paid_in_tx_id,
-        };
-      }),
+      rewards: data.rewards
+        .map((r): RewardDayEntry => {
+          if (r.source === 'raffle') {
+            // dedupe raffles; we combine raffle and lp rewards below
+            return undefined as unknown as RewardDayEntry;
+          }
+
+          const raffle = data.rewards.find(
+            (c) =>
+              isSameDay(
+                forceTzDate(c.reward_date),
+                forceTzDate(r.reward_date)
+              ) && c.source === 'raffle'
+          );
+          return {
+            day_payout:
+              forceFloat(r.payout) + forceFloat(raffle?.payout || '0'),
+            payout: forceFloat(r.payout),
+            points: forceFloat(r.points),
+            reward_date: forceTzDate(r.reward_date),
+            paid_in_tx_id: r.paid_in_tx_id,
+            source: r.source,
+            raffle: raffle
+              ? {
+                  payout: forceFloat(raffle.payout),
+                  paid_in_tx_id: raffle.paid_in_tx_id,
+                }
+              : undefined,
+          };
+        })
+        // filter out the deduped payouts
+        .filter((r) => !!r),
     };
+
     return hydrated;
   }, []);
 

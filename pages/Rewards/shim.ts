@@ -43,11 +43,31 @@ export interface TotalRewardsStats {
 }
 
 interface RewardEntry {
+  /** total, all days */
   total: number;
-  payout: number;
+  /** total for this day */
+  day_payout: number;
+  /**
+   * the earned reward
+   */
+  payout: number; // TODO: this is confusing, should wrap this in an "earned" property, probably
   points: number;
   reward_date: Date;
+  source: 'lp_reward' | 'raffle';
+  /**
+   * tx where the earned reward was paid
+   */
   paid_in_tx_id: string | null;
+  /**
+   * raffle winnings details, if they won the raffle
+   */
+  raffle?: {
+    payout: number;
+    /**
+     * tx where the raffle reward was paid
+     */
+    paid_in_tx_id: string | null;
+  };
 }
 
 export type RewardDayEntry = Omit<RewardEntry, 'total'>;

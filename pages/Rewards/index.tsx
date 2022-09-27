@@ -44,6 +44,8 @@ import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
+import Shape from '~/components/common/Shape';
+import UsnShower from '~/components/rewards/UsnShower';
 
 const A: React.FC<{ url: string }> = ({ url, children, ...props }) => {
   return (
@@ -280,21 +282,24 @@ const Week: React.FC<{
             }}
             onClick={(e) => {
               e.preventDefault();
-              if (!isFutureReward && r.payout > 0) {
+              if (!isFutureReward && r.day_payout > 0) {
                 setRewardModal(r);
               }
             }}
             tw="
-              h-12 w-full rounded flex items-start justify-end pt-0.5 pr-1.5
-              border border-transparent
+              relative overflow-hidden
+              h-12 w-full rounded pt-0.5 pr-1.5
+              light:(border border-transparent)
             "
             css={[
               isFutureReward
                 ? tw`bg-neutral-100 dark:(bg-black bg-opacity-[15%])`
                 : isTodayReward
                 ? styles.today(r)
-                : r.payout > 0
-                ? tw`bg-up-dark cursor-pointer`
+                : r.day_payout > 0
+                ? r.raffle
+                  ? tw`bg-gradient-to-tr from-fuchsia-400 to-teal-300 light:(text-white border-none) cursor-pointer`
+                  : tw`bg-up-dark cursor-pointer`
                 : tw`bg-neutral-300 dark:bg-neutral-800`,
               hoveredDayId &&
                 (hoveredDayId === r.reward_date.toString()
@@ -302,7 +307,19 @@ const Week: React.FC<{
                   : tw`opacity-50`),
             ]}
           >
-            <span>{r.reward_date.getDate()}</span>
+            {!!r.raffle && (
+              <UsnShower
+                tw="absolute inset-0 left-0.5 right-0.5"
+                iconStyle={tw`w-2 h-2`}
+                count={8}
+              />
+            )}
+            <span tw="absolute top-1 right-2">{r.reward_date.getDate()}</span>
+            {!!r.raffle && (
+              <p tw="absolute bottom-1 left-0 right-0 text-center text-xs">
+                WINNER
+              </p>
+            )}
           </div>
         );
       })}
@@ -330,13 +347,16 @@ const RewardsCalendar: React.FC<{
         if (r) {
           return {
             payout: r.payout,
+            day_payout: r.day_payout,
             points: r.points,
             reward_date: r.reward_date,
             paid_in_tx_id: r.paid_in_tx_id,
+            raffle: r.raffle,
           } as RewardDayEntry;
         } else {
           return {
             paid_in_tx_id: null,
+            day_payout: 0,
             points: 0,
             payout: 0,
             reward_date: d,
@@ -377,18 +397,21 @@ const RewardsGraph: React.FC<{
     return eachDayOfInterval({ start, end }).map((d) => {
       const r = history.rewards.find((r) => isSameDay(r.reward_date, d));
       if (r) {
-        runningTotal += r.payout;
+        runningTotal += r.day_payout;
         return {
+          day_payout: r.day_payout,
           payout: r.payout,
           points: r.points,
           reward_date: r.reward_date,
           runningTotal,
           paid_in_tx_id: r.paid_in_tx_id,
+          raffle: r.raffle,
         } as RewardWithRunningTotal;
       } else {
         return {
           paid_in_tx_id: null,
           points: 0,
+          day_payout: 0,
           payout: 0,
           reward_date: d,
           runningTotal,
@@ -408,7 +431,7 @@ const RewardsGraph: React.FC<{
     >
       {hovered && (
         <div tw="absolute z-10 top-1.5 left-0 p-2 rounded light:(bg-white shadow)">
-          <p tw="text-sm">{hovered.payout.toFixed(3)} USN</p>
+          <p tw="text-sm">{hovered.day_payout.toFixed(3)} USN</p>
           <p tw="text-sm">{hovered.reward_date.toLocaleDateString()}</p>
         </div>
       )}
@@ -422,7 +445,7 @@ const RewardsGraph: React.FC<{
         // graph
         const rewardHeight =
           history.total > 0
-            ? `${Math.max((r.payout / history.total) * 100, 1)}%`
+            ? `${Math.max((r.day_payout / history.total) * 100, 1)}%`
             : '1%';
         const cumulativeHeight =
           history.total > 0
@@ -617,7 +640,7 @@ const AccountRewardsHistory: React.FC = (props) => {
   return (
     <Card {...props}>
       <h1 tw="text-xl">Your payout history</h1>
-      <p tw="mt-1.5">Total: {data.total} USN</p>
+      <p tw="mt-1.5">Total: {truncateToLocaleString(data.total, 2)} USN</p>
       <RewardsGraph tw="mt-3" history={data} />
       <RewardsCalendar tw="mt-3" history={data} />
     </Card>
@@ -797,6 +820,26 @@ const Content = () => {
   );
 };
 
+const PayoutTxn: React.FC<{ txId: string | null }> = ({ txId }) => {
+  if (txId) {
+    return (
+      <div tw="flex items-center gap-1.5">
+        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+        <A url={getExplorerUrl('transaction', txId)}>
+          {abbreviateCryptoString(txId, 9, 3)}
+        </A>
+      </div>
+    );
+  } else {
+    return (
+      <div tw="flex items-center gap-1.5">
+        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-yellow-500"></span>
+        <span>Pending</span>
+      </div>
+    );
+  }
+};
+
 /**
  * Modal for a single reward
  */
@@ -821,41 +864,40 @@ const RewardModal = () => {
                 Rewards on {selected.reward_date.toLocaleDateString()}
               </h1>
             </ModalHeader>
-            <ModalBody tw="w-screen md:max-w-xs">
-              <div tw="space-y-3">
+            <ModalBody tw="w-screen md:max-w-xs space-y-6">
+              <div tw="space-y-1">
                 <LineItem.Container>
                   <LineItem.Left>Points earned</LineItem.Left>
                   <LineItem.Right>{selected.points}</LineItem.Right>
                 </LineItem.Container>
                 <LineItem.Container>
-                  <LineItem.Left>Reward</LineItem.Left>
+                  <LineItem.Left>Liquidity rewards</LineItem.Left>
                   <LineItem.Right>{selected.payout} USN</LineItem.Right>
                 </LineItem.Container>
                 <LineItem.Container>
                   <LineItem.Left>Transaction</LineItem.Left>
                   <LineItem.Right>
-                    {selected.paid_in_tx_id ? (
-                      <div tw="flex items-center gap-1.5">
-                        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
-                        <A
-                          url={getExplorerUrl(
-                            'transaction',
-                            selected.paid_in_tx_id
-                          )}
-                        >
-                          {abbreviateCryptoString(selected.paid_in_tx_id, 9, 3)}
-                        </A>
-                      </div>
-                    ) : (
-                      <div tw="flex items-center gap-1.5">
-                        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-yellow-500"></span>
-                        <span>Pending</span>
-                      </div>
-                    )}
+                    <PayoutTxn txId={selected.paid_in_tx_id} />
                   </LineItem.Right>
                 </LineItem.Container>
               </div>
-              <Button tw="mt-6" onClick={closeModal} variant="up">
+              {selected.raffle && (
+                <div tw="space-y-1">
+                  <LineItem.Container>
+                    <LineItem.Left>Raffle winnings</LineItem.Left>
+                    <LineItem.Right>
+                      {selected.raffle.payout} USN
+                    </LineItem.Right>
+                  </LineItem.Container>
+                  <LineItem.Container>
+                    <LineItem.Left>Transaction</LineItem.Left>
+                    <LineItem.Right>
+                      <PayoutTxn txId={selected.raffle.paid_in_tx_id} />
+                    </LineItem.Right>
+                  </LineItem.Container>
+                </div>
+              )}
+              <Button onClick={closeModal} variant="up">
                 Close
               </Button>
             </ModalBody>
