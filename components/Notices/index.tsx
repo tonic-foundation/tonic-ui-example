@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
-import tw from 'twin.macro';
+import tw, { css } from 'twin.macro';
 import usePathMatches from '~/hooks/usePathMatches';
 import { sleep } from '~/util';
 import Card from '../common/Card';
@@ -13,6 +13,21 @@ const noticesOpenState = atom({
   key: 'notices-open-state',
   default: true,
 });
+
+// copypaste of tw animate-pulse but less extreme
+const animatePulseLess = css`
+  animation: pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.75;
+    }
+  }
+`;
 
 const UsnRewardsNotice = () => {
   const setNoticesOpen = useSetRecoilState(noticesOpenState);
@@ -34,7 +49,10 @@ const UsnRewardsNotice = () => {
         <div tw="absolute inset-0 pt-9 text-white flex flex-col items-center z-20">
           <p tw="text-base">Liquidity Incentive</p>
           <p tw="text-xl">{(50000).toLocaleString()} $USN</p>
-          <p tw="mt-2.5 text-base px-2 py-0.5 rounded bg-white bg-opacity-20">
+          <p
+            tw="mt-2.5 text-base px-2 py-0.5 rounded bg-white bg-opacity-20"
+            css={animatePulseLess}
+          >
             Live now
           </p>
         </div>

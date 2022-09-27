@@ -3,11 +3,7 @@ import { range } from '~/util';
 
 const Side: React.FC<{ up?: boolean }> = ({ up, ...props }) => {
   return (
-    <div
-      tw="flex items-end animate-pulse"
-      css={up && tw`flex-row-reverse`}
-      {...props}
-    >
+    <div tw="flex items-end" css={up && tw`flex-row-reverse`} {...props}>
       {/* these numbers were empirically chosen (ie I guessed and checked until
       it looked right) */}
       {range(Math.floor(Math.random() * 5) + 12).map((n) => {
