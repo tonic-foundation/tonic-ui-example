@@ -15,7 +15,7 @@ import { setupSender } from '@near-wallet-selector/sender';
 import { setupNightly } from '@near-wallet-selector/nightly';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 
-import { IS_DEV } from '~/config';
+import { IS_DEV, NEAR_ENV } from '~/config';
 import { near } from '~/services/near';
 
 declare global {
@@ -42,7 +42,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
 
   const init = useCallback(async () => {
     const _selector = await setupWalletSelector({
-      network: 'mainnet',
+      network: NEAR_ENV,
       debug: IS_DEV,
       modules: [
         setupNearWallet(),
