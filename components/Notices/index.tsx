@@ -14,6 +14,11 @@ const noticesOpenState = atom({
   default: true,
 });
 
+const noticesPageState = atom<'usn-rewards' | 'usn-rebates'>({
+  key: 'notices-page-state',
+  default: 'usn-rewards',
+});
+
 // copypaste of tw animate-pulse but less extreme
 const animatePulseLess = css`
   animation: pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -66,7 +71,7 @@ const UsnRewardsNotice = () => {
 };
 
 const Notices: React.FC = ({ ...props }) => {
-  const [tab] = useState<'rewards' | 'rebates'>('rewards');
+  const [page] = useRecoilState(noticesPageState);
   const [_open, _setOpen] = useRecoilState(noticesOpenState);
   const [exiting, setExiting] = useState(false);
 
@@ -75,10 +80,10 @@ const Notices: React.FC = ({ ...props }) => {
   const isOpen = useMemo(() => {
     if (onRewardsPage) {
       // if on the rewards page, no point showing the notice
-      return _open && tab !== 'rewards';
+      return _open && page !== 'usn-rewards';
     }
     return _open;
-  }, [_open, onRewardsPage, tab]);
+  }, [_open, onRewardsPage, page]);
 
   const close = useCallback(async () => {
     setExiting(true);
