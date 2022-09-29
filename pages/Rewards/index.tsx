@@ -868,7 +868,9 @@ const RewardModal = () => {
               <div tw="space-y-1">
                 <LineItem.Container>
                   <LineItem.Left>Points earned</LineItem.Left>
-                  <LineItem.Right>{selected.points}</LineItem.Right>
+                  <LineItem.Right>
+                    {truncateToLocaleString(selected.points, 2)}
+                  </LineItem.Right>
                 </LineItem.Container>
                 <LineItem.Container>
                   <LineItem.Left>Liquidity rewards</LineItem.Left>
