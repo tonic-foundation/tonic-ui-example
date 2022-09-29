@@ -44,7 +44,6 @@ import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
-import Shape from '~/components/common/Shape';
 import UsnShower from '~/components/rewards/UsnShower';
 
 const A: React.FC<{ url: string }> = ({ url, children, ...props }) => {
@@ -676,7 +675,7 @@ const PayoutsToDate: React.FC = (props) => {
   // the bar on the first day when there's no data to show yet
   return (
     <React.Fragment>
-      <p tw="mt-6 text-xl">Program payouts to date</p>
+      <p tw="text-xl">Program payouts to date</p>
       <BaseCard
         tw="
           mt-3.5 relative flex items-center justify-center
@@ -752,6 +751,10 @@ const RewardsDataIfEligible = () => {
   );
 };
 
+const CoolModeCard = styled(Card)(
+  tw`dark:(bg-gradient-to-tr from-fuchsia-400 to-teal-400)`
+);
+
 const Content = () => {
   const { isSignedIn } = useWalletSelector();
   const [rulesVisible, setRulesVisible] = usePersistentState(
@@ -763,7 +766,7 @@ const Content = () => {
     <Wrapper>
       <Section>
         {rulesVisible ? (
-          <Card tw="dark:(bg-gradient-to-tr from-fuchsia-400 to-teal-400)">
+          <CoolModeCard>
             <header tw="flex items-center justify-between">
               <h1 tw="text-xl">USN/USDC Liquidity Rewards</h1>
               <CloseButton onClick={() => setRulesVisible(false)} />
@@ -783,8 +786,7 @@ const Content = () => {
               </p>
               <A url={ANNOUNCEMENT_HREF}>View the announcement</A>
             </div>
-            <PayoutsToDate />
-          </Card>
+          </CoolModeCard>
         ) : (
           <div tw="flex items-center justify-end">
             <button
@@ -795,6 +797,12 @@ const Content = () => {
             </button>
           </div>
         )}
+      </Section>
+
+      <Section>
+        <CoolModeCard tw="dark:(from-slate-500 to-fuchsia-400)">
+          <PayoutsToDate />
+        </CoolModeCard>
       </Section>
 
       {isSignedIn ? (
