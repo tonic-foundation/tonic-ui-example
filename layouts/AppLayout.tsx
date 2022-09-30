@@ -33,6 +33,7 @@ import RewardsBanner from '~/components/rewards/RewardsBanner';
 import usePathMatches from '~/hooks/usePathMatches';
 import Card from '~/components/common/Card';
 import Notices from '~/components/Notices';
+import { useWalletSelector } from '~/state/WalletSelectorContainer';
 
 const styles = {
   link: ({ active }: { active?: boolean }) => [
@@ -70,13 +71,14 @@ const SimpleAdvancedToggle = () => {
 const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
   const setBalancesVisible = useExchangeBalancesModal();
   const [hasTonicAccount, loading] = useHasTonicAccount();
+  const { isSignedIn } = useWalletSelector();
   // we display the deposit/withdraw if loading just to prevent a flash
 
   if (mobile) {
     return (
       <React.Fragment>
         <SimpleAdvancedToggle />
-        {(loading || hasTonicAccount) && (
+        {isSignedIn && hasTonicAccount && (
           <MobileMenuButton onClick={() => setBalancesVisible(true)}>
             Deposit/Withdraw
           </MobileMenuButton>
@@ -111,7 +113,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
       {/* putting the theme toggle here is a hack */}
       <ThemeToggle />
       <SimpleAdvancedToggle />
-      {(loading || hasTonicAccount) && (
+      {isSignedIn && hasTonicAccount && (
         <Button
           tw="text-sm"
           variant="up"
