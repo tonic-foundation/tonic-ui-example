@@ -7,7 +7,6 @@ import Home from './pages/Home';
 import WalletConnect from './pages/WalletConnect';
 import WalletInstall from './pages/WalletInstall';
 import CloseButton from '../CloseButton';
-import { TbArrowLeft } from 'react-icons/tb';
 import { useWalletPickerPage } from './state';
 import WalletSelect from './pages/WalletSelect';
 import IconButton from '../IconButton';
@@ -15,6 +14,7 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { ModuleState, Wallet } from '@near-wallet-selector/core';
 import toast from 'react-hot-toast';
 import { wrappedToast } from '../ToastWrapper';
+import Icon from '../Icon';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
@@ -75,11 +75,7 @@ const Content: React.FC<{
 };
 
 const BackButton: React.FC<React.HTMLProps<HTMLButtonElement>> = (props) => {
-  return (
-    <IconButton {...props} type="button">
-      <TbArrowLeft />
-    </IconButton>
-  );
+  return <IconButton.Base {...props} icon={Icon.Back} type="button" />;
 };
 
 export const WalletSelector: React.FC<{

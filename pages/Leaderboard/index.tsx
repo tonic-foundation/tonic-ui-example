@@ -6,7 +6,7 @@ import Card from '~/components/common/Card';
 import CloseButton from '~/components/common/CloseButton';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import Fallback from '~/components/common/Fallback';
-import Icon from '~/components/common/Icons';
+import Icon from '~/components/common/Icon';
 import { wrappedToast } from '~/components/common/ToastWrapper';
 import Tooltip from '~/components/common/Tooltip';
 import { getExplorerUrl, GOBLIN_HREF, TONIC_DATA_API_URL } from '~/config';

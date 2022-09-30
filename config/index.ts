@@ -56,7 +56,7 @@ export const TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS =
   !!process.env.TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS;
 export const TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT = process.env
   .TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT
-  ? parseInt(process.env.TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT)
+  ? parseFloat(process.env.TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT)
   : 1;
 
 export const GOBLIN_HREF = 'https://greedygoblins.enleap.app/';

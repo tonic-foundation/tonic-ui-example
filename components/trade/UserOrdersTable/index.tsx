@@ -1,8 +1,9 @@
 import tw from 'twin.macro';
+import Icon from '~/components/common/Icon';
+import IconButton from '~/components/common/IconButton';
 import { useIsMobile } from '~/hooks/useIsMobile';
 import usePersistentState from '~/hooks/usePersistentState';
 import Card, { CardBody, CardHeader } from '../../common/Card';
-import CollapseButton from '../../common/CollapseButton';
 import RequireAuth from '../../common/RequireAuth';
 import TabButton from '../../common/TabButton';
 import OpenOrdersTable from './OpenOrdersTable';
@@ -45,7 +46,8 @@ const UserOrdersTable: React.FC<{ collapsible?: boolean }> = ({
           </TabButton>
         </div>
         {collapsible && (
-          <CollapseButton
+          <IconButton.Base
+            icon={<Icon.Close />}
             tw="mr-2"
             css={collapsed && tw`rotate-180`}
             onClick={() => setCollapsed(!collapsed)}

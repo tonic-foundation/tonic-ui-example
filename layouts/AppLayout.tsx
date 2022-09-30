@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 import tw, { styled } from 'twin.macro';
-import {
-  FaDiscord,
-  FaGithub,
-  FaTelegramPlane,
-  FaTwitter,
-} from 'react-icons/fa';
 import RpcStatus from '~/components/common/RpcStatus';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
@@ -21,7 +15,6 @@ import {
 } from '~/config';
 import Logo from '~/components/common/Logo';
 import { useIsMobile } from '~/hooks/useIsMobile';
-import { MdOutlineMenu } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '~/components/common/ThemeToggle';
 import NearLogo from '~/components/common/NearLogo';
@@ -29,11 +22,10 @@ import Modal, { ModalBody } from '~/components/common/Modal';
 import Toggle from '~/components/common/Toggle';
 import useHasTonicAccount from '~/hooks/useHasTonicAccount';
 import useExchangeBalancesModal from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
-import RewardsBanner from '~/components/rewards/RewardsBanner';
 import usePathMatches from '~/hooks/usePathMatches';
-import Card from '~/components/common/Card';
 import Notices from '~/components/Notices';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
+import Icon from '~/components/common/Icon';
 
 const styles = {
   link: ({ active }: { active?: boolean }) => [
@@ -78,7 +70,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
     return (
       <React.Fragment>
         <SimpleAdvancedToggle />
-        {isSignedIn && hasTonicAccount && (
+        {(loading || (isSignedIn && hasTonicAccount)) && (
           <MobileMenuButton onClick={() => setBalancesVisible(true)}>
             Deposit/Withdraw
           </MobileMenuButton>
@@ -113,7 +105,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
       {/* putting the theme toggle here is a hack */}
       <ThemeToggle />
       <SimpleAdvancedToggle />
-      {isSignedIn && hasTonicAccount && (
+      {(loading || (isSignedIn && hasTonicAccount)) && (
         <Button
           tw="text-sm"
           variant="up"
@@ -137,7 +129,7 @@ const MobileMenu: React.FC = () => {
         {/* putting the theme toggle here is a hack */}
         <ThemeToggle />
         <button tw="transition duration-200" onClick={() => setVisible(true)}>
-          <MdOutlineMenu tw="text-3xl" />
+          <Icon.Menu tw="text-3xl" />
         </button>
       </div>
       <Modal drawerOnMobile visible={visible} onClose={() => setVisible(false)}>
@@ -209,16 +201,16 @@ const Footer: React.FC = (props) => {
             Docs
           </SocialLink>
           <SocialLink href={GITHUB_HREF} target="_blank">
-            <FaGithub />
+            <Icon.Github />
           </SocialLink>
           <SocialLink href={TWITTER_HREF} target="_blank">
-            <FaTwitter />
+            <Icon.Twitter />
           </SocialLink>
           <SocialLink href={DISCORD_GENERAL_HREF} target="_blank">
-            <FaDiscord />
+            <Icon.Discord />
           </SocialLink>
           <SocialLink href={TELEGRAM_HREF} target="_blank">
-            <FaTelegramPlane />
+            <Icon.Telegram />
           </SocialLink>
         </div>
       </div>

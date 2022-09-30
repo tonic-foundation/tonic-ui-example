@@ -4,7 +4,7 @@ import { Chart } from 'chart.js';
 
 import BaseCard from '~/components/common/Card';
 import ErrorBoundary from '~/components/ErrorBoundary';
-import Icon from '~/components/common/Icons';
+import Icon from '~/components/common/Icon';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateCryptoString, range, truncateToLocaleString } from '~/util';

@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { ClickHandler } from '~/types/event-handlers';
 import { pairState } from '~/state/trade';
 import TokenIcon from '~/components/common/TokenIcon';
-import Icon from '~/components/common/Icons';
+import Icon from '~/components/common/Icon';
 
 const MarketPickerButton: React.FC<{
   ticker: string;
@@ -21,7 +21,7 @@ const MarketPickerButton: React.FC<{
         <TokenIcon tw="h-6 w-6 mr-2 " src={baseTokenMetadata.icon} />
       )}
       <span tw="font-medium">{ticker}</span>
-      <Icon.ArrowDown tw="ml-2 text-lg" />
+      <Icon.ChevronDown tw="ml-2 text-lg" />
     </button>
   );
 };

@@ -1,6 +1,6 @@
 import { css, TwStyle } from 'twin.macro';
 import { range } from '~/util';
-import UsnIcon from './UsnIcon';
+import Icon from '../common/Icon';
 
 const animateFall = css`
   animation: fall 3s linear infinite;
@@ -39,7 +39,7 @@ const UsnShower: React.FC<{ count: number; iconStyle?: TwStyle }> = ({
                 `,
               ]}
             >
-              <UsnIcon tw="animate-spin w-4 h-4" css={iconStyle} />
+              <Icon.Usn tw="animate-spin w-4 h-4" css={iconStyle} />
             </div>
           );
         })}

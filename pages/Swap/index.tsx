@@ -34,7 +34,7 @@ import {
   getSwapRoute,
   SwapRoute,
 } from './helper';
-import Icon from '~/components/common/Icons';
+import Icon from '~/components/common/Icon';
 import useSupportedTokens from '~/hooks/useSupportedTokens';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/tonic-client';
@@ -83,7 +83,7 @@ const TokenButton: React.FC<{
     >
       <TokenIcon tw="w-6 h-6" src={token.logoURI} />
       <span tw="ml-2">{token.symbol}</span>
-      <Icon.ArrowDown tw="ml-1" />
+      <Icon.ChevronDown tw="ml-1" />
     </button>
   );
 };
@@ -450,19 +450,17 @@ const Content = () => {
   return (
     <Wrapper>
       {TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS && (
-        <header tw="sm:max-w-sm m-auto mb-3 flex items-center justify-between">
-          <h1 tw="text-lg">Swap</h1>
+        <header tw="sm:max-w-sm m-auto mb-3 flex items-center justify-end">
           <div tw="flex items-center gap-1.5">
             <span tw="text-sm">{swapSettings.slippageTolerancePercent}%</span>
-            <IconButton
+            <IconButton.Base
+              icon={<Icon.Settings />}
               tw="text-xl"
               onClick={(e) => {
                 e.preventDefault();
                 setSwapSettingsModalVisible(true);
               }}
-            >
-              <MdSettings />
-            </IconButton>
+            />
           </div>
         </header>
       )}

@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { MdClose } from 'react-icons/md';
 import tw, { styled } from 'twin.macro';
 import Button from '~/components/common/Button';
 import Shape from '~/components/common/Shape';
-import { LogoIcon } from '~/components/common/Logo';
 import Modal from '~/components/common/Modal';
 import usePersistentState from '~/hooks/usePersistentState';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import UsnIcon from '../UsnIcon';
 import UsnShower from '../UsnShower';
+import Icon from '~/components/common/Icon';
 
 const Wrapper = tw.div`
   overflow-hidden flex flex-col items-stretch
@@ -74,9 +72,9 @@ export const RewardsWelcomeModal = () => {
             <UsnShower count={16} tw="absolute top-0 bottom-0 left-8 right-8" />
             <div tw="relative z-10 flex-grow flex flex-col p-6 items-stretch">
               <div tw="mt-6 flex items-center justify-center gap-6">
-                <LogoIcon tw="h-9 w-9" />
-                <MdClose />
-                <UsnIcon tw="h-10 w-10" />
+                <Icon.Tonic tw="h-9 w-9" />
+                <Icon.Close />
+                <Icon.Usn tw="h-10 w-10" />
               </div>
               <h1 tw="mt-6 text-center text-3xl">
                 {(50000).toLocaleString()} USN

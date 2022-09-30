@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import tw from 'twin.macro';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { MdClose } from 'react-icons/md';
 import { OpenLimitOrder } from '@tonic-foundation/tonic';
 import {
   cancelAllOrdersV1,
@@ -24,6 +23,7 @@ import Button from '../../common/Button';
 import { bnToFixed } from '@tonic-foundation/utils';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import CannedToast from '~/components/common/CannedToast';
+import Icon from '~/components/common/Icon';
 
 const styles = {
   row: tw`flex items-center gap-x-0.5 font-mono overflow-hidden`,
@@ -34,16 +34,15 @@ const CancelButton: React.FC<{ loading: boolean; onCancel: () => unknown }> = ({
   onCancel,
 }) => {
   return (
-    <IconButton
+    <IconButton.Base
       css={loading && tw`animate-spin`}
       disabled={loading}
       onClick={(e) => {
         e.preventDefault();
         onCancel();
       }}
-    >
-      {loading ? <AiOutlineLoading3Quarters /> : <MdClose />}
-    </IconButton>
+      icon={loading ? <Icon.LoadingSpin /> : <Icon.Close />}
+    />
   );
 };
 

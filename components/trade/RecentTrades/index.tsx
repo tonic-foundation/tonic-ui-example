@@ -5,10 +5,11 @@ import useRecentTrades, { RecentTrade } from '~/hooks/useRecentTrades';
 import { bnToFixed } from '@tonic-foundation/utils';
 import { usePair, usePairPrecision } from '~/state/trade';
 import { useEntering } from '~/hooks/useEntering';
-import CollapseButton from '../../common/CollapseButton';
 import Card, { CardBody, CardHeader } from '../../common/Card';
 import { format } from 'date-fns';
 import usePersistentState from '~/hooks/usePersistentState';
+import IconButton from '~/components/common/IconButton';
+import Icon from '~/components/common/Icon';
 
 const Trade: React.FC<{
   trade: RecentTrade;
@@ -106,7 +107,8 @@ const RecentTrades: React.FC<{ collapsible?: boolean }> = ({
       <CardHeader tw="py-0 pr-2">
         <h1 tw="py-2">Recent trades</h1>
         {collapsible && (
-          <CollapseButton
+          <IconButton.Base
+            icon={<Icon.Close />}
             css={collapsed && tw`rotate-180`}
             onClick={() => setCollapsed(!collapsed)}
           />

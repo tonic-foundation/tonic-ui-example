@@ -1,8 +1,8 @@
 import tw from 'twin.macro';
 import useTheme from '~/hooks/useTheme';
-import { IoIosSunny, IoIosMoon } from 'react-icons/io';
 import { useState } from 'react';
 import { sleep } from '~/util';
+import Icon from './Icon';
 
 const ThemeToggle: React.FC = (props) => {
   const { theme, setTheme } = useTheme();
@@ -33,7 +33,7 @@ const ThemeToggle: React.FC = (props) => {
             : undefined
         }
       >
-        {theme === 'light' ? <IoIosSunny /> : <IoIosMoon />}
+        {theme === 'light' ? <Icon.LightMode /> : <Icon.DarkMode />}
       </span>
     </button>
   );
