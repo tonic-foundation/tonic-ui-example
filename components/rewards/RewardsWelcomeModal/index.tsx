@@ -80,7 +80,6 @@ export const RewardsWelcomeModal = () => {
                 {(50000).toLocaleString()} USN
               </h1>
               <h1 tw="text-center">Liquidity Rewards</h1>
-              <h1 tw="text-center">Sept 12&ndash;Sept 30</h1>
 
               <div tw="flex-grow flex flex-col items-stretch justify-end gap-6 my-12">
                 <div tw="flex items-start gap-3">
@@ -90,8 +89,8 @@ export const RewardsWelcomeModal = () => {
                   <div>
                     <p tw="text-base font-bold">How to participate</p>
                     <p tw="mt-1.5 text-sm opacity-80">
-                      Provide liquidity in the USN/USDC market starting
-                      September 12, 2022 to earn rewards paid in USN.
+                      Provide liquidity in the USN/USDC market to earn rewards
+                      paid in USN.
                     </p>
                   </div>
                 </div>

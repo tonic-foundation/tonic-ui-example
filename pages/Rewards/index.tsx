@@ -773,11 +773,11 @@ const Content = () => {
             </header>
             <div tw="mt-3 space-y-3">
               <p>
-                Starting September 12, 2022, liquidity provided in the{' '}
+                Liquidity provided in the{' '}
                 <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
                   USN/USDC market
                 </a>{' '}
-                will earn points towards USN rewards. Orders placed closer to
+                earns points towards USN rewards. Orders placed closer to
                 midmarket earn more points.
               </p>
               <p>

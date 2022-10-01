@@ -15,7 +15,6 @@ import tw, { styled } from 'twin.macro';
 import useWalletBalance from '~/hooks/useWalletBalance';
 import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { ClickHandler } from '~/types/event-handlers';
-import { MdSettings } from 'react-icons/md';
 import { TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS } from '~/config';
 import { TbSwitch } from 'react-icons/tb';
 import { TokenInfo } from '@tonic-foundation/token-list';
