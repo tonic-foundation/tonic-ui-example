@@ -39,16 +39,20 @@ import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
-import { DISCORD_GENERAL_HREF, getExplorerUrl, GOBLIN_HREF } from '~/config';
+import {
+  DISCORD_TICKET_SUPPORT_HREF,
+  getExplorerUrl,
+  GOBLIN_HREF,
+} from '~/config';
 import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 import UsnShower from '~/components/rewards/UsnShower';
 
-const A: React.FC<{ url: string; hasIcon?: boolean }> = ({
+const A: React.FC<{ url: string; icon?: React.ReactNode }> = ({
   url,
-  hasIcon = false,
+  icon,
   children,
   ...props
 }) => {
@@ -61,7 +65,7 @@ const A: React.FC<{ url: string; hasIcon?: boolean }> = ({
       {...props}
     >
       <span>{children}</span>
-      {hasIcon && <Icon.Link tw="mt-0.5" />}
+      {icon}
     </a>
   );
 };
@@ -738,8 +742,11 @@ const RewardsDataIfEligible = () => {
             <A url={SIGNUP_HREF}>here</A>.
           </p>
           <p tw="mt-3">
-            After signing up, please create a support ticket in{' '}
-            <A url={DISCORD_GENERAL_HREF}>Discord</A> to be whitelisted.
+            After signing up, create a support ticket in{' '}
+            <A url={DISCORD_TICKET_SUPPORT_HREF} icon={<Icon.Discord />}>
+              #ticket-support
+            </A>{' '}
+            to be whitelisted.
           </p>
         </Card>
       </Section>

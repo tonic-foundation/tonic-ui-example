@@ -61,6 +61,7 @@ export const TONIC_SWAP_DEFAULT_SLIPPAGE_PERCENT = process.env
 
 export const GOBLIN_HREF = 'https://greedygoblins.enleap.app/';
 export const DISCORD_DEVELOPERS_HREF = 'https://discord.gg/tscr95ufxx';
+export const DISCORD_TICKET_SUPPORT_HREF = 'https://discord.gg/kJwHQxPBhY';
 export const DISCORD_GENERAL_HREF = 'https://discord.gg/zedYdpyaTd';
 export const DOCS_GENERAL_HREF = 'https://docs.tonic.foundation';
 export const GITHUB_HREF = 'https://github.com/tonic-foundation/tonic-ui';
