@@ -39,14 +39,19 @@ import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
-import { DISCORD_GENERAL_HREF, getExplorerUrl } from '~/config';
+import { DISCORD_GENERAL_HREF, getExplorerUrl, GOBLIN_HREF } from '~/config';
 import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 import UsnShower from '~/components/rewards/UsnShower';
 
-const A: React.FC<{ url: string }> = ({ url, children, ...props }) => {
+const A: React.FC<{ url: string; hasIcon?: boolean }> = ({
+  url,
+  hasIcon = false,
+  children,
+  ...props
+}) => {
   return (
     <a
       tw="underline inline-flex items-center gap-1"
@@ -56,7 +61,7 @@ const A: React.FC<{ url: string }> = ({ url, children, ...props }) => {
       {...props}
     >
       <span>{children}</span>
-      <Icon.Link tw="mt-0.5" />
+      {hasIcon && <Icon.Link tw="mt-0.5" />}
     </a>
   );
 };
@@ -728,16 +733,13 @@ const RewardsDataIfEligible = () => {
       <Section>
         <Card>
           <p>
-            General signups for the September liquidity program have closed.
-            However, Tonic Greedy Goblin holders can still{' '}
-            <A url={SIGNUP_HREF}>sign up here</A>.
+            If you hold a <A url={GOBLIN_HREF}>Tonic Greedy Goblin</A>, you can
+            sign up for the liquidity rewards program{' '}
+            <A url={SIGNUP_HREF}>here</A>.
           </p>
           <p tw="mt-3">
-            Once you&apos; signed up, please create a support ticket in{' '}
+            After signing up, please create a support ticket in{' '}
             <A url={DISCORD_GENERAL_HREF}>Discord</A> to be whitelisted.
-          </p>
-          <p tw="mt-3">
-            Look out for next month&apos;s signups on our social media!
           </p>
         </Card>
       </Section>
