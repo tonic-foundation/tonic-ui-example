@@ -16,6 +16,7 @@ import { ExchangeBalancesModal } from '~/components/common/ExchangeBalances/useE
 import { MarketSelectorModal } from '~/components/trade/MarketSelector/useMarketSelectorModal';
 import RewardsWelcomeModal from './components/rewards/RewardsWelcomeModal';
 import { TONIC_HAS_REWARDS } from './config';
+import Notices from './components/Notices';
 
 const App = () => {
   const isMobile = useIsMobile();
@@ -49,6 +50,9 @@ const App = () => {
               {/* since we have notices now, only show this for mobile users
               (TODO: make notices mobile-friendly) */}
               {TONIC_HAS_REWARDS && isMobile && <RewardsWelcomeModal />}
+              {TONIC_HAS_REWARDS && !isMobile && (
+                <Notices tw="fixed z-20 bottom-9 right-2" />
+              )}
               <Toaster
                 position={toasterPosition}
                 containerStyle={toasterContainerStyle}

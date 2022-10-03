@@ -51,6 +51,8 @@ export const TONIC_ORDERBOOK_REFRESH_INTERVAL = parseInt(
 export const TONIC_HAS_LEADERBOARD =
   !!process.env.TONIC_HAS_LEADERBOARD?.length;
 export const TONIC_HAS_REWARDS = !!process.env.TONIC_HAS_REWARDS?.length;
+export const TONIC_HAS_FEE_REBATES =
+  !!process.env.TONIC_HAS_FEE_REBATES?.length;
 
 export const TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS =
   !!process.env.TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS;

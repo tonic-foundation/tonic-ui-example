@@ -23,7 +23,6 @@ import Toggle from '~/components/common/Toggle';
 import useHasTonicAccount from '~/hooks/useHasTonicAccount';
 import useExchangeBalancesModal from '~/components/common/ExchangeBalances/useExchangeBalancesModal';
 import usePathMatches from '~/hooks/usePathMatches';
-import Notices from '~/components/Notices';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import Icon from '~/components/common/Icon';
 
@@ -228,16 +227,12 @@ const AppLayout: React.FC<{
   headerLeftContent?: React.ReactNode;
   hasFooter?: boolean;
 }> = ({ headerLeftContent, children, hasFooter = true, ...props }) => {
-  const isMobile = useIsMobile();
   return (
     <div tw="w-screen min-h-screen overflow-auto">
       <Wrapper {...props}>
         <Header leftContent={headerLeftContent} />
         {children}
         {hasFooter && <Footer />}
-        {TONIC_HAS_REWARDS && !isMobile && (
-          <Notices tw="fixed z-20 bottom-9 right-2" />
-        )}
       </Wrapper>
     </div>
   );

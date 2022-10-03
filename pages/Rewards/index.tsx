@@ -49,6 +49,7 @@ import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 import UsnShower from '~/components/rewards/UsnShower';
+import { animation } from '~/styles';
 
 const A: React.FC<{ url: string; icon?: React.ReactNode }> = ({
   url,
@@ -131,15 +132,6 @@ const animateBubbleInfinite = css`
     50% {
       transform: translate(0, -800%);
       opacity: 0;
-    }
-  }
-`;
-
-const animateSpinSlow = css`
-  animation: spin 3s linear infinite;
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
     }
   }
 `;
@@ -705,7 +697,7 @@ const PayoutsToDate: React.FC = (props) => {
           {range(48).map((i) => (
             <React.Fragment key={i}>
               <span></span>
-              <UsnIcon tw="block h-4 w-4 opacity-70" css={animateSpinSlow} />
+              <UsnIcon tw="block h-4 w-4 opacity-70" css={animation.spin(3)} />
             </React.Fragment>
           ))}
         </div>

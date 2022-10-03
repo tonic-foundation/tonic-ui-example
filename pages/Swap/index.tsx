@@ -15,7 +15,10 @@ import tw, { styled } from 'twin.macro';
 import useWalletBalance from '~/hooks/useWalletBalance';
 import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { ClickHandler } from '~/types/event-handlers';
-import { TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS } from '~/config';
+import {
+  TONIC_HAS_FEE_REBATES,
+  TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS,
+} from '~/config';
 import { TbSwitch } from 'react-icons/tb';
 import { TokenInfo } from '@tonic-foundation/token-list';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
@@ -39,6 +42,7 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/tonic-client';
 import toast from 'react-hot-toast';
 import CannedToast from '~/components/common/CannedToast';
+import Tooltip from '~/components/common/Tooltip';
 
 const tokenSelectorModalCbState = atom<((t: TokenInfo) => unknown) | undefined>(
   {
@@ -387,7 +391,13 @@ const SwapForm: React.FC<{
             </LineItem>
             <LineItem>
               <span>Net fee</span>
-              <span>{truncate(route.netFeeRate, 3)}%</span>
+              {TONIC_HAS_FEE_REBATES ? (
+                <span>
+                  <del>{truncate(route.netFeeRate, 3)}%</del> 0%
+                </span>
+              ) : (
+                <span>{truncate(route.netFeeRate, 3)}%</span>
+              )}
             </LineItem>
             {TONIC_SWAP_ALLOW_SLIPPAGE_CONTROLS && !!minNetOut && (
               <LineItem>

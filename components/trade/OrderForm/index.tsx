@@ -20,6 +20,7 @@ import Input from '../../common/Input';
 import Tooltip from '../../common/Tooltip';
 import Toggle from '../../common/Toggle';
 import { truncate } from '~/util/math';
+import { TONIC_HAS_FEE_REBATES } from '~/config';
 
 const Field = tw.div`relative`;
 const Label = tw.p`light:text-neutral-700 mb-1 text-sm`;
@@ -406,6 +407,26 @@ const OrderForm: React.FC<OrderFormProps> = ({
             {quoteTokenMetadata.symbol}
           </span>
         </LineItem>
+
+        {TONIC_HAS_FEE_REBATES &&
+          takerFee &&
+          truncate(takerFee, pricePrecision) > 0 && (
+            <React.Fragment>
+              <hr tw="dark:opacity-50" />
+              <LineItem>
+                <div tw="flex items-center gap-x-1">
+                  <span>Rebate (estimate)</span>
+                  <Tooltip>
+                    All taker fees are rebated at the end of the day.
+                  </Tooltip>
+                </div>
+                <span>
+                  -{truncate(takerFee, pricePrecision)}{' '}
+                  {quoteTokenMetadata.symbol}
+                </span>
+              </LineItem>
+            </React.Fragment>
+          )}
       </section>
 
       <Button

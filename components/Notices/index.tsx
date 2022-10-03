@@ -1,22 +1,28 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import tw, { css } from 'twin.macro';
 import usePathMatches from '~/hooks/usePathMatches';
+import { animation } from '~/styles';
 import { sleep } from '~/util';
 import Card from '../common/Card';
 import CloseButton from '../common/CloseButton';
+import IconButton from '../common/IconButton';
+import { LogoIcon } from '../common/Logo';
+import Shape from '../common/Shape';
 import UsnShower from '../rewards/UsnShower';
 import FakeOrderbook from './FakeOrderbook';
+
+type NoticePage = 'usn-rewards' | 'zero-fees';
 
 const noticesOpenState = atom({
   key: 'notices-open-state',
   default: true,
 });
 
-const noticesPageState = atom<'usn-rewards' | 'usn-rebates'>({
+const noticesPageState = atom<NoticePage>({
   key: 'notices-page-state',
-  default: 'usn-rewards',
+  default: 'zero-fees',
 });
 
 // copypaste of tw animate-pulse but less extreme
@@ -70,20 +76,69 @@ const UsnRewardsNotice = () => {
   );
 };
 
+const ZeroFeesNotice = () => {
+  return (
+    <a
+      href="https://twitter.com/DcntrlBank/status/1576873944333701120"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div
+        tw="
+          hover:opacity-90 transition
+          relative font-mono
+          bg-gradient-to-tr
+          from-fuchsia-400 to-amber-300
+        text-black
+          h-full w-full
+        "
+      >
+        <div tw="absolute top-1/2 -translate-y-1/2 -left-36 skew-x-[24deg]">
+          <LogoIcon tw="w-96 h-96" css={animation.spin(12)} />
+        </div>
+
+        <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-20">
+          <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
+            <p tw="text-xl">Zero Trading Fees</p>
+            <p tw="mt-2.5 text-sm flex items-center gap-2">
+              <Shape.CdotBase tw="bg-black" /> <span>All fees rebated</span>
+            </p>
+            <p tw="text-sm flex items-center gap-2">
+              <Shape.CdotBase tw="bg-black" />
+              <span>October 2022</span>
+            </p>
+          </div>
+          {/* <div tw="px-3 py-1 rounded bg-black bg-opacity-70">
+          </div> */}
+        </div>
+      </div>
+    </a>
+  );
+};
+
+const PAGES: NoticePage[] = ['zero-fees', 'usn-rewards'];
+
 const Notices: React.FC = ({ ...props }) => {
-  const [page] = useRecoilState(noticesPageState);
-  const [_open, _setOpen] = useRecoilState(noticesOpenState);
+  const [currentPage, setCurrentPage] = useRecoilState(noticesPageState);
+  const [isOpen, _setOpen] = useRecoilState(noticesOpenState);
   const [exiting, setExiting] = useState(false);
 
-  const onRewardsPage = usePathMatches('/rewards');
+  // we can do this in a nicer way once we have more notices to show...
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentPage((p) => {
+        if (p === 'zero-fees') {
+          return 'usn-rewards';
+        } else {
+          return 'zero-fees';
+        }
+      });
+    }, 30_000);
 
-  const isOpen = useMemo(() => {
-    if (onRewardsPage) {
-      // if on the rewards page, no point showing the notice
-      return _open && page !== 'usn-rewards';
-    }
-    return _open;
-  }, [_open, onRewardsPage, page]);
+    return () => clearInterval(id);
+    // basing it on currentPage resets counter if user clicks if the user
+    // manually clicks
+  }, [setCurrentPage, currentPage]);
 
   const close = useCallback(async () => {
     setExiting(true);
@@ -106,7 +161,12 @@ const Notices: React.FC = ({ ...props }) => {
       css={exiting ? tw`opacity-0` : tw`opacity-100`}
       {...props}
     >
-      <UsnRewardsNotice />
+      {currentPage === 'usn-rewards' ? (
+        <UsnRewardsNotice />
+      ) : (
+        <ZeroFeesNotice />
+      )}
+
       <CloseButton
         tw="
           absolute z-20 top-4 right-4
@@ -120,6 +180,32 @@ const Notices: React.FC = ({ ...props }) => {
           close();
         }}
       />
+      <div tw="z-20 absolute bottom-2 right-4 flex items-center gap-1">
+        {PAGES.map((p) => (
+          <IconButton.Base
+            key={p}
+            icon={<Shape.Cdot tw="opacity-100" />}
+            css={
+              currentPage === p &&
+              tw`
+                animate-pulse
+                dark:(bg-white bg-opacity-20)
+                light:(bg-white bg-opacity-20)
+              `
+            }
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setCurrentPage(p);
+            }}
+            tw="
+              opacity-100
+              dark:hover:(bg-white bg-opacity-20)
+              light:hover:(bg-white bg-opacity-20)
+            "
+          />
+        ))}
+      </div>
     </Card>
   );
 };
