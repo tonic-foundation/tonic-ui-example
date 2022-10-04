@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import tw, { css } from 'twin.macro';
-import usePathMatches from '~/hooks/usePathMatches';
 import { animation } from '~/styles';
 import { sleep } from '~/util';
 import Card from '../common/Card';
@@ -155,7 +154,7 @@ const Notices: React.FC = ({ ...props }) => {
     <Card
       tw="
         relative h-[200px] w-[300px]
-        border-0 shadow-xl
+        border-0 shadow-lg
         transition
       "
       css={exiting ? tw`opacity-0` : tw`opacity-100`}

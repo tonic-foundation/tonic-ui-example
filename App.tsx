@@ -47,8 +47,7 @@ const App = () => {
               <ExchangeBalancesModal />
               <DepositWithdrawModal />
               <WalletSelectorModal />
-              {/* since we have notices now, only show this for mobile users
-              (TODO: make notices mobile-friendly) */}
+              {/* TODO: make notices mobile-friendly */}
               {TONIC_HAS_REWARDS && isMobile && <RewardsWelcomeModal />}
               {TONIC_HAS_REWARDS && !isMobile && (
                 <Notices tw="fixed z-20 bottom-9 right-2" />

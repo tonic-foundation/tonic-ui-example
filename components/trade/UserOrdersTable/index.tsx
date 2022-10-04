@@ -47,9 +47,8 @@ const UserOrdersTable: React.FC<{ collapsible?: boolean }> = ({
         </div>
         {collapsible && (
           <IconButton.Base
-            icon={<Icon.Close />}
+            icon={collapsed ? <Icon.ChevronUp /> : <Icon.ChevronDown />}
             tw="mr-2"
-            css={collapsed && tw`rotate-180`}
             onClick={() => setCollapsed(!collapsed)}
           />
         )}

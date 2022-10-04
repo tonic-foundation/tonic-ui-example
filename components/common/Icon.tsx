@@ -3,6 +3,7 @@
  */
 import {
   HiChevronDown as ChevronDown,
+  HiChevronUp as ChevronUp,
   HiChevronRight as ChevronRight,
 } from 'react-icons/hi';
 import { TbArrowLeft as Back } from 'react-icons/tb';
@@ -34,6 +35,7 @@ const Icon = {
   Back,
   ChevronDown,
   ChevronRight,
+  ChevronUp,
   Close,
   Copy,
   DarkMode,

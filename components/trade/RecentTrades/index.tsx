@@ -108,8 +108,7 @@ const RecentTrades: React.FC<{ collapsible?: boolean }> = ({
         <h1 tw="py-2">Recent trades</h1>
         {collapsible && (
           <IconButton.Base
-            icon={<Icon.Close />}
-            css={collapsed && tw`rotate-180`}
+            icon={collapsed ? <Icon.ChevronUp /> : <Icon.ChevronDown />}
             onClick={() => setCollapsed(!collapsed)}
           />
         )}
