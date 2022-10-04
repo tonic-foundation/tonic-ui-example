@@ -107,8 +107,6 @@ const ZeroFeesNotice = () => {
               <span>October 2022</span>
             </p>
           </div>
-          {/* <div tw="px-3 py-1 rounded bg-black bg-opacity-70">
-          </div> */}
         </div>
       </div>
     </a>

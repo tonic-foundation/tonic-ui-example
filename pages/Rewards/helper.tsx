@@ -56,8 +56,8 @@ export function useRewardsHistory() {
       total: forceFloat(data.total),
       rewards: data.rewards
         .map((r): RewardDayEntry => {
-          if (r.source === 'raffle') {
-            // dedupe raffles; we combine raffle and lp rewards below
+          if (r.source !== 'lp_reward') {
+            // dedupe; combine with lp reward below
             return undefined as unknown as RewardDayEntry;
           }
 
@@ -68,6 +68,17 @@ export function useRewardsHistory() {
                 forceTzDate(r.reward_date)
               ) && c.source === 'raffle'
           );
+          const correction = data.rewards.find(
+            (c) =>
+              isSameDay(
+                forceTzDate(c.reward_date),
+                forceTzDate(r.reward_date)
+              ) && c.source === 'correction'
+          );
+
+          if (correction) {
+            console.log(r, correction);
+          }
           return {
             day_payout:
               forceFloat(r.payout) + forceFloat(raffle?.payout || '0'),
@@ -80,6 +91,12 @@ export function useRewardsHistory() {
               ? {
                   payout: forceFloat(raffle.payout),
                   paid_in_tx_id: raffle.paid_in_tx_id,
+                }
+              : undefined,
+            correction: correction
+              ? {
+                  payout: forceFloat(correction.payout),
+                  paid_in_tx_id: correction.paid_in_tx_id,
                 }
               : undefined,
           };

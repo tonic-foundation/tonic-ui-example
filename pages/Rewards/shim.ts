@@ -53,7 +53,7 @@ interface RewardEntry {
   payout: number; // TODO: this is confusing, should wrap this in an "earned" property, probably
   points: number;
   reward_date: Date;
-  source: 'lp_reward' | 'raffle';
+  source: 'lp_reward' | 'raffle' | 'correction';
   /**
    * tx where the earned reward was paid
    */
@@ -63,9 +63,13 @@ interface RewardEntry {
    */
   raffle?: {
     payout: number;
-    /**
-     * tx where the raffle reward was paid
-     */
+    paid_in_tx_id: string | null;
+  };
+  /**
+   * correction, eg if indexer fails and misses some points
+   */
+  correction?: {
+    payout: number;
     paid_in_tx_id: string | null;
   };
 }

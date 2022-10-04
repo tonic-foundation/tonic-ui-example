@@ -315,11 +315,7 @@ const Week: React.FC<{
               />
             )}
             <span tw="absolute top-1 right-2">{r.reward_date.getDate()}</span>
-            {!!r.raffle && (
-              <p tw="absolute bottom-1 left-0 right-0 text-center text-xs">
-                WINNER
-              </p>
-            )}
+            {!!r.correction && <span tw="absolute bottom-1 left-2.5">✔️</span>}
           </div>
         );
       })}
@@ -352,6 +348,7 @@ const RewardsCalendar: React.FC<{
             reward_date: r.reward_date,
             paid_in_tx_id: r.paid_in_tx_id,
             raffle: r.raffle,
+            correction: r.correction,
           } as RewardDayEntry;
         } else {
           return {
@@ -397,7 +394,8 @@ const RewardsGraph: React.FC<{
     return eachDayOfInterval({ start, end }).map((d) => {
       const r = history.rewards.find((r) => isSameDay(r.reward_date, d));
       if (r) {
-        runningTotal += r.day_payout;
+        runningTotal +=
+          r.day_payout + (r.raffle?.payout || 0) + (r.correction?.payout || 0);
         return {
           day_payout: r.day_payout,
           payout: r.payout,
@@ -406,6 +404,7 @@ const RewardsGraph: React.FC<{
           runningTotal,
           paid_in_tx_id: r.paid_in_tx_id,
           raffle: r.raffle,
+          correction: r.correction,
         } as RewardWithRunningTotal;
       } else {
         return {
@@ -441,11 +440,14 @@ const RewardsGraph: React.FC<{
         // can still show if it's in the future, but it shouldn't be interactive
         const isFutureReward = isFuture(r.reward_date);
 
+        const dayPayout =
+          r.day_payout + (r.raffle?.payout || 0) + (r.correction?.payout || 0);
+
         // always at least 1%; this prevents past days from showing a gap in the
         // graph
         const rewardHeight =
           history.total > 0
-            ? `${Math.max((r.day_payout / history.total) * 100, 1)}%`
+            ? `${Math.max((dayPayout / history.total) * 100, 1)}%`
             : '1%';
         const cumulativeHeight =
           history.total > 0
@@ -904,6 +906,28 @@ const RewardModal = () => {
                     <LineItem.Left>Transaction</LineItem.Left>
                     <LineItem.Right>
                       <PayoutTxn txId={selected.raffle.paid_in_tx_id} />
+                    </LineItem.Right>
+                  </LineItem.Container>
+                </div>
+              )}
+              {selected.correction && (
+                <div tw="space-y-1">
+                  <LineItem.Container>
+                    <LineItem.Left tw="flex items-center gap-1">
+                      Correction
+                      <Tooltip>
+                        A missing payment from a previous day was paid on this
+                        date.
+                      </Tooltip>
+                    </LineItem.Left>
+                    <LineItem.Right>
+                      {selected.correction.payout} USN
+                    </LineItem.Right>
+                  </LineItem.Container>
+                  <LineItem.Container>
+                    <LineItem.Left>Transaction</LineItem.Left>
+                    <LineItem.Right>
+                      <PayoutTxn txId={selected.correction.paid_in_tx_id} />
                     </LineItem.Right>
                   </LineItem.Container>
                 </div>
