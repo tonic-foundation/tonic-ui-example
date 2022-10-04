@@ -76,9 +76,6 @@ export function useRewardsHistory() {
               ) && c.source === 'correction'
           );
 
-          if (correction) {
-            console.log(r, correction);
-          }
           return {
             day_payout:
               forceFloat(r.payout) + forceFloat(raffle?.payout || '0'),

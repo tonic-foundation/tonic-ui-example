@@ -315,7 +315,7 @@ const Week: React.FC<{
               />
             )}
             <span tw="absolute top-1 right-2">{r.reward_date.getDate()}</span>
-            {!!r.correction && <span tw="absolute bottom-1 left-2.5">✔️</span>}
+            {!!r.correction && <span tw="absolute bottom-1 left-2.5">💩</span>}
           </div>
         );
       })}
@@ -383,6 +383,13 @@ type RewardWithRunningTotal = RewardDayEntry & {
   runningTotal: number;
 };
 
+/**
+ * Get sum of all payouts for the day
+ */
+function getDayTotal(r: RewardDayEntry) {
+  return r.day_payout + (r.raffle?.payout || 0) + (r.correction?.payout || 0);
+}
+
 const RewardsGraph: React.FC<{
   history: RewardsHistory;
 }> = ({ history, ...props }) => {
@@ -394,8 +401,7 @@ const RewardsGraph: React.FC<{
     return eachDayOfInterval({ start, end }).map((d) => {
       const r = history.rewards.find((r) => isSameDay(r.reward_date, d));
       if (r) {
-        runningTotal +=
-          r.day_payout + (r.raffle?.payout || 0) + (r.correction?.payout || 0);
+        runningTotal += getDayTotal(r);
         return {
           day_payout: r.day_payout,
           payout: r.payout,
@@ -419,6 +425,22 @@ const RewardsGraph: React.FC<{
     });
   }, [history, end, start]);
 
+  // get single largest daily payout to scale height of bars in the graph.
+  // this can be 0 if there are no payouts. this case is handled later
+  const maxPayout = useMemo(() => {
+    const start = rewardsWithRunningTotal.length
+      ? getDayTotal(rewardsWithRunningTotal[0])
+      : 0;
+
+    return rewardsWithRunningTotal.reduce((prevMax, day) => {
+      const curr = getDayTotal(day);
+      if (curr > prevMax) {
+        return curr;
+      }
+      return prevMax;
+    }, start);
+  }, [rewardsWithRunningTotal]);
+
   return (
     <div
       tw="
@@ -440,18 +462,13 @@ const RewardsGraph: React.FC<{
         // can still show if it's in the future, but it shouldn't be interactive
         const isFutureReward = isFuture(r.reward_date);
 
-        const dayPayout =
-          r.day_payout + (r.raffle?.payout || 0) + (r.correction?.payout || 0);
+        const dayPayout = getDayTotal(r);
 
         // always at least 1%; this prevents past days from showing a gap in the
         // graph
         const rewardHeight =
-          history.total > 0
-            ? `${Math.max((dayPayout / history.total) * 100, 1)}%`
-            : '1%';
-        const cumulativeHeight =
-          history.total > 0
-            ? `${Math.max((r.runningTotal / history.total) * 100, 1)}%`
+          maxPayout > 0
+            ? `${Math.max((dayPayout / maxPayout) * 100, 1)}%`
             : '1%';
 
         return (
@@ -477,20 +494,12 @@ const RewardsGraph: React.FC<{
               // it's a future reward: just show the shadow of previous earnings
               <React.Fragment>
                 <div
-                  tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark opacity-30"
-                  style={{ height: cumulativeHeight }}
-                ></div>
-                <div
                   tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark"
                   style={{ height: rewardHeight }}
                 ></div>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <div
-                  tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark opacity-30"
-                  style={{ height: cumulativeHeight }}
-                ></div>
                 <div
                   tw="absolute w-full bottom-0 left-0 right-0 bg-up-dark"
                   style={{ height: rewardHeight }}
