@@ -54,7 +54,7 @@ const UserOrdersTable: React.FC<{ collapsible?: boolean }> = ({
         )}
       </CardHeader>
       <CardBody
-        tw="relative p-3 flex flex-col overflow-hidden md:min-h-[30vh]"
+        tw="relative p-3 flex flex-col overflow-hidden md:min-h-[200px]"
         css={collapsed && tw`hidden`}
       >
         <RequireAuth>
