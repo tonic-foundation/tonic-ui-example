@@ -25,6 +25,7 @@ function routes() {
         <React.Fragment>
           <Route path="/incentives" element={<Incentives />} />
           <Route path="/incentives/lp" element={<LpRewards />} />
+          <Route path="/rewards" element={<LpRewards />} />
         </React.Fragment>
       )}
     </Routes>
