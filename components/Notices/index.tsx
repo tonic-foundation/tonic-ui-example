@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 import tw, { css } from 'twin.macro';
+import usePathMatches from '~/hooks/usePathMatches';
 import { animation } from '~/styles';
 import { sleep } from '~/util';
 import Card from '../common/Card';
@@ -39,24 +40,27 @@ const animatePulseLess = css`
   }
 `;
 
-const UsnRewardsNotice = () => {
-  const setNoticesOpen = useSetRecoilState(noticesOpenState);
+const styles = {
+  hoverNotice: tw`hover:opacity-90 transition`,
+};
 
-  return (
-    <Link to="/rewards" onClick={() => setNoticesOpen(false)}>
+// TODO: refactor lmao (all the temporary stuff is messy)
+export const NoticeContent: Record<string, React.FC> = {
+  UsnRewardsNotice(props) {
+    return (
       <div
         tw="
-          hover:opacity-90 transition
           relative font-mono
           bg-gradient-to-t
           from-slate-800 to-slate-700
         text-black
           h-full w-full
         "
+        {...props}
       >
         <UsnShower count={18} tw="absolute top-0 bottom-1/2 left-8 right-8" />
 
-        <div tw="absolute inset-0 pt-9 text-white flex flex-col items-center z-20">
+        <div tw="absolute inset-0 pt-10 text-white flex flex-col items-center z-20">
           <p tw="text-base">Liquidity Incentive</p>
           <p tw="text-xl">{(50000).toLocaleString()} $USN</p>
           <p
@@ -71,46 +75,40 @@ const UsnRewardsNotice = () => {
           <FakeOrderbook />
         </div>
       </div>
-    </Link>
-  );
-};
+    );
+  },
 
-const ZeroFeesNotice = () => {
-  return (
-    <a
-      href="https://twitter.com/DcntrlBank/status/1576873944333701120"
-      target="_blank"
-      rel="noreferrer"
-    >
+  ZeroFeesNotice(props) {
+    return (
       <div
         tw="
-          hover:opacity-90 transition
           relative font-mono
           bg-gradient-to-tr
           from-fuchsia-400 to-amber-300
         text-black
           h-full w-full
         "
+        {...props}
       >
         <div tw="absolute top-1/2 -translate-y-1/2 -left-36 skew-x-[24deg]">
           <LogoIcon tw="w-96 h-96" css={animation.spin(12)} />
         </div>
 
-        <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-20">
+        <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-10">
           <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
             <p tw="text-xl">Zero Trading Fees</p>
-            <p tw="mt-2.5 text-sm flex items-center gap-2">
+            <div tw="mt-2.5 text-sm flex items-center gap-2">
               <Shape.CdotBase tw="bg-black" /> <span>All fees rebated</span>
-            </p>
-            <p tw="text-sm flex items-center gap-2">
+            </div>
+            <div tw="text-sm flex items-center gap-2">
               <Shape.CdotBase tw="bg-black" />
               <span>October 2022</span>
-            </p>
+            </div>
           </div>
         </div>
       </div>
-    </a>
-  );
+    );
+  },
 };
 
 const PAGES: NoticePage[] = ['zero-fees', 'usn-rewards'];
@@ -119,6 +117,8 @@ const Notices: React.FC = ({ ...props }) => {
   const [currentPage, setCurrentPage] = useRecoilState(noticesPageState);
   const [isOpen, _setOpen] = useRecoilState(noticesOpenState);
   const [exiting, setExiting] = useState(false);
+
+  const onIncentivesPage = usePathMatches('/incentives');
 
   // we can do this in a nicer way once we have more notices to show...
   useEffect(() => {
@@ -144,6 +144,12 @@ const Notices: React.FC = ({ ...props }) => {
     setExiting(false);
   }, [_setOpen]);
 
+  useEffect(() => {
+    if (onIncentivesPage) {
+      close();
+    }
+  }, [close, onIncentivesPage]);
+
   if (!isOpen) {
     return <React.Fragment />; // just don't show it, too hard to make the placement work with our ui
   }
@@ -159,9 +165,13 @@ const Notices: React.FC = ({ ...props }) => {
       {...props}
     >
       {currentPage === 'usn-rewards' ? (
-        <UsnRewardsNotice />
+        <Link to="/incentives/lp" onClick={close}>
+          <NoticeContent.UsnRewardsNotice css={styles.hoverNotice} />
+        </Link>
       ) : (
-        <ZeroFeesNotice />
+        <Link to="/incentives" onClick={close}>
+          <NoticeContent.ZeroFeesNotice css={styles.hoverNotice} />
+        </Link>
       )}
 
       <CloseButton

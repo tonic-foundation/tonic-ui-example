@@ -7,16 +7,17 @@ import ErrorBoundary from '~/components/ErrorBoundary';
 import Icon from '~/components/common/Icon';
 import AppLayout from '~/layouts/AppLayout';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
-import { abbreviateCryptoString, range, truncateToLocaleString } from '~/util';
+import { range, truncateToLocaleString } from '~/util';
 import {
+  RewardDayEntry,
+  RewardsHistory,
   UnfinalizedRewardsChartOptions,
   useRewardsEligibility,
   useRewardsHistory,
   useRewardsProgramParameters,
   useRewardsProgramStats,
   useUnfinalizedRewards,
-} from './helper';
-import { RewardDayEntry, RewardsHistory } from './shim';
+} from '~/services/incentives/lp-rewards';
 import {
   addWeeks,
   eachDayOfInterval,
@@ -39,37 +40,16 @@ import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
-import {
-  DISCORD_TICKET_SUPPORT_HREF,
-  getExplorerUrl,
-  GOBLIN_HREF,
-} from '~/config';
+import { DISCORD_TICKET_SUPPORT_HREF, GOBLIN_HREF } from '~/config';
 import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 import UsnShower from '~/components/rewards/UsnShower';
 import { animation } from '~/styles';
-
-const A: React.FC<{ url: string; icon?: React.ReactNode }> = ({
-  url,
-  icon,
-  children,
-  ...props
-}) => {
-  return (
-    <a
-      tw="underline inline-flex items-center gap-1"
-      href={url}
-      target="_blank"
-      rel="noreferrer"
-      {...props}
-    >
-      <span>{children}</span>
-      {icon}
-    </a>
-  );
-};
+import PayoutTxn from '../components/PayoutTxn';
+import Typography from '../components/Typography';
+import LineItem from '../components/LineItem';
 
 // no point making this come from the API because a lot of copy containing dates
 // is handwritten anyway
@@ -720,12 +700,6 @@ const PayoutsToDate: React.FC = (props) => {
   );
 };
 
-const LineItem = {
-  Container: tw.div`flex items-center justify-between`,
-  Left: tw.div``,
-  Right: tw.div``,
-};
-
 // ugly hack, fix this nesting later
 // basically there's a double conditional render
 // (branch 1: are you authed, branch 2: are you eligible)
@@ -740,15 +714,21 @@ const RewardsDataIfEligible = () => {
       <Section>
         <Card>
           <p>
-            If you hold a <A url={GOBLIN_HREF}>Tonic Greedy Goblin</A>, you can
-            sign up for the liquidity rewards program{' '}
-            <A url={SIGNUP_HREF}>here</A>.
+            If you hold a{' '}
+            <Typography.Link url={GOBLIN_HREF}>
+              Tonic Greedy Goblin
+            </Typography.Link>
+            , you can sign up for the liquidity rewards program{' '}
+            <Typography.Link url={SIGNUP_HREF}>here</Typography.Link>.
           </p>
           <p tw="mt-3">
             After signing up, create a support ticket in{' '}
-            <A url={DISCORD_TICKET_SUPPORT_HREF} icon={<Icon.Discord />}>
+            <Typography.Link
+              url={DISCORD_TICKET_SUPPORT_HREF}
+              icon={<Icon.Discord />}
+            >
               #ticket-support
-            </A>{' '}
+            </Typography.Link>{' '}
             to be whitelisted.
           </p>
         </Card>
@@ -796,7 +776,9 @@ const Content = () => {
                 Rewards are paid daily. Your share of rewards is proportional to
                 the points you earn each day.
               </p>
-              <A url={ANNOUNCEMENT_HREF}>View the announcement</A>
+              <Typography.Link url={ANNOUNCEMENT_HREF}>
+                View the announcement
+              </Typography.Link>
             </div>
           </CoolModeCard>
         ) : (
@@ -838,26 +820,6 @@ const Content = () => {
       )}
     </Wrapper>
   );
-};
-
-const PayoutTxn: React.FC<{ txId: string | null }> = ({ txId }) => {
-  if (txId) {
-    return (
-      <div tw="flex items-center gap-1.5">
-        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
-        <A url={getExplorerUrl('transaction', txId)}>
-          {abbreviateCryptoString(txId, 9, 3)}
-        </A>
-      </div>
-    );
-  } else {
-    return (
-      <div tw="flex items-center gap-1.5">
-        <span tw="mt-0.5 h-2.5 w-2.5 rounded-full bg-yellow-500"></span>
-        <span>Pending</span>
-      </div>
-    );
-  }
 };
 
 /**
@@ -952,7 +914,7 @@ const RewardModal = () => {
   );
 };
 
-const Page = () => {
+const LpRewards = () => {
   return (
     <ErrorBoundary fallbackLabel="There was an error loading rewards.">
       {/* Allow flowing off the screen on this page. Looks better this way.  */}
@@ -970,4 +932,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default LpRewards;

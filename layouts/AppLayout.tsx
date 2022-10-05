@@ -81,7 +81,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
         )}
         {TONIC_HAS_REWARDS && (
           <MobileMenuButton>
-            <Link to="/rewards">Rewards</Link>
+            <Link to="/incentives">Incentives</Link>
           </MobileMenuButton>
         )}
         <AuthButton tw="py-4" />
@@ -97,8 +97,8 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
         </Link>
       )}
       {TONIC_HAS_REWARDS && (
-        <Link css={styles.link} to="/rewards">
-          Rewards
+        <Link css={styles.link} to="/incentives">
+          Incentives
         </Link>
       )}
       {/* putting the theme toggle here is a hack */}

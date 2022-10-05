@@ -1,35 +1,24 @@
+import useSWR from 'swr';
 import { isSameDay } from 'date-fns';
 import { useCallback } from 'react';
-import useSWR from 'swr';
+
 import { TONIC_DATA_API_URL } from '~/config';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { abbreviateCryptoString } from '~/util';
 import { TzDate } from '~/util/date';
+import { forceFloat, forceInt, forceTzDate } from '~/util/parse';
 import {
   RewardDayEntry,
   RewardsHistory,
   RewardsParameters,
   TotalRewardsStats,
   UnfinalizedReward,
-} from './shim';
+} from './types';
 
 function useAccountId() {
   const { accountId } = useWalletSelector();
 
   return accountId;
-}
-
-// could've actually used some sort of forceType utility type but this is easier
-function forceFloat<T = number>(s: T) {
-  return parseFloat(s as unknown as string);
-}
-
-function forceInt<T = number>(s: T) {
-  return parseInt(s as unknown as string);
-}
-
-function forceTzDate<T = Date>(s: T) {
-  return TzDate(s as unknown as string);
 }
 
 export function useRewardsEligibility() {

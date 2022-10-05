@@ -2,8 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 
 import Leaderboard from '~/pages/Leaderboard';
 import Swap from './pages/Swap';
-import Rewards from '~/pages/Rewards';
+import Incentives from '~/pages/Incentives';
 import Trade from '~/pages/Trade';
+import LpRewards from './pages/Incentives/LpRewards';
+import React from 'react';
 import { TONIC_HAS_LEADERBOARD, TONIC_HAS_REWARDS } from './config';
 
 function routes() {
@@ -19,7 +21,12 @@ function routes() {
       {TONIC_HAS_LEADERBOARD && (
         <Route path="/leaderboard" element={<Leaderboard />} />
       )}
-      {TONIC_HAS_REWARDS && <Route path="/rewards" element={<Rewards />} />}
+      {TONIC_HAS_REWARDS && (
+        <React.Fragment>
+          <Route path="/incentives" element={<Incentives />} />
+          <Route path="/incentives/lp" element={<LpRewards />} />
+        </React.Fragment>
+      )}
     </Routes>
   );
 }
