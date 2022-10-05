@@ -793,11 +793,13 @@ const Content = () => {
         )}
       </Section>
 
-      <Section>
-        <CoolModeCard tw="dark:(from-slate-500 to-fuchsia-400)">
-          <PayoutsToDate />
-        </CoolModeCard>
-      </Section>
+      {false && (
+        <Section>
+          <CoolModeCard tw="dark:(from-slate-500 to-fuchsia-400)">
+            <PayoutsToDate />
+          </CoolModeCard>
+        </Section>
+      )}
 
       {isSignedIn ? (
         <React.Fragment>
