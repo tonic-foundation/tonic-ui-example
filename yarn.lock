@@ -709,84 +709,99 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/core@npm:7.0.0, @near-wallet-selector/core@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/core@npm:7.0.0"
+"@near-wallet-selector/core@npm:7.1.0, @near-wallet-selector/core@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/core@npm:7.1.0"
   dependencies:
     rxjs: ^7.5.5
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: 3d96e5d04f7734f9361bf57ade3892346198c379c2121c0b08de3ab8615a5703d07a5f09f0f89d07cafaf85e6f71c3cb4f4dfb2d4b17aee12db09df476ebc897
+  checksum: 1175625229ab0a3a2c02525b04ee8c8845f660cf528833d83f75b222338658b94757d9fdb8b0d72deea0e099f31b28fe0586be27eb3f4bf425cd7968d9db2c39
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/modal-ui@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/modal-ui@npm:7.0.0"
+"@near-wallet-selector/here-wallet@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/here-wallet@npm:7.1.0"
   dependencies:
-    "@near-wallet-selector/core": 7.0.0
-    react: 18.2.0
-    react-dom: 18.2.0
-  checksum: 4819e693021c88c0764797ee8d13528dbe23dfe0916a81c234ca2465a002398822c8939d0e89aafae961daa865d6dd9ac4d80241358e6754dd185ff473692f77
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/my-near-wallet@npm:7.0.0, @near-wallet-selector/my-near-wallet@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/my-near-wallet@npm:7.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 7.0.0
-    "@near-wallet-selector/wallet-utils": 7.0.0
-  peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 3b80380c1e5d24391d5024caba9094c02e4d89c04bd05c59039107284c47059d1b6efab338f5707c872049d6a3c6a803301eea092c278af128532a260346899b
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/near-wallet@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/near-wallet@npm:7.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 7.0.0
-    "@near-wallet-selector/my-near-wallet": 7.0.0
-  checksum: 8115d0ea62a90fdd3096c3b879235933dd0e255393612cc7dbe26d1243a21169549839cb111a108586b092bee2348de089925bc78be956441a2dec0e3fc17b42
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/nightly@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/nightly@npm:7.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 7.0.0
-    "@near-wallet-selector/wallet-utils": 7.0.0
-    is-mobile: ^3.1.1
-  peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 0ec172fe458c1e8c3a256c3afd310899e07ee9e9ed0572a0406fb03bd89e2a31ec22c8d35a5ee4bd38af817965813de9b8fc3ae92a0a00723e484a35a1b6d42b
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/sender@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/sender@npm:7.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 7.0.0
-    is-mobile: ^3.1.1
-  peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: d5ee57a3619458a97163ed1e5dbbd47aa87ddd2bedbe58cb96c65637431e9531e9a2060f550d7f7bcb4c07d347dcbdda4847e0dad478af0949ec888ef884e089
-  languageName: node
-  linkType: hard
-
-"@near-wallet-selector/wallet-utils@npm:7.0.0, @near-wallet-selector/wallet-utils@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@near-wallet-selector/wallet-utils@npm:7.0.0"
-  dependencies:
-    "@near-wallet-selector/core": 7.0.0
+    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/wallet-utils": 7.1.0
     bn.js: ^5.2.0
   peerDependencies:
     near-api-js: ^0.44.2
-  checksum: dce62d3c959298f1b4a07e3acc80339c95cfc598bf3a300719714b75edc4d3624a5c33a0b12b59b23712faad3e8afbfb841d9bd3a71075875567313abd99f3cf
+  checksum: b383eccd2d904f1756f5f31e2d93e06cd6cb7920f00a5cefbb74926e7df2385533bac9d4a0b2f3272c3ebda4d69161e0a2aa08af3c6c27e1680204e32c662a8a
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/modal-ui@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/modal-ui@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    copy-to-clipboard: ^3.3.2
+    qrcode: ^1.5.1
+    react: 18.2.0
+    react-dom: 18.2.0
+  checksum: 37a0988b9ee09d89572c193ff645c998d3caf2f4d0bd85ef99aac9370664b861beeb3cfae37d1e0d22cec2f80025d1fc0c7b578490c25594c494f923ca5fa060
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/my-near-wallet@npm:7.1.0, @near-wallet-selector/my-near-wallet@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/my-near-wallet@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/wallet-utils": 7.1.0
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 093c39dbd09a74e2d2bf5f9776886cbf2df6572f283b43f4706e84385dbf2575fe616c75353c4ae4a7ce0c13a965241ddc418bdf3854156e1d7bbad6304a5177
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/near-wallet@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/near-wallet@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/my-near-wallet": 7.1.0
+  checksum: 0e1bc55b0a8a14fb570284d7c551b5757ab9ff1314fae3197961300642b44ad2b3ecc877135d9109c538462838879350e1171b1e3d8f4d76fbd13f2ffe4908ac
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/nightly@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/nightly@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/wallet-utils": 7.1.0
+    is-mobile: ^3.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 8ca2b292da7888f3fb01454500694ac60907925bb8be7d51a98a90f3cf0964fad7eb05a2b20d1f82dd36c61b0597e2c4fc8e74d65b09b4b05eaecb166fa41068
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/sender@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/sender@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    is-mobile: ^3.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 064c402d17c53f3da71642097a4752a33b2fd5ca9445248c189935be9c90c11c7bcda2ce0b78046d4cb9636c7d13f6b468f35fa3543664e3d26db05c831635d3
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/wallet-utils@npm:7.1.0, @near-wallet-selector/wallet-utils@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/wallet-utils@npm:7.1.0"
+  dependencies:
+    "@near-wallet-selector/core": 7.1.0
+    bn.js: ^5.2.0
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 618a0a7d5efcad479745d312ae1ce54447b3ab74108ce934ebb550ce1aaa9b5bbefa61e79f77703302fb5e94ac766f428bc7b9fcf1f615f75464892506f851da
   languageName: node
   linkType: hard
 
@@ -1873,13 +1888,14 @@ __metadata:
     "@emotion/babel-preset-css-prop": ^11.2.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@near-wallet-selector/core": ^7.0.0
-    "@near-wallet-selector/modal-ui": ^7.0.0
-    "@near-wallet-selector/my-near-wallet": ^7.0.0
-    "@near-wallet-selector/near-wallet": ^7.0.0
-    "@near-wallet-selector/nightly": ^7.0.0
-    "@near-wallet-selector/sender": ^7.0.0
-    "@near-wallet-selector/wallet-utils": ^7.0.0
+    "@near-wallet-selector/core": ^7.1.0
+    "@near-wallet-selector/here-wallet": ^7.1.0
+    "@near-wallet-selector/modal-ui": ^7.1.0
+    "@near-wallet-selector/my-near-wallet": ^7.1.0
+    "@near-wallet-selector/near-wallet": ^7.1.0
+    "@near-wallet-selector/nightly": ^7.1.0
+    "@near-wallet-selector/sender": ^7.1.0
+    "@near-wallet-selector/wallet-utils": ^7.1.0
     "@parcel/transformer-svg-react": ^2.5.0
     "@tonic-foundation/config": ^1.0.0
     "@tonic-foundation/data-client": ^0.0.4
@@ -2340,7 +2356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-styles@npm:^4.1.0":
+"ansi-styles@npm:^4.0.0, ansi-styles@npm:^4.1.0":
   version: 4.3.0
   resolution: "ansi-styles@npm:4.3.0"
   dependencies:
@@ -2758,6 +2774,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"camelcase@npm:^5.0.0":
+  version: 5.3.1
+  resolution: "camelcase@npm:5.3.1"
+  checksum: e6effce26b9404e3c0f301498184f243811c30dfe6d0b9051863bd8e4034d09c8c2923794f280d6827e5aa055f6c434115ff97864a16a963366fb35fd673024b
+  languageName: node
+  linkType: hard
+
 "camelcase@npm:^6.2.0, camelcase@npm:^6.3.0":
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
@@ -2851,6 +2874,17 @@ __metadata:
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
   checksum: 2ac8cd2b2f5ec986a3c743935ec85b07bc174d5421a5efc8017e1f146a1cf5f781ae962618f416352103b32c9cd7e203276e8c28241bbe946160cab16149fb68
+  languageName: node
+  linkType: hard
+
+"cliui@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "cliui@npm:6.0.0"
+  dependencies:
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    wrap-ansi: ^6.2.0
+  checksum: 4fcfd26d292c9f00238117f39fc797608292ae36bac2168cfee4c85923817d0607fe21b3329a8621e01aedf512c99b7eaa60e363a671ffd378df6649fb48ae42
   languageName: node
   linkType: hard
 
@@ -2989,6 +3023,15 @@ __metadata:
   dependencies:
     toggle-selection: ^1.0.6
   checksum: 3c7b1c333dc6a4b2e9905f52e4df6bbd34ff9f9c97ecd3ca55378a6bc1c191bb12a3252e6289c7b436e9188cff0360d393c0161626851d2301607860bbbdcfd5
+  languageName: node
+  linkType: hard
+
+"copy-to-clipboard@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "copy-to-clipboard@npm:3.3.2"
+  dependencies:
+    toggle-selection: ^1.0.6
+  checksum: 968ec7ec3d0cf3067542b63dd244ba5d05e743899d7a0361fb0a3130e731d277f5ea54ea4d90fc88cc66eea2e4c67dc2dd8698e4ed360f921af5aa7c60b889ac
   languageName: node
   linkType: hard
 
@@ -3175,6 +3218,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decamelize@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "decamelize@npm:1.2.0"
+  checksum: ad8c51a7e7e0720c70ec2eeb1163b66da03e7616d7b98c9ef43cce2416395e84c1e9548dd94f5f6ffecfee9f8b94251fc57121a8b021f2ff2469b2bae247b8aa
+  languageName: node
+  linkType: hard
+
 "deep-is@npm:^0.1.3":
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
@@ -3273,6 +3323,13 @@ __metadata:
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
   checksum: f2c09b0ce4e6b301c221addd83bf3f454c0bc00caa3dd837cf6c127d6edf7223aa2bbe3b688feea110b7f262adbfc845b757c44c8a9f8c0c5b15d8fa9ce9d20d
+  languageName: node
+  linkType: hard
+
+"dijkstrajs@npm:^1.0.1":
+  version: 1.0.2
+  resolution: "dijkstrajs@npm:1.0.2"
+  checksum: 8cd822441a26f190da24d69bfab7b433d080b09e069e41e046ac84e152f182a1ed9478d531b34126e000adaa7b73114a0f85fcac117a7d25b3edf302d57c0d09
   languageName: node
   linkType: hard
 
@@ -3403,6 +3460,13 @@ __metadata:
   version: 3.0.0
   resolution: "emojis-list@npm:3.0.0"
   checksum: ddaaa02542e1e9436c03970eeed445f4ed29a5337dfba0fe0c38dfdd2af5da2429c2a0821304e8a8d1cadf27fdd5b22ff793571fa803ae16852a6975c65e8e70
+  languageName: node
+  linkType: hard
+
+"encode-utf8@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "encode-utf8@npm:1.0.3"
+  checksum: 550224bf2a104b1d355458c8a82e9b4ea07f9fc78387bc3a49c151b940ad26473de8dc9e121eefc4e84561cb0b46de1e4cd2bc766f72ee145e9ea9541482817f
   languageName: node
   linkType: hard
 
@@ -3957,7 +4021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-up@npm:^4.0.0":
+"find-up@npm:^4.0.0, find-up@npm:^4.1.0":
   version: 4.1.0
   resolution: "find-up@npm:4.1.0"
   dependencies:
@@ -4107,6 +4171,13 @@ __metadata:
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
   checksum: a7437e58c6be12aa6c90f7730eac7fa9833dc78872b4ad2963d2031b00a3367a93f98aec75f9aaac7220848e4026d67a8655e870b24f20a543d103c0d65952ec
+  languageName: node
+  linkType: hard
+
+"get-caller-file@npm:^2.0.1":
+  version: 2.0.5
+  resolution: "get-caller-file@npm:2.0.5"
+  checksum: b9769a836d2a98c3ee734a88ba712e62703f1df31b94b784762c433c27a386dd6029ff55c2a920c392e33657d80191edbf18c61487e198844844516f843496b9
   languageName: node
   linkType: hard
 
@@ -5854,6 +5925,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pngjs@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "pngjs@npm:5.0.0"
+  checksum: 04e912cc45fb9601564e2284efaf0c5d20d131d9b596244f8a6789fc6cdb6b18d2975a6bbf7a001858d7e159d5c5c5dd7b11592e97629b7137f7f5cef05904c8
+  languageName: node
+  linkType: hard
+
 "postcss-import@npm:^14.1.0":
   version: 14.1.0
   resolution: "postcss-import@npm:14.1.0"
@@ -6088,6 +6166,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qrcode@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "qrcode@npm:1.5.1"
+  dependencies:
+    dijkstrajs: ^1.0.1
+    encode-utf8: ^1.0.3
+    pngjs: ^5.0.0
+    yargs: ^15.3.1
+  bin:
+    qrcode: bin/qrcode
+  checksum: 842f899d95caaad2ac507408b5498be3197e1df16bc6b537b20069d2cb1330e4588b50f672ce4a9ccf01338f7c97b5732ff9b5caaa6eb2338187d3c25a973e79
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -6317,6 +6409,20 @@ __metadata:
   version: 3.2.0
   resolution: "regexpp@npm:3.2.0"
   checksum: a78dc5c7158ad9ddcfe01aa9144f46e192ddbfa7b263895a70a5c6c73edd9ce85faf7c0430e59ac38839e1734e275b9c3de5c57ee3ab6edc0e0b1bdebefccef8
+  languageName: node
+  linkType: hard
+
+"require-directory@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "require-directory@npm:2.1.1"
+  checksum: fb47e70bf0001fdeabdc0429d431863e9475e7e43ea5f94ad86503d918423c1543361cc5166d713eaa7029dd7a3d34775af04764bebff99ef413111a5af18c80
+  languageName: node
+  linkType: hard
+
+"require-main-filename@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "require-main-filename@npm:2.0.0"
+  checksum: e9e294695fea08b076457e9ddff854e81bffbe248ed34c1eec348b7abbd22a0d02e8d75506559e2265e96978f3c4720bd77a6dad84755de8162b357eb6c778c7
   languageName: node
   linkType: hard
 
@@ -6790,7 +6896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.2.3":
+"string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.1.0, string-width@npm:^4.2.0, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
   dependencies:
@@ -6848,7 +6954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-ansi@npm:^6.0.1":
+"strip-ansi@npm:^6.0.0, strip-ansi@npm:^6.0.1":
   version: 6.0.1
   resolution: "strip-ansi@npm:6.0.1"
   dependencies:
@@ -7457,6 +7563,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"which-module@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "which-module@npm:2.0.0"
+  checksum: 809f7fd3dfcb2cdbe0180b60d68100c88785084f8f9492b0998c051d7a8efe56784492609d3f09ac161635b78ea29219eb1418a98c15ce87d085bce905705c9c
+  languageName: node
+  linkType: hard
+
 "which@npm:^2.0.1, which@npm:^2.0.2":
   version: 2.0.2
   resolution: "which@npm:2.0.2"
@@ -7481,6 +7594,17 @@ __metadata:
   version: 1.2.3
   resolution: "word-wrap@npm:1.2.3"
   checksum: 30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f
+  languageName: node
+  linkType: hard
+
+"wrap-ansi@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "wrap-ansi@npm:6.2.0"
+  dependencies:
+    ansi-styles: ^4.0.0
+    string-width: ^4.1.0
+    strip-ansi: ^6.0.0
+  checksum: 6cd96a410161ff617b63581a08376f0cb9162375adeb7956e10c8cd397821f7eb2a6de24eb22a0b28401300bf228c86e50617cd568209b5f6775b93c97d2fe3a
   languageName: node
   linkType: hard
 
@@ -7520,6 +7644,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"y18n@npm:^4.0.0":
+  version: 4.0.3
+  resolution: "y18n@npm:4.0.3"
+  checksum: 014dfcd9b5f4105c3bb397c1c8c6429a9df004aa560964fb36732bfb999bfe83d45ae40aeda5b55d21b1ee53d8291580a32a756a443e064317953f08025b1aa4
+  languageName: node
+  linkType: hard
+
 "yallist@npm:^4.0.0":
   version: 4.0.0
   resolution: "yallist@npm:4.0.0"
@@ -7531,6 +7662,35 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
+  languageName: node
+  linkType: hard
+
+"yargs-parser@npm:^18.1.2":
+  version: 18.1.3
+  resolution: "yargs-parser@npm:18.1.3"
+  dependencies:
+    camelcase: ^5.0.0
+    decamelize: ^1.2.0
+  checksum: 60e8c7d1b85814594d3719300ecad4e6ae3796748b0926137bfec1f3042581b8646d67e83c6fc80a692ef08b8390f21ddcacb9464476c39bbdf52e34961dd4d9
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^15.3.1":
+  version: 15.4.1
+  resolution: "yargs@npm:15.4.1"
+  dependencies:
+    cliui: ^6.0.0
+    decamelize: ^1.2.0
+    find-up: ^4.1.0
+    get-caller-file: ^2.0.1
+    require-directory: ^2.1.1
+    require-main-filename: ^2.0.0
+    set-blocking: ^2.0.0
+    string-width: ^4.2.0
+    which-module: ^2.0.0
+    y18n: ^4.0.0
+    yargs-parser: ^18.1.2
+  checksum: 40b974f508d8aed28598087720e086ecd32a5fd3e945e95ea4457da04ee9bdb8bdd17fd91acff36dc5b7f0595a735929c514c40c402416bbb87c03f6fb782373
   languageName: node
   linkType: hard
 
