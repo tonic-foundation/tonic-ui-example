@@ -4,7 +4,7 @@ import Leaderboard from '~/pages/Leaderboard';
 import Swap from './pages/Swap';
 import Incentives from '~/pages/Incentives';
 import Trade from '~/pages/Trade';
-import LpRewards from './pages/Incentives/LpRewards';
+import LpRewards from './pages/Incentives/past/LpRewards';
 import React from 'react';
 import { TONIC_HAS_LEADERBOARD, TONIC_HAS_REWARDS } from './config';
 
@@ -24,7 +24,7 @@ function routes() {
       {TONIC_HAS_REWARDS && (
         <React.Fragment>
           <Route path="/incentives" element={<Incentives />} />
-          <Route path="/incentives/lp" element={<LpRewards />} />
+          <Route path="/incentives/past/usn-usdc" element={<LpRewards />} />
           <Route path="/rewards" element={<LpRewards />} />
         </React.Fragment>
       )}
