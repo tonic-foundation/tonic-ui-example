@@ -40,16 +40,20 @@ import Modal, { ModalBody, ModalHeader } from '~/components/common/Modal';
 import Button from '~/components/common/Button';
 import AuthButton from '~/components/common/AuthButton';
 import useTheme from '~/hooks/useTheme';
-import { DISCORD_TICKET_SUPPORT_HREF, GOBLIN_HREF } from '~/config';
+import {
+  DISCORD_GENERAL_HREF,
+  DISCORD_TICKET_SUPPORT_HREF,
+  GOBLIN_HREF,
+} from '~/config';
 import Tooltip from '~/components/common/Tooltip';
 import usePersistentState from '~/hooks/usePersistentState';
 import CloseButton from '~/components/common/CloseButton';
 import { TzDate } from '~/util/date';
 import UsnShower from '~/components/rewards/UsnShower';
 import { animation } from '~/styles';
-import PayoutTxn from '../components/PayoutTxn';
-import Typography from '../components/Typography';
-import LineItem from '../components/LineItem';
+import PayoutTxn from '../../components/PayoutTxn';
+import Typography from '../../components/Typography';
+import LineItem from '../../components/LineItem';
 
 // no point making this come from the API because a lot of copy containing dates
 // is handwritten anyway
@@ -761,20 +765,27 @@ const Content = () => {
           <CoolModeCard>
             <header tw="flex items-center justify-between">
               <h1 tw="text-xl">USN/USDC Liquidity Rewards</h1>
-              <CloseButton onClick={() => setRulesVisible(false)} />
+              {false && <CloseButton onClick={() => setRulesVisible(false)} />}
             </header>
             <div tw="mt-3 space-y-3">
+              <p tw="bg-black bg-opacity-10 p-6 rounded-lg light:(border border-neutral-300)">
+                This incentive program has ended. Stay tuned in{' '}
+                <Typography.Link url={DISCORD_GENERAL_HREF}>
+                  Discord
+                </Typography.Link>{' '}
+                for the next announcement, coming soon 😈
+              </p>
               <p>
-                Liquidity provided in the{' '}
+                From September 12 to October 12, 2022, liquidity provided in the{' '}
                 <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
                   USN/USDC market
                 </a>{' '}
-                earns points towards USN rewards. Orders placed closer to
-                midmarket earn more points.
+                earned points towards USN rewards. Orders placed closer to
+                midmarket earned more points.
               </p>
               <p>
-                Rewards are paid daily. Your share of rewards is proportional to
-                the points you earn each day.
+                Rewards were paid daily. LP&apos;s share of rewards was
+                proportional to their points earned each day.
               </p>
               <Typography.Link url={ANNOUNCEMENT_HREF}>
                 View the announcement
@@ -803,9 +814,9 @@ const Content = () => {
 
       {isSignedIn ? (
         <React.Fragment>
-          <Section>
+          {/* <Section>
             <AccountRewardsToday />
-          </Section>
+          </Section> */}
           <RewardsDataIfEligible />
         </React.Fragment>
       ) : (

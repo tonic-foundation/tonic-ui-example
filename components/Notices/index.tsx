@@ -111,7 +111,10 @@ export const NoticeContent: Record<string, React.FC> = {
   },
 };
 
-const PAGES: NoticePage[] = ['zero-fees', 'usn-rewards'];
+const PAGES: NoticePage[] = [
+  'zero-fees',
+  // , 'usn-rewards'
+];
 
 const Notices: React.FC = ({ ...props }) => {
   const [currentPage, setCurrentPage] = useRecoilState(noticesPageState);
@@ -164,11 +167,7 @@ const Notices: React.FC = ({ ...props }) => {
       css={exiting ? tw`opacity-0` : tw`opacity-100`}
       {...props}
     >
-      {currentPage === 'usn-rewards' ? (
-        <Link to="/incentives/lp" onClick={close}>
-          <NoticeContent.UsnRewardsNotice css={styles.hoverNotice} />
-        </Link>
-      ) : (
+      {currentPage === 'zero-fees' && (
         <Link to="/incentives" onClick={close}>
           <NoticeContent.ZeroFeesNotice css={styles.hoverNotice} />
         </Link>
@@ -187,32 +186,34 @@ const Notices: React.FC = ({ ...props }) => {
           close();
         }}
       />
-      <div tw="z-20 absolute bottom-2 right-4 flex items-center gap-1">
-        {PAGES.map((p) => (
-          <IconButton.Base
-            key={p}
-            icon={<Shape.Cdot tw="opacity-100" />}
-            css={
-              currentPage === p &&
-              tw`
+      {PAGES.length > 1 && (
+        <div tw="z-20 absolute bottom-2 right-4 flex items-center gap-1">
+          {PAGES.map((p) => (
+            <IconButton.Base
+              key={p}
+              icon={<Shape.Cdot tw="opacity-100" />}
+              css={
+                currentPage === p &&
+                tw`
                 animate-pulse
                 dark:(bg-white bg-opacity-20)
                 light:(bg-white bg-opacity-20)
               `
-            }
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setCurrentPage(p);
-            }}
-            tw="
+              }
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setCurrentPage(p);
+              }}
+              tw="
               opacity-100
               dark:hover:(bg-white bg-opacity-20)
               light:hover:(bg-white bg-opacity-20)
             "
-          />
-        ))}
-      </div>
+            />
+          ))}
+        </div>
+      )}
     </Card>
   );
 };
