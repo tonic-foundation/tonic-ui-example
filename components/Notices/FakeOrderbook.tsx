@@ -6,10 +6,12 @@ const Side: React.FC<{ up?: boolean }> = ({ up, ...props }) => {
     <div tw="flex items-end" css={up && tw`flex-row-reverse`} {...props}>
       {/* these numbers were empirically chosen (ie I guessed and checked until
       it looked right) */}
-      {range(Math.floor(Math.random() * 5) + 12).map((n) => {
+      {range(Math.floor(Math.random() * 3) + 7).map((n) => {
         const delta = 0.15 * (Math.random() - 0.5);
         // max 100, min 8 (ensure middle is never empty)
-        const size = Math.max(Math.min(100 * (n / 16 + delta), 100), 8);
+
+        const size = Math.max(Math.min(100 * (n / 10 + delta), 100), 8);
+
         return (
           <span
             key={n}

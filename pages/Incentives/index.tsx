@@ -141,10 +141,155 @@ const FeeModal = () => {
   );
 };
 
-const Content = () => {
+const UsnUsdcIncentive = () => {
+  return (
+    <IncentiveCard tw="md:flex-1">
+      <div>
+        <NoticeWrapper>
+          <NoticeContent.UsnUsdcLp tw="cursor-default" />
+        </NoticeWrapper>
+      </div>
+      <div tw="flex-grow flex flex-col items-stretch justify-between p-6">
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>Daily USN rewards</Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Bot trading encouraged
+          </Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Must hold a{' '}
+            <Typography.Link url={GOBLIN_HREF}>
+              Tonic Goblin NFT
+            </Typography.Link>
+          </Typography.Description>
+        </div>
+
+        <Link to="/incentives/past/usn-usdc" tw="mt-6 w-full">
+          <Button tw="w-full" variant="up">
+            Get started
+          </Button>
+        </Link>
+      </div>
+    </IncentiveCard>
+  );
+};
+
+const OctoberFeeIncentive = () => {
   const { isSignedIn } = useWalletSelector();
   const setFeeModalVisible = useSetRecoilState(feeModalVisibleState);
 
+  return (
+    <IncentiveCard tw="md:flex-1 relative">
+      <div>
+        <NoticeWrapper>
+          <NoticeContent.ZeroFees tw="cursor-default" />
+        </NoticeWrapper>
+      </div>
+
+      <div tw="flex-grow flex flex-col justify-between p-6">
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            All stable fees rebated in USN
+          </Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            All trading modes supported
+          </Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>No signup required</Typography.Description>
+        </div>
+
+        {isSignedIn ? (
+          <Button
+            tw="mt-6"
+            variant="up"
+            onClick={() => setFeeModalVisible(true)}
+          >
+            View your rebates
+          </Button>
+        ) : (
+          <AuthButton tw="mt-6" />
+        )}
+      </div>
+    </IncentiveCard>
+  );
+};
+
+const MultiMarketUsnIncentive = () => {
+  return (
+    <IncentiveCard tw="md:flex-1">
+      <div>
+        <NoticeWrapper>
+          <NoticeContent.MultiMarketLp tw="cursor-default" />
+        </NoticeWrapper>
+      </div>
+      <div tw="flex-grow flex flex-col items-stretch justify-between p-6">
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>Daily USN rewards</Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Multiple markets supported
+          </Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Must hold a{' '}
+            <Typography.Link url={GOBLIN_HREF}>
+              Tonic Goblin NFT
+            </Typography.Link>
+          </Typography.Description>
+        </div>
+
+        <Link to="/incentives/past/usn-usdc" tw="mt-6 w-full">
+          <Button tw="w-full" variant="up">
+            Get started
+          </Button>
+        </Link>
+      </div>
+    </IncentiveCard>
+  );
+};
+
+const Content = () => {
   return (
     <Wrapper>
       <Section>
@@ -152,54 +297,8 @@ const Content = () => {
           <Typography.Heading>Current Incentives</Typography.Heading>
         </div>
         <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
-          <IncentiveCard tw="md:flex-1 relative">
-            <div>
-              <NoticeWrapper>
-                <NoticeContent.ZeroFees tw="cursor-default" />
-              </NoticeWrapper>
-            </div>
-
-            <div tw="flex-grow flex flex-col justify-between p-6">
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  All stable fees rebated in USN
-                </Typography.Description>
-              </div>
-
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  All trading modes supported
-                </Typography.Description>
-              </div>
-
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  No signup required
-                </Typography.Description>
-              </div>
-
-              {isSignedIn ? (
-                <Button
-                  tw="mt-6"
-                  variant="up"
-                  onClick={() => setFeeModalVisible(true)}
-                >
-                  View your rebates
-                </Button>
-              ) : (
-                <AuthButton tw="mt-6" />
-              )}
-            </div>
-          </IncentiveCard>
+          <MultiMarketUsnIncentive />
+          <OctoberFeeIncentive />
         </div>
       </Section>
 
@@ -208,50 +307,7 @@ const Content = () => {
           <Typography.Heading>Past Incentives</Typography.Heading>
         </div>
         <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
-          <IncentiveCard tw="md:flex-1">
-            <div>
-              <NoticeWrapper>
-                <NoticeContent.UsnUsdcLp tw="cursor-default" />
-              </NoticeWrapper>
-            </div>
-            <div tw="flex-grow flex flex-col items-stretch justify-between p-6">
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  Daily USN rewards
-                </Typography.Description>
-              </div>
-
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  Bot trading encouraged
-                </Typography.Description>
-              </div>
-
-              <div tw="flex items-center gap-3 mt-2">
-                <div>
-                  <Shape.Cdot />
-                </div>
-                <Typography.Description>
-                  Must hold a{' '}
-                  <Typography.Link url={GOBLIN_HREF}>
-                    Tonic Goblin NFT
-                  </Typography.Link>
-                </Typography.Description>
-              </div>
-
-              <Link to="/incentives/past/usn-usdc" tw="mt-6 w-full">
-                <Button tw="w-full" variant="up">
-                  Get started
-                </Button>
-              </Link>
-            </div>
-          </IncentiveCard>
+          <UsnUsdcIncentive />
         </div>
       </Section>
     </Wrapper>
@@ -264,10 +320,7 @@ const Page = () => {
       {/* Allow flowing off the screen on this page. Looks better this way.  */}
       <AppLayout
         hasFooter={false}
-        tw="
-          min-h-screen h-full md:(min-h-screen h-full)
-          light:(bg-gradient-to-t from-fuchsia-400 to-teal-400)
-        "
+        tw="min-h-screen h-full md:(min-h-screen h-full)"
       >
         <Content />
         <FeeModal />

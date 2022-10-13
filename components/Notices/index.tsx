@@ -68,26 +68,24 @@ const UsnUsdcLp: React.FC = (props) => {
     <div
       tw="
           relative font-mono
-          bg-gradient-to-t
-          from-slate-800 to-slate-700
+          bg-gradient-to-tr
+          from-fuchsia-400 to-teal-300
         text-black
           h-full w-full
         "
       {...props}
     >
-      <UsnShower count={18} tw="absolute top-0 bottom-1/2 left-8 right-8" />
-      <div tw="absolute inset-0 pt-10 text-white flex flex-col items-center z-20">
-        <p tw="text-base">Liquidity Incentive</p>
-        <p tw="text-xl">{(50000).toLocaleString()} $USN</p>
-        <p
-          tw="mt-2.5 text-base px-2 py-0.5 rounded bg-white bg-opacity-20"
-          css={animatePulseLess}
-        >
-          Live now
-        </p>
-      </div>
-      <div tw="relative z-10">
-        <FakeOrderbook />
+      <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-10">
+        <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
+          <p tw="text-xl">USN/USDC Incentive</p>
+          <div tw="mt-2.5 text-sm flex items-center gap-2">
+            <Shape.CdotBase tw="bg-black" /> <span>50k $USN Rewards Pool</span>
+          </div>
+          <div tw="text-sm flex items-center gap-2">
+            <Shape.CdotBase tw="bg-black" />
+            <span>Sep 12 - Oct 12 2022</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -126,7 +124,7 @@ const ZeroFees: React.FC = (props) => {
 
 const Slots = {
   Door: tw.div`
-    rounded-lg border border-lime-400
+    rounded-lg border border-fuchsia-400
     bg-gradient-to-t from-slate-800 to-slate-700
     py-6 px-3
     h-24 overflow-hidden
@@ -139,6 +137,9 @@ const RibbonChoices = [
   <Icon.Discord key="dc" tw="h-12 w-full" />,
   <Icon.Telegram key="tg" tw="h-12 w-full" />,
   <Icon.Twitter key="tw" tw="h-12 w-full" />,
+  <span key="shitcoin" tw="h-12 w-full">
+    💩
+  </span>,
 ];
 const Ribbon: React.FC<{ count?: number; animating: boolean }> = ({
   count = 12,
@@ -197,6 +198,15 @@ const MultiMarketLp: React.FC = (props) => {
         "
       {...props}
     >
+      <div
+        tw="
+          absolute inset-0
+          bg-gradient-to-t
+          from-fuchsia-600 to-fuchsia-400
+          transition duration-500 delay-1000
+        "
+        css={winning ? tw`opacity-0` : tw`opacity-100`}
+      />
       {winning && (
         <UsnShower
           count={18}
@@ -204,7 +214,7 @@ const MultiMarketLp: React.FC = (props) => {
           tw="absolute top-0 bottom-1/2 left-8 right-8"
         />
       )}
-      <div tw="h-full w-full flex items-stretch gap-6 px-6">
+      <div tw="relative z-10 h-full w-full flex items-stretch gap-6 px-6">
         <div tw="flex-1 flex flex-col items-center justify-center">
           <Slots.Door
             css={
@@ -239,7 +249,7 @@ const MultiMarketLp: React.FC = (props) => {
       {/* this stuff doesn't show until the roulette thing finishes */}
       <div tw="absolute inset-0 z-10">
         <div
-          tw="absolute inset-0 pt-10 text-white flex flex-col items-center z-20 transition duration-700 delay-[1.3s]"
+          tw="absolute inset-0 pt-12 text-white flex flex-col items-center z-20 transition duration-700 delay-[1.3s]"
           css={
             winning
               ? tw`opacity-100 translate-y-0`
@@ -249,7 +259,7 @@ const MultiMarketLp: React.FC = (props) => {
           <p tw="text-base">Liquidity Incentive</p>
           <p tw="text-xl">{(100000).toLocaleString()} $USN</p>
           <p
-            tw="mt-2.5 text-base px-2 py-0.5 rounded bg-white bg-opacity-20"
+            tw="mt-2.5 text-base px-2 py-0.5 rounded text-white bg-white bg-opacity-20"
             css={animatePulseLess}
           >
             Live now
