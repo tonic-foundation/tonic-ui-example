@@ -2,8 +2,8 @@ import { css, TwStyle } from 'twin.macro';
 import { range } from '~/util';
 import Icon from '../common/Icon';
 
-const animateFall = css`
-  animation: fall 3s linear infinite;
+const animateFall = (duration = 3) => css`
+  animation: fall ${duration}s linear infinite;
 
   @keyframes fall {
     0% {
@@ -17,11 +17,11 @@ const animateFall = css`
   }
 `;
 
-const UsnShower: React.FC<{ count: number; iconStyle?: TwStyle }> = ({
-  count,
-  iconStyle,
-  ...props
-}) => {
+const UsnShower: React.FC<{
+  count: number;
+  duration?: number;
+  iconStyle?: TwStyle;
+}> = ({ count, duration = 3, iconStyle, ...props }) => {
   return (
     <div {...props}>
       <div tw="absolute inset-0">
@@ -33,7 +33,7 @@ const UsnShower: React.FC<{ count: number; iconStyle?: TwStyle }> = ({
               // negative top to hide while waiting for animation to start
               tw="absolute -top-20"
               css={[
-                animateFall,
+                animateFall(duration),
                 css`
                   animation-delay: ${Math.random() * 6}s;
                 `,

@@ -26,10 +26,7 @@ const Side: React.FC<{ up?: boolean }> = ({ up, ...props }) => {
 const FakeOrderbook: React.FC = ({ ...props }) => {
   return (
     <div {...props} tw="relative flex items-stretch min-h-[200px]">
-      <div tw="absolute text-center text-white left-0 top-10 right-0 leading-none">
-        {/* <p tw="text-white">$</p> */}
-        {/* <p tw="text-sm">Mid-market price</p> */}
-      </div>
+      <div tw="absolute text-center text-white left-0 top-10 right-0 leading-none" />
       <Side tw="flex-1" up />
       <Side tw="flex-1" />
     </div>

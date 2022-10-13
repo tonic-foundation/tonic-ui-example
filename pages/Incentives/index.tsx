@@ -155,7 +155,7 @@ const Content = () => {
           <IncentiveCard tw="md:flex-1">
             <div>
               <NoticeWrapper>
-                <NoticeContent.UsnRewardsNotice tw="cursor-default" />
+                <NoticeContent.UsnUsdcLp tw="cursor-default" />
               </NoticeWrapper>
             </div>
             <div tw="flex-grow flex flex-col items-stretch justify-between p-6">
@@ -199,7 +199,7 @@ const Content = () => {
           <IncentiveCard tw="md:flex-1 relative">
             <div>
               <NoticeWrapper>
-                <NoticeContent.ZeroFeesNotice tw="cursor-default" />
+                <NoticeContent.ZeroFees tw="cursor-default" />
               </NoticeWrapper>
             </div>
 
