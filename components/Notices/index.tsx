@@ -13,7 +13,6 @@ import { animation } from '~/styles';
 import { sleep } from '~/util';
 import Card from '../common/Card';
 import CloseButton from '../common/CloseButton';
-import IconButton from '../common/IconButton';
 import { LogoIcon } from '../common/Logo';
 import Shape from '../common/Shape';
 

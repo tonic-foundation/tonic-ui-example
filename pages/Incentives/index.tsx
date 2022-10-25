@@ -103,7 +103,7 @@ const FeeHistory: React.FC = (props) => {
           );
         })
       ) : (
-        <p>No rebates... yet 😈</p>
+        <p>No rebates</p>
       )}
     </div>
   );
@@ -249,16 +249,20 @@ const Content = () => {
         <div tw="mx-auto max-w-[300px] md:(max-w-full) mb-6">
           <Typography.Heading>Current Incentives</Typography.Heading>
         </div>
-        <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
+        <p>There are no current incentives.</p>
+        {/* <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
           <OctoberFeeIncentive />
-        </div>
+        </div> */}
       </Section>
 
       <Section>
         <div tw="mx-auto max-w-[300px] md:(max-w-full) mb-6">
           <Typography.Heading>Past Incentives</Typography.Heading>
         </div>
+        {/* <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
+        </div> */}
         <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
+          <OctoberFeeIncentive />
           <UsnUsdcIncentive />
         </div>
       </Section>
