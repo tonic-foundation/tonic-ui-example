@@ -698,6 +698,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@meteorwallet/sdk@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "@meteorwallet/sdk@npm:0.6.0"
+  dependencies:
+    nanoid: 3.3.4
+    query-string: ^7.1.1
+  peerDependencies:
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 5aab610023e22bf14201ccb8cdc2f7dbc36726a7fa086b5085e691dace647609435dbfea0e6cfebec19f1aa731275d204d511187e83dbc036dba63ecbdbf003c
+  languageName: node
+  linkType: hard
+
 "@mischnic/json-sourcemap@npm:^0.1.0":
   version: 0.1.0
   resolution: "@mischnic/json-sourcemap@npm:0.1.0"
@@ -730,6 +742,19 @@ __metadata:
   peerDependencies:
     near-api-js: ^0.44.2
   checksum: b383eccd2d904f1756f5f31e2d93e06cd6cb7920f00a5cefbb74926e7df2385533bac9d4a0b2f3272c3ebda4d69161e0a2aa08af3c6c27e1680204e32c662a8a
+  languageName: node
+  linkType: hard
+
+"@near-wallet-selector/meteor-wallet@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@near-wallet-selector/meteor-wallet@npm:7.1.0"
+  dependencies:
+    "@meteorwallet/sdk": ^0.6.0
+    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/wallet-utils": 7.1.0
+  peerDependencies:
+    near-api-js: ^0.44.2
+  checksum: 9cbb426bc8e51acdc35cdc54a7c2a798c8b523ae91c22da243c02688da659f7a4dd87ecd2e692a4bec015a90352eb328ca1484cab2cb32e42ecd9920dd2c5f9b
   languageName: node
   linkType: hard
 
@@ -1890,6 +1915,7 @@ __metadata:
     "@emotion/styled": ^11.3.0
     "@near-wallet-selector/core": ^7.1.0
     "@near-wallet-selector/here-wallet": ^7.1.0
+    "@near-wallet-selector/meteor-wallet": ^7.1.0
     "@near-wallet-selector/modal-ui": ^7.1.0
     "@near-wallet-selector/my-near-wallet": ^7.1.0
     "@near-wallet-selector/near-wallet": ^7.1.0
@@ -3225,6 +3251,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decode-uri-component@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "decode-uri-component@npm:0.2.0"
+  checksum: f3749344ab9305ffcfe4bfe300e2dbb61fc6359e2b736812100a3b1b6db0a5668cba31a05e4b45d4d63dbf1a18dfa354cd3ca5bb3ededddabb8cd293f4404f94
+  languageName: node
+  linkType: hard
+
 "deep-is@npm:^0.1.3":
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
@@ -3991,6 +4024,13 @@ __metadata:
   dependencies:
     to-regex-range: ^5.0.1
   checksum: cc283f4e65b504259e64fd969bcf4def4eb08d85565e906b7d36516e87819db52029a76b6363d0f02d0d532f0033c9603b9e2d943d56ee3b0d4f7ad3328ff917
+  languageName: node
+  linkType: hard
+
+"filter-obj@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "filter-obj@npm:1.1.0"
+  checksum: cf2104a7c45ff48e7f505b78a3991c8f7f30f28bd8106ef582721f321f1c6277f7751aacd5d83026cb079d9d5091082f588d14a72e7c5d720ece79118fa61e10
   languageName: node
   linkType: hard
 
@@ -5425,7 +5465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.3, nanoid@npm:^3.3.4":
+"nanoid@npm:3.3.4, nanoid@npm:^3.3.3, nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
@@ -6180,6 +6220,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"query-string@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "query-string@npm:7.1.1"
+  dependencies:
+    decode-uri-component: ^0.2.0
+    filter-obj: ^1.1.0
+    split-on-first: ^1.0.0
+    strict-uri-encode: ^2.0.0
+  checksum: b227d1f588ae93f9f0ad078c6b811295fa151dc5a160a03bb2bac5fa0e6919cb1daa570aad1d288e77c8e89fde5362ba505b1014e6e793da9b1e885b59a690a6
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -6829,6 +6881,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"split-on-first@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "split-on-first@npm:1.1.0"
+  checksum: 16ff85b54ddcf17f9147210a4022529b343edbcbea4ce977c8f30e38408b8d6e0f25f92cd35b86a524d4797f455e29ab89eb8db787f3c10708e0b47ebf528d30
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^9.0.0":
   version: 9.0.0
   resolution: "ssri@npm:9.0.0"
@@ -6886,6 +6945,13 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
+  languageName: node
+  linkType: hard
+
+"strict-uri-encode@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "strict-uri-encode@npm:2.0.0"
+  checksum: eaac4cf978b6fbd480f1092cab8b233c9b949bcabfc9b598dd79a758f7243c28765ef7639c876fa72940dac687181b35486ea01ff7df3e65ce3848c64822c581
   languageName: node
   linkType: hard
 
