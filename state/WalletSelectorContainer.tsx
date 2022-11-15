@@ -15,6 +15,7 @@ import { setupSender } from '@near-wallet-selector/sender';
 import { setupNightly } from '@near-wallet-selector/nightly';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
+import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
 
 import { IS_DEV, NEAR_ENV } from '~/config';
 import { near } from '~/services/near';
@@ -51,6 +52,7 @@ export const WalletSelectorContextProvider: React.FC = ({ children }) => {
         setupSender(),
         setupNightly(),
         setupHereWallet(),
+        setupMeteorWallet(),
       ],
     });
 
