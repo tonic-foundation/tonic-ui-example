@@ -136,6 +136,7 @@ const Balances: React.FC = (props) => {
 
 const Wrapper = tw.div`
   flex flex-col overflow-hidden
+  h-[60vh]
   sm:(w-screen max-w-sm)
 `;
 
@@ -153,7 +154,7 @@ const ExchangeBalancesCard: React.FC<{ onClickClose: () => unknown }> = ({
       </ModalHeader>
       <ModalBody>
         <React.Suspense fallback={<Fallback tw="my-3" />}>
-          {!activeAccount ? <AuthButton /> : <Balances />}
+          {!activeAccount ? <AuthButton /> : <Balances tw="overflow-auto" />}
         </React.Suspense>
       </ModalBody>
     </Wrapper>
