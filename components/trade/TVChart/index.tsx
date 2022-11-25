@@ -114,7 +114,7 @@ const TVChart: React.FC<Partial<ChartContainerProps>> = (props) => {
       debug: false,
       // interval: props.interval as ChartingLibraryWidgetOptions['interval'],
       interval: '60' as ChartingLibraryWidgetOptions['interval'],
-      timeframe: '1D',
+      timeframe: '3D',
       library_path: fullProps.libraryPath as string,
       container: fullProps.container,
       client_id: fullProps.clientId,
