@@ -79,7 +79,8 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
             <Link to="/leaderboard">Leaderboard</Link>
           </MobileMenuButton>
         )}
-        {TONIC_HAS_REWARDS && (
+        {/* not showing this anymore */}
+        {TONIC_HAS_REWARDS && false && (
           <MobileMenuButton>
             <Link to="/incentives">Incentives</Link>
           </MobileMenuButton>

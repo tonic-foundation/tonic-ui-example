@@ -15,6 +15,7 @@ import Card from '../common/Card';
 import CloseButton from '../common/CloseButton';
 import { LogoIcon } from '../common/Logo';
 import Shape from '../common/Shape';
+import TokenIcon from '../common/TokenIcon';
 
 const PAGES = ['zero-fees'] as const;
 
@@ -99,7 +100,38 @@ const ZeroFees: React.FC = (props) => {
   );
 };
 
-export const NoticeContent = { UsnUsdcLp, ZeroFees } as const;
+const AuroraLp: React.FC = (props) => {
+  return (
+    <div
+      tw="
+          relative font-mono
+          bg-gradient-to-tr
+          from-fuchsia-400 to-amber-300
+        text-black
+          h-full w-full
+        "
+      {...props}
+    >
+      <div tw="absolute top-1/2 -translate-y-1/2 -left-36 skew-x-[24deg]">
+        <LogoIcon tw="w-96 h-96" css={animation.spin(12)} />
+      </div>
+      <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-10">
+        <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
+          <p tw="text-xl">Aurora LP Program</p>
+          <div tw="mt-2.5 text-sm flex items-center gap-2">
+            <Shape.CdotBase tw="bg-black" /> <span>500 AURORA/day</span>
+          </div>
+          <div tw="text-sm flex items-center gap-2">
+            <Shape.CdotBase tw="bg-black" />
+            <span>Starts Dec 2022</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const NoticeContent = { UsnUsdcLp, AuroraLp, ZeroFees } as const;
 
 const Notices: React.FC = ({ ...props }) => {
   const setPageIndex = useSetRecoilState(noticesPageIndexState);
@@ -149,8 +181,11 @@ const Notices: React.FC = ({ ...props }) => {
       css={exiting ? tw`opacity-0` : tw`opacity-100`}
       {...props}
     >
-      <Link to="/incentives" onClick={close}>
-        <NoticeContent.ZeroFees css={styles.hoverNotice} />
+      <Link
+        to="/advanced/Fef7VNamGSiujh9AL88FyF9MgN1M7vJvX9CtEdSmYGoP"
+        onClick={close}
+      >
+        <NoticeContent.AuroraLp css={styles.hoverNotice} />
       </Link>
 
       <CloseButton
