@@ -10,14 +10,19 @@ import {
   bnToApproximateDecimal,
 } from '@tonic-foundation/utils';
 import React, { useEffect } from 'react';
-import { bnFloor, ZERO } from '~/util/math';
+import { bnFloor, truncate, ZERO } from '~/util/math';
 import {
   atom,
+  selector,
   useRecoilState,
   useRecoilValue,
+  useResetRecoilState,
   useSetRecoilState,
 } from 'recoil';
 import {
+  marketState,
+  midmarketPriceState,
+  orderbookState,
   useMarket,
   useMidmarketPrice,
   useOrderbook,
@@ -29,9 +34,52 @@ import { useEntering } from '~/hooks/useEntering';
 import Card, { CardBody, CardHeader } from '../../common/Card';
 import { TONIC_ORDERBOOK_REFRESH_INTERVAL } from '~/config';
 
+// XXX: this is really slow.. lol
+const orderbookHoverState = atom<
+  { side: 'Buy' | 'Sell'; index: number } | undefined
+>({
+  key: 'orderbook-hover-state',
+  default: undefined,
+});
+
+const orderbookHoveredDepth = selector({
+  key: 'orderbook-hovered-depth-state',
+  get({ get }) {
+    // hm..
+    const ob = get(orderbookState);
+    const hovered = get(orderbookHoverState);
+    const market = get(marketState);
+    const _mm = get(midmarketPriceState);
+    const midmarket = _mm ? market.priceBnToNumber(_mm) : undefined;
+
+    if (hovered) {
+      const side =
+        hovered.side === 'Buy'
+          ? ob.bids.slice(0, hovered.index + 1)
+          : ob.asks.slice(-(hovered.index + 1)).reverse();
+      const [last] = side.slice(-1);
+
+      // in terms of base
+      const depth = side.reduce((acc, [, quantity]) => {
+        return acc + market.quantityBnToNumber(quantity);
+      }, 0);
+
+      const distanceFromMid = midmarket
+        ? (100 * (market.priceBnToNumber(last[0]) - midmarket)) / midmarket
+        : 0;
+
+      return {
+        depth,
+        distanceFromMid,
+      };
+    }
+    return { depth: 0, distanceFromMid: 0 };
+  },
+});
+
 // TODO: use usePairPrecision
 const groupingPrecisionState = atom<number>({
-  key: 'grouping-precision-state',
+  key: 'orderbook-grouping-precision-state',
   default: 3, // number of decimal places to round to
 });
 
@@ -91,6 +139,7 @@ const TradeSizeBar: React.FC<{ width: number; direction: OrderSide }> = ({
 };
 
 const OrderRow: React.FC<{
+  index: number;
   onClickPrice?: () => unknown;
   onClickQuantity?: () => unknown;
   order: L2Order;
@@ -100,6 +149,7 @@ const OrderRow: React.FC<{
   priceDecimals: number;
   quantityDecimals: number;
 }> = ({
+  index,
   order,
   side,
   cumulativeSize,
@@ -110,6 +160,14 @@ const OrderRow: React.FC<{
   onClickQuantity,
 }) => {
   const entering = useEntering();
+  const [hoverState, setHoverState] = useRecoilState(orderbookHoverState);
+  const highlighted =
+    !!hoverState && hoverState.side === side && hoverState.index >= index;
+  const showHoveredDepth = highlighted && hoverState?.index === index;
+  const { depth: hoveredDepth, distanceFromMid } = useRecoilValue(
+    orderbookHoveredDepth
+  );
+  const { baseTokenMetadata } = usePair();
 
   const [price, size] = order;
   const precision = useRecoilValue(groupingPrecisionState);
@@ -125,12 +183,22 @@ const OrderRow: React.FC<{
 
   return (
     <div
-      tw="pr-0.5 tabular-nums py-[1px] relative flex items-center justify-between text-right font-mono cursor-pointer"
+      tw="pr-0.5 tabular-nums py-[1px] relative flex items-center justify-between gap-2 text-right font-mono cursor-pointer"
       css={
-        side === 'Buy'
-          ? tw`hover:(bg-up bg-opacity-20)`
-          : tw`hover:(bg-down bg-opacity-20)`
+        // !highlighted &&
+        //   (side === 'Buy'
+        //     ? tw`hover:(bg-up bg-opacity-20)`
+        //     : tw`hover:(bg-down bg-opacity-20)`),
+        highlighted &&
+        (side === 'Buy' ? tw`bg-up bg-opacity-10` : tw`bg-down bg-opacity-10`)
       }
+      onMouseEnter={() => {
+        setHoverState({
+          side,
+          index,
+        });
+      }}
+      // onmouseleave is handled in the parent
     >
       <div
         tw="absolute inset-0 transition duration-500 ease-linear"
@@ -143,11 +211,30 @@ const OrderRow: React.FC<{
         }
       />
 
-      <p tw="relative z-10 text-left" onClick={onClickPrice}>
-        {bnToFixed(price, priceDecimals, precision)}
-      </p>
-      <span tw="relative z-10" css={textColor} onClick={onClickQuantity}>
-        {bnToFixed(size, quantityDecimals, Math.min(quantityDecimals, 3))}
+      <span tw="relative z-10 text-left">
+        <span onClick={onClickPrice}>
+          {bnToFixed(price, priceDecimals, precision)}
+        </span>
+      </span>
+
+      {showHoveredDepth && (
+        <span tw="relative flex-1 text-xs text-left whitespace-nowrap">
+          {truncate(hoveredDepth, precision)} {baseTokenMetadata.symbol}
+          {/* <span tw="opacity-60">{distanceFromMid.toFixed(2)})%</span> */}
+          <span
+            tw="absolute left-0 opacity-60"
+            css={side === 'Buy' ? tw`bottom-full mb-1.5` : tw`top-full mt-1.5`}
+          >
+            {side === 'Sell' && '+'}
+            {distanceFromMid.toFixed(2)}%
+          </span>
+        </span>
+      )}
+
+      <span tw="text-right relative z-10" css={textColor}>
+        <span onClick={onClickQuantity}>
+          {bnToFixed(size, quantityDecimals, Math.min(quantityDecimals, 3))}
+        </span>
       </span>
 
       <TradeSizeBar direction={side} width={width} tw="bg-opacity-20" />
@@ -192,6 +279,7 @@ const Book: React.FC<{
   const [market] = useMarket();
   const midmarketPrice = useMidmarketPrice();
   const [orderbook, refreshOrderbook] = useOrderbook(false);
+  const resetHover = useResetRecoilState(orderbookHoverState);
 
   const { baseTokenMetadata, quoteTokenMetadata } = usePair();
   const { pricePrecision } = usePairPrecision();
@@ -233,18 +321,22 @@ const Book: React.FC<{
       </div>
 
       <div tw="h-full flex flex-col overflow-hidden">
-        <div tw="flex-1 flex flex-col-reverse overflow-auto">
+        <div
+          tw="flex-1 flex flex-col-reverse overflow-auto"
+          onMouseLeave={resetHover}
+        >
           {/* flex col reverse keeps the asks scrolled to the bottom */}
           {withRunningTotal([...asks].reverse(), market.baseDecimals).map(
-            ({ order, total }) => (
+            ({ order, total }, index) => (
               <OrderRow
+                key={order[0].toString() + order[1].toString()}
+                index={index}
                 onClickPrice={() =>
                   onClickPrice(market.priceBnToNumber(order[0]))
                 }
                 onClickQuantity={() =>
                   onClickQuantity(market.quantityBnToNumber(order[1]))
                 }
-                key={order[0].toString() + order[1].toString()}
                 order={order}
                 side="Sell"
                 runningTotal={total}
@@ -266,17 +358,18 @@ const Book: React.FC<{
           </button>
         </div>
 
-        <div tw="flex-1 overflow-auto">
+        <div tw="flex-1 overflow-auto" onMouseLeave={resetHover}>
           {withRunningTotal(bids, market.baseDecimals).map(
-            ({ order, total }) => (
+            ({ order, total }, index) => (
               <OrderRow
+                key={order[0].toString() + order[1].toString()}
+                index={index}
                 onClickPrice={() =>
                   onClickPrice(market.priceBnToNumber(order[0]))
                 }
                 onClickQuantity={() =>
                   onClickQuantity(market.quantityBnToNumber(order[1]))
                 }
-                key={order[0].toString() + order[1].toString()}
                 order={order}
                 runningTotal={total}
                 side="Buy"
