@@ -203,7 +203,7 @@ export function useOrderbook(initialLoad = true) {
       setLoading(true);
       try {
         setOrderbook(
-          await UNAUTHENTICATED_TONIC.getOrderbook(id || marketId, 30)
+          await UNAUTHENTICATED_TONIC.getOrderbook(id || marketId, 50)
         );
       } finally {
         setLoading(false);
