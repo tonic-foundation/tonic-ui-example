@@ -140,8 +140,8 @@ const TradeSizeBar: React.FC<{ width: number; direction: OrderSide }> = ({
 
 const OrderRow: React.FC<{
   index: number;
-  onClickPrice?: () => unknown;
-  onClickQuantity?: () => unknown;
+  onClickPrice: () => unknown;
+  onClickQuantity: (quantity?: number) => unknown;
   order: L2Order;
   side: OrderSide;
   cumulativeSize: number;
@@ -183,12 +183,8 @@ const OrderRow: React.FC<{
 
   return (
     <div
-      tw="pr-0.5 tabular-nums py-[1px] relative flex items-center justify-between gap-2 text-right font-mono cursor-pointer"
+      tw="pr-0.5 tabular-nums py-[1px] relative flex items-center justify-between gap-2 text-right font-mono"
       css={
-        // !highlighted &&
-        //   (side === 'Buy'
-        //     ? tw`hover:(bg-up bg-opacity-20)`
-        //     : tw`hover:(bg-down bg-opacity-20)`),
         highlighted &&
         (side === 'Buy' ? tw`bg-up bg-opacity-10` : tw`bg-down bg-opacity-10`)
       }
@@ -212,14 +208,21 @@ const OrderRow: React.FC<{
       />
 
       <span tw="relative z-10 text-left">
-        <span onClick={onClickPrice}>
+        <span tw="cursor-pointer" onClick={onClickPrice}>
           {bnToFixed(price, priceDecimals, precision)}
         </span>
       </span>
 
       {showHoveredDepth && (
         <span tw="relative flex-1 text-xs text-left whitespace-nowrap">
-          {truncate(hoveredDepth, precision)} {baseTokenMetadata.symbol}
+          <span
+            tw="cursor-pointer"
+            onClick={() => {
+              onClickQuantity(hoveredDepth);
+            }}
+          >
+            {truncate(hoveredDepth, precision)} {baseTokenMetadata.symbol}
+          </span>
           {/* <span tw="opacity-60">{distanceFromMid.toFixed(2)})%</span> */}
           <span
             tw="absolute left-0 opacity-60"
@@ -232,7 +235,12 @@ const OrderRow: React.FC<{
       )}
 
       <span tw="text-right relative z-10" css={textColor}>
-        <span onClick={onClickQuantity}>
+        <span
+          tw="cursor-pointer"
+          onClick={() => {
+            onClickQuantity();
+          }}
+        >
           {bnToFixed(size, quantityDecimals, Math.min(quantityDecimals, 3))}
         </span>
       </span>
@@ -334,8 +342,10 @@ const Book: React.FC<{
                 onClickPrice={() =>
                   onClickPrice(market.priceBnToNumber(order[0]))
                 }
-                onClickQuantity={() =>
-                  onClickQuantity(market.quantityBnToNumber(order[1]))
+                onClickQuantity={(quantity?: number) =>
+                  onClickQuantity(
+                    quantity || market.quantityBnToNumber(order[1])
+                  )
                 }
                 order={order}
                 side="Sell"
@@ -367,8 +377,10 @@ const Book: React.FC<{
                 onClickPrice={() =>
                   onClickPrice(market.priceBnToNumber(order[0]))
                 }
-                onClickQuantity={() =>
-                  onClickQuantity(market.quantityBnToNumber(order[1]))
+                onClickQuantity={(quantity?: number) =>
+                  onClickQuantity(
+                    quantity || market.quantityBnToNumber(order[1])
+                  )
                 }
                 order={order}
                 runningTotal={total}
