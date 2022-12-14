@@ -15,6 +15,7 @@ module.exports = {
       fontFamily: {
         primary: ['Lexend', 'sans-serif'],
         mono: ['Roboto Mono', 'monospace'],
+        number: ['Lato', 'monospace'],
         logo: ['Lexend', 'sans-serif'],
       },
       colors: {

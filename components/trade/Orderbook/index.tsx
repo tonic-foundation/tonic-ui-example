@@ -183,11 +183,17 @@ const OrderRow: React.FC<{
 
   return (
     <div
-      tw="pr-0.5 text-[13px] py-[1px] relative flex items-center justify-between gap-2 text-right"
-      css={
+      tw="pr-0.5 text-[13px] py-[1.5px] relative flex items-center justify-between gap-2 text-right"
+      css={[
         highlighted &&
-        (side === 'Buy' ? tw`bg-up bg-opacity-10` : tw`bg-down bg-opacity-10`)
-      }
+          (side === 'Buy'
+            ? tw`dark:(bg-white bg-opacity-10) bg-up-dark bg-opacity-10`
+            : tw`dark:(bg-white bg-opacity-10) bg-down bg-opacity-10`),
+        showHoveredDepth &&
+          (side === 'Buy'
+            ? tw`border-b border-up dark:border-neutral-500`
+            : tw`border-t border-down dark:border-neutral-500`),
+      ]}
       onMouseEnter={() => {
         setHoverState({
           side,
@@ -207,34 +213,33 @@ const OrderRow: React.FC<{
         }
       />
 
-      <span tw="relative z-10 text-left">
+      <span tw="relative z-10 text-left font-number tracking-wider">
         <span tw="cursor-pointer" onClick={onClickPrice}>
           {bnToFixed(price, priceDecimals, precision)}
         </span>
       </span>
 
       {showHoveredDepth && (
-        <span tw="relative flex-1 text-xs text-left whitespace-nowrap">
+        <span tw="relative z-10 flex-1 text-xs text-left whitespace-nowrap font-primary">
           <span
             tw="cursor-pointer"
             onClick={() => {
               onClickQuantity(hoveredDepth);
             }}
           >
+            <span tw="opacity-60">
+              {side === 'Sell' && '+'}
+              {distanceFromMid.toFixed(2)}%
+            </span>{' '}
             {truncate(hoveredDepth, precision)} {baseTokenMetadata.symbol}
-          </span>
-          {/* <span tw="opacity-60">{distanceFromMid.toFixed(2)})%</span> */}
-          <span
-            tw="absolute left-0 opacity-60"
-            css={side === 'Buy' ? tw`bottom-full mb-1.5` : tw`top-full mt-1.5`}
-          >
-            {side === 'Sell' && '+'}
-            {distanceFromMid.toFixed(2)}%
           </span>
         </span>
       )}
 
-      <span tw="text-right relative z-10" css={textColor}>
+      <span
+        tw="text-right relative z-10 font-number tracking-wider"
+        css={textColor}
+      >
         <span
           tw="cursor-pointer"
           onClick={() => {
