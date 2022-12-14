@@ -773,15 +773,12 @@ const Content = () => {
                 <Typography.Link url={DISCORD_GENERAL_HREF}>
                   Discord
                 </Typography.Link>{' '}
-                for the next announcement, coming soon 😈
+                for future programs. Something is always cooking 😈
               </p>
               <p>
                 From September 12 to October 12, 2022, liquidity provided in the{' '}
-                <a tw="underline" href={`/#/advanced/${USN_MARKET_ID}`}>
-                  USN/USDC market
-                </a>{' '}
-                earned points towards USN rewards. Orders placed closer to
-                midmarket earned more points.
+                USN/USDC market earned points towards USN rewards. Orders placed
+                closer to midmarket earned more points.
               </p>
               <p>
                 Rewards were paid daily. LP&apos;s share of rewards was

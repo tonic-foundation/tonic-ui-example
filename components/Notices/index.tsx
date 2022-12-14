@@ -15,7 +15,6 @@ import Card from '../common/Card';
 import CloseButton from '../common/CloseButton';
 import { LogoIcon } from '../common/Logo';
 import Shape from '../common/Shape';
-import TokenIcon from '../common/TokenIcon';
 
 const PAGES = ['zero-fees'] as const;
 
@@ -41,6 +40,14 @@ const styles = {
   hoverNotice: tw`hover:opacity-90 transition`,
 };
 
+const Ended = () => {
+  return (
+    <span tw="text-xs absolute top-2 right-2 px-2 py-1 rounded bg-white">
+      ENDED
+    </span>
+  );
+};
+
 const UsnUsdcLp: React.FC = (props) => {
   return (
     <div
@@ -54,6 +61,7 @@ const UsnUsdcLp: React.FC = (props) => {
       {...props}
     >
       <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-10">
+        <Ended />
         <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
           <p tw="text-xl">USN/USDC Incentive</p>
           <div tw="mt-2.5 text-sm flex items-center gap-2">
@@ -81,10 +89,8 @@ const ZeroFees: React.FC = (props) => {
         "
       {...props}
     >
-      <div tw="absolute top-1/2 -translate-y-1/2 -left-36 skew-x-[24deg]">
-        <LogoIcon tw="w-96 h-96" css={animation.spin(12)} />
-      </div>
       <div tw="absolute inset-0 text-black flex flex-col items-center gap-2 justify-center z-10">
+        <Ended />
         <div tw="px-3 py-1.5 rounded bg-white bg-opacity-80">
           <p tw="text-xl">Zero Trading Fees</p>
           <div tw="mt-2.5 text-sm flex items-center gap-2">

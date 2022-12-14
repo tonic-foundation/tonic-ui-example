@@ -180,7 +180,7 @@ const UsnUsdcIncentive = () => {
 
         <Link to="/incentives/past/usn-usdc" tw="mt-6 w-full">
           <Button tw="w-full" variant="up">
-            Get started
+            View rewards
           </Button>
         </Link>
       </div>
@@ -242,6 +242,56 @@ const OctoberFeeIncentive = () => {
   );
 };
 
+const AuroraLpIncentive = () => {
+  return (
+    <IncentiveCard tw="md:flex-1">
+      <div>
+        <NoticeWrapper>
+          <NoticeContent.AuroraLp tw="cursor-default" />
+        </NoticeWrapper>
+      </div>
+      <div tw="flex-grow flex flex-col items-stretch justify-between p-6">
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>500 AURORA paid daily</Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Bot trading encouraged
+          </Typography.Description>
+        </div>
+
+        <div tw="flex items-center gap-3 mt-2">
+          <div>
+            <Shape.Cdot />
+          </div>
+          <Typography.Description>
+            Must hold a{' '}
+            <Typography.Link url={GOBLIN_HREF}>
+              Tonic Goblin NFT
+            </Typography.Link>
+          </Typography.Description>
+        </div>
+
+        <Link
+          to="/advanced/Fef7VNamGSiujh9AL88FyF9MgN1M7vJvX9CtEdSmYGoP"
+          tw="mt-6 w-full"
+        >
+          <Button tw="w-full" variant="up">
+            Get started
+          </Button>
+        </Link>
+      </div>
+    </IncentiveCard>
+  );
+};
+
 const Content = () => {
   return (
     <Wrapper>
@@ -249,10 +299,10 @@ const Content = () => {
         <div tw="mx-auto max-w-[300px] md:(max-w-full) mb-6">
           <Typography.Heading>Current Incentives</Typography.Heading>
         </div>
-        <p>There are no current incentives.</p>
-        {/* <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
-          <OctoberFeeIncentive />
-        </div> */}
+        {/* <p>There are no current incentives.</p> */}
+        <div tw="flex flex-col items-center md:(flex-row items-stretch justify-between) gap-6">
+          <AuroraLpIncentive />
+        </div>
       </Section>
 
       <Section>
