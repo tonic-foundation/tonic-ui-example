@@ -183,7 +183,7 @@ const OrderRow: React.FC<{
 
   return (
     <div
-      tw="pr-0.5 tabular-nums py-[1px] relative flex items-center justify-between gap-2 text-right font-mono"
+      tw="pr-0.5 text-[13px] py-[1px] relative flex items-center justify-between gap-2 text-right"
       css={
         highlighted &&
         (side === 'Buy' ? tw`bg-up bg-opacity-10` : tw`bg-down bg-opacity-10`)
