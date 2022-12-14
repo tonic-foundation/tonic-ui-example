@@ -220,7 +220,7 @@ const OrderRow: React.FC<{
       </span>
 
       {showHoveredDepth && (
-        <span tw="relative z-10 flex-1 text-xs text-left whitespace-nowrap font-primary">
+        <span tw="relative z-10 flex-1 text-xs text-left whitespace-nowrap font-primary overflow-hidden overflow-ellipsis">
           <span
             tw="cursor-pointer"
             onClick={() => {
