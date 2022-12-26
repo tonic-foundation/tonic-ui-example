@@ -42,7 +42,6 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
 import { useTonic } from '~/state/tonic-client';
 import toast from 'react-hot-toast';
 import CannedToast from '~/components/common/CannedToast';
-import Tooltip from '~/components/common/Tooltip';
 
 const tokenSelectorModalCbState = atom<((t: TokenInfo) => unknown) | undefined>(
   {

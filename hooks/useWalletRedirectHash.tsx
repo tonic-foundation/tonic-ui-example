@@ -1,5 +1,9 @@
 // TODO: good candidate for public repo
-import { JsonRpcProvider } from 'near-api-js/lib/providers';
+import {
+  FinalExecutionOutcome,
+  JsonRpcProvider,
+} from 'near-api-js/lib/providers';
+import { ExecutionOutcome } from 'near-api-js/lib/providers/provider';
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSearchParam } from 'react-use';
@@ -8,19 +12,24 @@ import { wrappedToast } from '~/components/common/ToastWrapper';
 import { near } from '~/services/near';
 import { useWalletSelector } from '~/state/WalletSelectorContainer';
 
-// https://github.com/ref-finance/ref-ui/blob/main/src/components/layout/transactionTipPopUp.tsx#L10
-export enum TRANSACTION_WALLET_TYPE {
-  NEAR_WALLET = 'transactionHashes',
-  // SENDER_WALLET = 'transactionHashesSender',
-}
-
 /**
- * Get information from the URL hashes due to wallet callback redirect
+ * Get information from the URL hashes due to wallet callback redirect. This is
+ * only necessary for the NEAR web wallet. The other wallets return the
+ * transaction outcome without requiring a page nav.
  */
 export default function useWalletRedirectHash() {
-  const txId = useSearchParam(TRANSACTION_WALLET_TYPE.NEAR_WALLET);
+  const txId = useSearchParam('transactionHashes');
 
   return { txId };
+}
+
+function isErrorStatus(
+  s: ExecutionOutcome['status'] | FinalExecutionOutcome['status']
+): boolean {
+  if (typeof s === 'string') {
+    return s === 'Failure';
+  }
+  return 'Failure' in s;
 }
 
 /**
@@ -29,12 +38,18 @@ export default function useWalletRedirectHash() {
  * @returns true if success, false otherwise
  */
 async function didTxSucceed(accountId: string, txId: string): Promise<boolean> {
-  const ret = await (near.connection.provider as JsonRpcProvider).sendJsonRpc(
-    'EXPERIMENTAL_tx_status',
-    [txId, accountId]
-  );
+  // It's not exactly this. Actual rpc response has more fields, but we only
+  // need these fields for what we're doing. RPC will throw its own errors,
+  // so it's fine to use the type as is.
+  const ret: FinalExecutionOutcome = await (
+    near.connection.provider as JsonRpcProvider
+  ).sendJsonRpc('EXPERIMENTAL_tx_status', [txId, accountId]);
 
-  return 'SuccessValue' in (ret as any).status;
+  const hasError = ret.receipts_outcome.some((o) => {
+    return isErrorStatus(o.outcome.status);
+  });
+
+  return !isErrorStatus(ret.status) && !hasError;
 }
 
 async function checkAndToastTx(accountId: string, id: string) {
