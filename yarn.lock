@@ -623,6 +623,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@here-wallet/core@npm:^1.1.0":
+  version: 1.2.1
+  resolution: "@here-wallet/core@npm:1.2.1"
+  dependencies:
+    sha1: ^1.1.1
+    uuid4: 2.0.3
+  peerDependencies:
+    bn.js: 5.2.1
+    borsh: 0.7.0
+    near-api-js: ^0.44.2
+  checksum: 778aed248a4fe22b3f070ce571a4780a7f1cd1d3730599b0502821161af6f1fad47539e4742476fd2658bc8d1572b88fee1618e0c0aca2a2ba54d78f12dbe48b
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.9.2":
   version: 0.9.5
   resolution: "@humanwhocodes/config-array@npm:0.9.5"
@@ -721,112 +735,112 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/core@npm:7.1.0, @near-wallet-selector/core@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/core@npm:7.1.0"
+"@near-wallet-selector/core@npm:7.4.0, @near-wallet-selector/core@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/core@npm:7.4.0"
   dependencies:
-    rxjs: ^7.5.5
+    rxjs: ^7.5.7
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 1175625229ab0a3a2c02525b04ee8c8845f660cf528833d83f75b222338658b94757d9fdb8b0d72deea0e099f31b28fe0586be27eb3f4bf425cd7968d9db2c39
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 29c39ea318cc01e4248e6f4c820accec1ba573c6b84615323917a7e4c79f5eb63b53b369bb942ce6b5a7b5086ff2b7a911bf91408f6f264b389460a7cbf1de45
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/here-wallet@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/here-wallet@npm:7.1.0"
+"@near-wallet-selector/here-wallet@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/here-wallet@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
-    "@near-wallet-selector/wallet-utils": 7.1.0
+    "@here-wallet/core": ^1.1.0
+    "@near-wallet-selector/core": 7.4.0
     bn.js: ^5.2.0
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: b383eccd2d904f1756f5f31e2d93e06cd6cb7920f00a5cefbb74926e7df2385533bac9d4a0b2f3272c3ebda4d69161e0a2aa08af3c6c27e1680204e32c662a8a
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 0ec344a713f3b54a90cc235031843a506e2103392fbe9851d702d5a4f7b7f352b7547a697f19e1200409cd686577db64fc2922a0840daec2299f79ebde56a5c7
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/meteor-wallet@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/meteor-wallet@npm:7.1.0"
+"@near-wallet-selector/meteor-wallet@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/meteor-wallet@npm:7.4.0"
   dependencies:
     "@meteorwallet/sdk": ^0.6.0
-    "@near-wallet-selector/core": 7.1.0
-    "@near-wallet-selector/wallet-utils": 7.1.0
+    "@near-wallet-selector/core": 7.4.0
+    "@near-wallet-selector/wallet-utils": 7.4.0
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 9cbb426bc8e51acdc35cdc54a7c2a798c8b523ae91c22da243c02688da659f7a4dd87ecd2e692a4bec015a90352eb328ca1484cab2cb32e42ecd9920dd2c5f9b
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: e875e93e47ebef40310f3ac964b9d255b2240f7e49ec7c5f1d85d001157ade49039c22f11fe79ac02f793b2f211dab4cbc810f3b35eff89dd9604e4453be6b73
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/modal-ui@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/modal-ui@npm:7.1.0"
+"@near-wallet-selector/modal-ui@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/modal-ui@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
-    copy-to-clipboard: ^3.3.2
+    "@near-wallet-selector/core": 7.4.0
+    copy-to-clipboard: ^3.3.3
     qrcode: ^1.5.1
     react: 18.2.0
     react-dom: 18.2.0
-  checksum: 37a0988b9ee09d89572c193ff645c998d3caf2f4d0bd85ef99aac9370664b861beeb3cfae37d1e0d22cec2f80025d1fc0c7b578490c25594c494f923ca5fa060
+  checksum: c850bf08a94bb216a6b3849f2534488deb7b88a021ba44297bb09dfd2f86ccbbd0fe0b0a829e34927c85d13dd52c1874caf3236c35357a37172db27cf27f9464
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/my-near-wallet@npm:7.1.0, @near-wallet-selector/my-near-wallet@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/my-near-wallet@npm:7.1.0"
+"@near-wallet-selector/my-near-wallet@npm:7.4.0, @near-wallet-selector/my-near-wallet@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/my-near-wallet@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
-    "@near-wallet-selector/wallet-utils": 7.1.0
+    "@near-wallet-selector/core": 7.4.0
+    "@near-wallet-selector/wallet-utils": 7.4.0
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 093c39dbd09a74e2d2bf5f9776886cbf2df6572f283b43f4706e84385dbf2575fe616c75353c4ae4a7ce0c13a965241ddc418bdf3854156e1d7bbad6304a5177
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 4e5913419af37abbbe4ab9abb75e4001abce9365c8583f976951318eef26cea5b85eb63e7aed93ee7e60b910b62fe0cc0c3de4bd7d62eb69a73e29af290f2b09
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/near-wallet@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/near-wallet@npm:7.1.0"
+"@near-wallet-selector/near-wallet@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/near-wallet@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
-    "@near-wallet-selector/my-near-wallet": 7.1.0
-  checksum: 0e1bc55b0a8a14fb570284d7c551b5757ab9ff1314fae3197961300642b44ad2b3ecc877135d9109c538462838879350e1171b1e3d8f4d76fbd13f2ffe4908ac
+    "@near-wallet-selector/core": 7.4.0
+    "@near-wallet-selector/my-near-wallet": 7.4.0
+  checksum: 323c51149ff6c27c6a2b82be6fb66185f36c1908e74c123f96b826a0558bc7db377edbfd18f565d2d4dd6650a6256f703b8a5ff289706f31d83a26b8dbc15bf9
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/nightly@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/nightly@npm:7.1.0"
+"@near-wallet-selector/nightly@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/nightly@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
-    "@near-wallet-selector/wallet-utils": 7.1.0
+    "@near-wallet-selector/core": 7.4.0
+    "@near-wallet-selector/wallet-utils": 7.4.0
     is-mobile: ^3.1.1
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 8ca2b292da7888f3fb01454500694ac60907925bb8be7d51a98a90f3cf0964fad7eb05a2b20d1f82dd36c61b0597e2c4fc8e74d65b09b4b05eaecb166fa41068
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 2beb64bfcc4143b158411538248b70294760e40ef0481bf484ec8f1fbf844c26031f5e0dd2b2655b2f178d184c41549b299102363037bdc97b6ae812f36c6583
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/sender@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/sender@npm:7.1.0"
+"@near-wallet-selector/sender@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/sender@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/core": 7.4.0
     is-mobile: ^3.1.1
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 064c402d17c53f3da71642097a4752a33b2fd5ca9445248c189935be9c90c11c7bcda2ce0b78046d4cb9636c7d13f6b468f35fa3543664e3d26db05c831635d3
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: c3135d6a500c2d855b51a7ab0927afee12990c3f4c38ecbe2ba0fd50b8e88f93086db7001a5872959f576e581f727012a07174ddafbbe5621030101b7cac967f
   languageName: node
   linkType: hard
 
-"@near-wallet-selector/wallet-utils@npm:7.1.0, @near-wallet-selector/wallet-utils@npm:^7.1.0":
-  version: 7.1.0
-  resolution: "@near-wallet-selector/wallet-utils@npm:7.1.0"
+"@near-wallet-selector/wallet-utils@npm:7.4.0, @near-wallet-selector/wallet-utils@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@near-wallet-selector/wallet-utils@npm:7.4.0"
   dependencies:
-    "@near-wallet-selector/core": 7.1.0
+    "@near-wallet-selector/core": 7.4.0
     bn.js: ^5.2.0
   peerDependencies:
-    near-api-js: ^0.44.2
-  checksum: 618a0a7d5efcad479745d312ae1ce54447b3ab74108ce934ebb550ce1aaa9b5bbefa61e79f77703302fb5e94ac766f428bc7b9fcf1f615f75464892506f851da
+    near-api-js: ^0.44.2 || ^1.0.0
+  checksum: 31cc7700c7aa8e4461ff0aa0876435e4d69cd5fb36ff03090e8b687718ad53769cdc867b07964928e20e0ef2a743a9ca31f755bd0b30fc62663141a4ef66b2d9
   languageName: node
   linkType: hard
 
@@ -1913,15 +1927,15 @@ __metadata:
     "@emotion/babel-preset-css-prop": ^11.2.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@near-wallet-selector/core": ^7.1.0
-    "@near-wallet-selector/here-wallet": ^7.1.0
-    "@near-wallet-selector/meteor-wallet": ^7.1.0
-    "@near-wallet-selector/modal-ui": ^7.1.0
-    "@near-wallet-selector/my-near-wallet": ^7.1.0
-    "@near-wallet-selector/near-wallet": ^7.1.0
-    "@near-wallet-selector/nightly": ^7.1.0
-    "@near-wallet-selector/sender": ^7.1.0
-    "@near-wallet-selector/wallet-utils": ^7.1.0
+    "@near-wallet-selector/core": ^7.4.0
+    "@near-wallet-selector/here-wallet": ^7.4.0
+    "@near-wallet-selector/meteor-wallet": ^7.4.0
+    "@near-wallet-selector/modal-ui": ^7.4.0
+    "@near-wallet-selector/my-near-wallet": ^7.4.0
+    "@near-wallet-selector/near-wallet": ^7.4.0
+    "@near-wallet-selector/nightly": ^7.4.0
+    "@near-wallet-selector/sender": ^7.4.0
+    "@near-wallet-selector/wallet-utils": ^7.4.0
     "@parcel/transformer-svg-react": ^2.5.0
     "@tonic-foundation/config": ^1.0.0
     "@tonic-foundation/data-client": ^0.0.4
@@ -2871,6 +2885,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"charenc@npm:>= 0.0.1":
+  version: 0.0.2
+  resolution: "charenc@npm:0.0.2"
+  checksum: 81dcadbe57e861d527faf6dd3855dc857395a1c4d6781f4847288ab23cffb7b3ee80d57c15bba7252ffe3e5e8019db767757ee7975663ad2ca0939bb8fcaf2e5
+  languageName: node
+  linkType: hard
+
 "chart.js@npm:^3.9.1":
   version: 3.9.1
   resolution: "chart.js@npm:3.9.1"
@@ -3074,12 +3095,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-to-clipboard@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "copy-to-clipboard@npm:3.3.2"
+"copy-to-clipboard@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "copy-to-clipboard@npm:3.3.3"
   dependencies:
     toggle-selection: ^1.0.6
-  checksum: 968ec7ec3d0cf3067542b63dd244ba5d05e743899d7a0361fb0a3130e731d277f5ea54ea4d90fc88cc66eea2e4c67dc2dd8698e4ed360f921af5aa7c60b889ac
+  checksum: e0a325e39b7615108e6c1c8ac110ae7b829cdc4ee3278b1df6a0e4228c490442cc86444cd643e2da344fbc424b3aab8909e2fec82f8bc75e7e5b190b7c24eecf
   languageName: node
   linkType: hard
 
@@ -3140,6 +3161,13 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
+  languageName: node
+  linkType: hard
+
+"crypt@npm:>= 0.0.1":
+  version: 0.0.2
+  resolution: "crypt@npm:0.0.2"
+  checksum: baf4c7bbe05df656ec230018af8cf7dbe8c14b36b98726939cef008d473f6fe7a4fad906cfea4062c93af516f1550a3f43ceb4d6615329612c6511378ed9fe34
   languageName: node
   linkType: hard
 
@@ -6654,12 +6682,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5":
-  version: 7.5.6
-  resolution: "rxjs@npm:7.5.6"
+"rxjs@npm:^7.5.7":
+  version: 7.8.0
+  resolution: "rxjs@npm:7.8.0"
   dependencies:
     tslib: ^2.1.0
-  checksum: fc05f01364a74dac57490fb3e07ea63b422af04017fae1db641a009073f902ef69f285c5daac31359620dc8d9aee7d81e42b370ca2a8573d1feae0b04329383b
+  checksum: 61b4d4fd323c1043d8d6ceb91f24183b28bcf5def4f01ca111511d5c6b66755bc5578587fe714ef5d67cf4c9f2e26f4490d4e1d8cabf9bd5967687835e9866a2
   languageName: node
   linkType: hard
 
@@ -6768,6 +6796,16 @@ __metadata:
   version: 1.2.0
   resolution: "setprototypeof@npm:1.2.0"
   checksum: be18cbbf70e7d8097c97f713a2e76edf84e87299b40d085c6bf8b65314e994cc15e2e317727342fa6996e38e1f52c59720b53fe621e2eb593a6847bf0356db89
+  languageName: node
+  linkType: hard
+
+"sha1@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "sha1@npm:1.1.1"
+  dependencies:
+    charenc: ">= 0.0.1"
+    crypt: ">= 0.0.1"
+  checksum: da9f47e949988e2f595ef19733fd1dc736866ef6de4e421a55c13b444c03ae532e528b7350ae6ea55d9fb053be61d4648ec2cd5250d46cfdbdf4f6b4e763713d
   languageName: node
   linkType: hard
 
@@ -7586,6 +7624,13 @@ __metadata:
   version: 3.10.0
   resolution: "utility-types@npm:3.10.0"
   checksum: 8f274415c6196ab62883b8bd98c9d2f8829b58016e4269aaa1ebd84184ac5dda7dc2ca45800c0d5e0e0650966ba063bf9a412aaeaea6850ca4440a391283d5c8
+  languageName: node
+  linkType: hard
+
+"uuid4@npm:2.0.3":
+  version: 2.0.3
+  resolution: "uuid4@npm:2.0.3"
+  checksum: e1d135a6a0fe11390d69b3fca62156f96e1976a549ab8f6380a2ab706b41b5d0c765aefcf6a9cd6882961cafad7793dc1091ae2187b50d21256e926dbced97a2
   languageName: node
   linkType: hard
 
