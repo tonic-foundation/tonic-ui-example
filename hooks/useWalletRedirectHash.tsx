@@ -13,9 +13,9 @@ import { useWalletSelector } from '~/state/WalletSelectorContainer';
  * transaction outcome without requiring a page nav.
  */
 export default function useWalletRedirectHash() {
-  const txId = useSearchParam('transactionHashes');
+  const txIds = useSearchParam('transactionHashes');
 
-  return { txId };
+  return { txIds: txIds ? decodeURI(txIds).split(',') : null };
 }
 
 async function checkAndToastTx(accountId: string, id: string) {
@@ -40,14 +40,16 @@ async function checkAndToastTx(accountId: string, id: string) {
  * transaction outcome without requiring a page nav.
  */
 export const TxToastProvider: React.FC = ({ children }) => {
-  const { txId } = useWalletRedirectHash();
+  const { txIds } = useWalletRedirectHash();
   const { accountId } = useWalletSelector();
 
   useEffect(() => {
-    if (accountId && txId?.length) {
-      checkAndToastTx(accountId, txId);
+    if (accountId && txIds?.length) {
+      // XXX: this may not be correct
+      const [lastTxId] = txIds.slice(-1);
+      checkAndToastTx(accountId, lastTxId);
     }
-  }, [txId]);
+  }, [accountId, txIds]);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

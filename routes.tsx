@@ -7,6 +7,7 @@ import Trade from '~/pages/Trade';
 import LpRewards from './pages/Incentives/past/LpRewards';
 import React from 'react';
 import { TONIC_HAS_LEADERBOARD, TONIC_HAS_REWARDS } from './config';
+import List from './pages/List';
 
 function routes() {
   return (
@@ -18,9 +19,12 @@ function routes() {
       <Route path="/advanced" element={<Trade />} />
       <Route path="/advanced/:market" element={<Trade />} />
 
+      <Route path="/list" element={<List />} />
+
       {TONIC_HAS_LEADERBOARD && (
         <Route path="/leaderboard" element={<Leaderboard />} />
       )}
+
       {TONIC_HAS_REWARDS && (
         <React.Fragment>
           <Route path="/incentives" element={<Incentives />} />
