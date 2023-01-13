@@ -30,7 +30,7 @@
     "@tonic-foundation/storage": "^1.0.0",
     "@tonic-foundation/token": "^1.0.0",
     "@tonic-foundation/token-list": "^0.0.6",
-    "@tonic-foundation/tonic": "^1.0.0",
+    "@tonic-foundation/tonic": "^1.0.2",
     "@tonic-foundation/transaction": "^1.0.2",
     "@tonic-foundation/utils": "^1.0.2",
     "axios": "^0.25.0",

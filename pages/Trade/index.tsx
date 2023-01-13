@@ -4,7 +4,7 @@ import { NewOrderParams } from '@tonic-foundation/tonic';
 import RequireAccount from '~/components/common/RequireAccount';
 import AppLayout from '~/layouts/AppLayout';
 import React, { useCallback, useEffect } from 'react';
-import { getExplorerUrl } from '~/config';
+import { getExplorerUrl, REFERRER_ACCOUNT_ID } from '~/config';
 import {
   marketIdState,
   useMarket,
@@ -38,7 +38,10 @@ const Content = () => {
   const placeOrder = useCallback(
     async (params: NewOrderParams) => {
       const wallet = await selector.wallet();
-      const tx = market.makePlaceOrderTransaction(params);
+      const tx = market.makePlaceOrderTransaction({
+        ...params,
+        referrerId: REFERRER_ACCOUNT_ID,
+      });
       return wallet.signAndSendTransaction({
         actions: [tx.toWalletSelectorAction()],
       });

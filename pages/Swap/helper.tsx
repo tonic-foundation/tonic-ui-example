@@ -12,7 +12,7 @@ import {
 import BN from 'bn.js';
 import { FunctionCall as NearApiJsFunctionCall } from 'near-api-js/lib/transaction';
 import { SwapSettings } from '~/components/swap/SwapSettingsForm';
-import { TONIC_CONTRACT_ID } from '~/config';
+import { REFERRER_ACCOUNT_ID, TONIC_CONTRACT_ID } from '~/config';
 import { HydratedMarketInfo } from '~/hooks/useMarkets';
 import { ImplicitSignerTransaction } from '~/services/near';
 import { createGraph, findRoute } from '~/services/swap';
@@ -59,6 +59,7 @@ export async function getSwapRoute(
       market_id: market.id,
       side: edge.direction,
       min_output_token: new BN(0),
+      referrer_id: REFERRER_ACCOUNT_ID,
       takerFeeBaseRate: market.takerFeeBaseRate,
       exchangeRate,
     });

@@ -1942,7 +1942,7 @@ __metadata:
     "@tonic-foundation/storage": ^1.0.0
     "@tonic-foundation/token": ^1.0.0
     "@tonic-foundation/token-list": ^0.0.6
-    "@tonic-foundation/tonic": ^1.0.0
+    "@tonic-foundation/tonic": ^1.0.2
     "@tonic-foundation/transaction": ^1.0.2
     "@tonic-foundation/utils": ^1.0.2
     "@types/bn.js": ^5.1.0
@@ -1984,9 +1984,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-foundation/tonic@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@tonic-foundation/tonic@npm:1.0.0"
+"@tonic-foundation/tonic@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@tonic-foundation/tonic@npm:1.0.2"
   dependencies:
     "@tonic-foundation/storage": ^1.0.0
     "@tonic-foundation/token": ^1.0.0
@@ -1996,7 +1996,7 @@ __metadata:
     isomorphic-ws: ^4.0.1
     near-api-js: ^1.0.0
     ws: ^8.5.0
-  checksum: 23c8218415f2a7a53fd3747a13216e4bf029d0bd3ad04cb69e09b682f84e5108bd0ab69c3299199870fb922f94543aaf47478a567c22e9034f70cf2025e6c8f4
+  checksum: 816ea7ba86b260fe7030a35a7edcb11f9ee4371ff3afca66140e9df8c0c3b083002bcd24a42f7c118b67d971dd547fea3303eaaeefacad0f601f0637a7062ce7
   languageName: node
   linkType: hard
 
