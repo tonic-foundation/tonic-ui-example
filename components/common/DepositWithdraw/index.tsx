@@ -297,12 +297,12 @@ const Content: React.FC<DepositWithdrawProps> = ({
           >
             Withdraw
           </TabButton>
-          <TabButton
+          {/* <TabButton
             active={direction === 'deposit'}
             onClick={() => setDirection('deposit')}
           >
             Deposit
-          </TabButton>
+          </TabButton> */}
         </div>
         <CloseButton hideOnMobile onClick={onClose} />
       </CardHeader>

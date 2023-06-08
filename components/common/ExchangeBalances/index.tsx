@@ -63,7 +63,7 @@ const Balance: React.FC<{ tokenId: string; amount: BN }> = ({
           <DepositWithdrawButton
             variant="up"
             onClick={() =>
-              setDepositWithdraw({ direction: 'deposit', tokenId })
+              setDepositWithdraw({ direction: 'withdraw', tokenId })
             }
           >
             Manage

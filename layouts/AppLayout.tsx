@@ -41,13 +41,14 @@ const styles = {
  * Toggle-like links for switching between the swap and exchange views
  */
 const SimpleAdvancedToggle = () => {
-  const isAdvanced = usePathMatches('/advanced/*');
+  // const isAdvanced = usePathMatches('/advanced/*');
+  const isAdvanced = true;
 
   return (
     // HACK: h-12 makes height match other menu items in the mobile drawer
     <Toggle.Container tw="h-12 md:h-auto grid grid-cols-2">
-      <Toggle.Button tw="px-3" active={!isAdvanced}>
-        <Link to="/simple">Simple</Link>
+      <Toggle.Button tw="px-3" active={false}>
+        Simple
       </Toggle.Button>
       <Toggle.Button tw="px-3" active={isAdvanced}>
         <Link to="/advanced">Advanced</Link>
@@ -63,6 +64,7 @@ const NavLinks: React.FC<{ mobile?: boolean }> = ({ mobile }) => {
   const setBalancesVisible = useExchangeBalancesModal();
   const [hasTonicAccount, loading] = useHasTonicAccount();
   const { isSignedIn } = useWalletSelector();
+  const [showModal, setShowModal] = useState(true);
   // we display the deposit/withdraw if loading just to prevent a flash
 
   if (mobile) {
@@ -230,6 +232,15 @@ const AppLayout: React.FC<{
 }> = ({ headerLeftContent, children, hasFooter = true, ...props }) => {
   return (
     <div tw="w-screen min-h-screen overflow-auto">
+      <div tw="bg-red-500 text-white p-2">
+        The Tonic platform is being sunset. All products are all in
+        withdraw/cancel only mode. If you need support, please open a ticket on
+        the{' '}
+        <Link tw="underline" to="https://discord.gg/zedYdpyaTd">
+          Tonic Discord
+        </Link>
+        .
+      </div>
       <Wrapper {...props}>
         <Header leftContent={headerLeftContent} />
         {children}

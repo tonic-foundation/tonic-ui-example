@@ -72,7 +72,7 @@ const Welcome: React.FC<{ onClose: () => unknown }> = ({
           tw="dark:(text-neutral-300 hover:text-white) light:(text-neutral-500 hover:text-black)"
           onClick={() => {
             onClose();
-            noThanks();
+            // noThanks();
           }}
         >
           No thanks

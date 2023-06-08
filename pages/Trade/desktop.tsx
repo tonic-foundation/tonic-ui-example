@@ -149,7 +149,7 @@ const DesktopContent: React.FC<ContentProps> = ({
       </section>
 
       <section tw="flex flex-col flex-shrink-0 overflow-hidden gap-2 w-[340px]">
-        <Card tw="relative p-3 pt-2 flex-shrink-0 overflow-hidden" {...props}>
+        {/* <Card tw="relative p-3 pt-2 flex-shrink-0 overflow-hidden" {...props}>
           <React.Suspense fallback={<Fallback tw="absolute inset-0" />}>
             <RequireAuth>
               <OrderForm
@@ -161,7 +161,7 @@ const DesktopContent: React.FC<ContentProps> = ({
               />
             </RequireAuth>
           </React.Suspense>
-        </Card>
+        </Card> */}
         <MarketInfoCard tw="flex-grow" />
       </section>
     </main>

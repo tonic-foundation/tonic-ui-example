@@ -12,26 +12,25 @@ import List from './pages/List';
 function routes() {
   return (
     <Routes>
-      <Route index element={<Swap />} />
-      <Route path="/simple" element={<Swap />} />
-      <Route path="/simple/:base/:quote" element={<Swap />} />
-
+      <Route index element={<Trade />} />
+      {/* <Route path="/simple" element={<Swap />} /> */}
+      {/* <Route path="/simple/:base/:quote" element={<Swap />} /> */}
       <Route path="/advanced" element={<Trade />} />
       <Route path="/advanced/:market" element={<Trade />} />
 
-      <Route path="/list" element={<List />} />
+      {/* <Route path="/list" element={<List />} /> */}
 
-      {TONIC_HAS_LEADERBOARD && (
+      {/* {TONIC_HAS_LEADERBOARD && (
         <Route path="/leaderboard" element={<Leaderboard />} />
-      )}
+      )} */}
 
-      {TONIC_HAS_REWARDS && (
+      {/* {TONIC_HAS_REWARDS && (
         <React.Fragment>
           <Route path="/incentives" element={<Incentives />} />
           <Route path="/incentives/past/usn-usdc" element={<LpRewards />} />
           <Route path="/rewards" element={<LpRewards />} />
         </React.Fragment>
-      )}
+      )} */}
     </Routes>
   );
 }
